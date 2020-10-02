@@ -21,9 +21,9 @@ public class RobotHardware
     HardwareMap hwMap = null;
     private ElapsedTime elapsedTime = new ElapsedTime();
 
-    public RobotHardware()
+    public RobotHardware(HardwareMap ahwMap)
     {
-
+        init(ahwMap);
     }
 
     public void init(HardwareMap ahwMap)
