@@ -23,11 +23,6 @@ public class RobotHardware
 
     public RobotHardware(HardwareMap ahwMap)
     {
-        init(ahwMap);
-    }
-
-    public void init(HardwareMap ahwMap)
-    {
         motorRF = ahwMap.dcMotor.get("motorRF");
         motorLF = ahwMap.dcMotor.get("motorLF");
         motorRB = ahwMap.dcMotor.get("motorRB");
@@ -42,8 +37,6 @@ public class RobotHardware
         motorLF.setPower(0);
         motorRB.setPower(0);
         motorLB.setPower(0);
-
-        //
-
     }
+
 }
