@@ -10,30 +10,41 @@ public class motorTest extends LinearOpMode
     public void runOpMode() throws InterruptedException {
         int waitTime = 0;
         double motorSpeed1 = 0;
+        double motorSpeed2 = 0;
         RobotHardware robot = new RobotHardware(hardwareMap);
         waitForStart();
 
         while(opModeIsActive())
         {
 
+            robot.motorLF.setPower(motorSpeed2);
             robot.motorRF.setPower(motorSpeed1);
-            if(gamepad1.dpad_up)
+            waitTime++;
+            if(waitTime > 1000)
             {
-            motorSpeed1 += 0.05;
+                if (gamepad1.dpad_up)
+                {
+                    motorSpeed1 += 0.05;
+                }
+                if (gamepad1.dpad_down)
+                {
+                    motorSpeed1 -= 0.05;
+                }
+                if(gamepad1.a)
+                {
+                    motorSpeed2 += 0.05;
+                }
+                if(gamepad1.b)
+                {
+                    motorSpeed2 -= 0.05;
+                }
+                telemetry.addData("motorspeed1", motorSpeed1);
+                telemetry.addData("waitTime", waitTime);
+                telemetry.update();
+                waitTime = 0;
             }
-            if(gamepad1.dpad_down)
-            {
-            motorSpeed1 -= 0.05;
-            }
-            telemetry.addData("motorspeed1", motorSpeed1);
-            telemetry.addData("waitTime", waitTime);
-            telemetry.update();
 
-            while(waitTime < 10000)
-            {
-                waitTime++;
-            }
-            waitTime = 0;
+
         }
     }
 }
