@@ -42,7 +42,12 @@ public class MyOdometryOpmode extends LinearOpMode {
         globalPositionUpdate.reverseRightEncoder();
         globalPositionUpdate.reverseNormalEncoder();
 
+        goToPosition(0*COUNTS_PER_INCH,24*COUNTS_PER_INCH, .5, 0, .5*COUNTS_PER_INCH);
+
         while(opModeIsActive()){
+
+
+
             //Display Global (x, y, theta) coordinates
             telemetry.addData("X Position", globalPositionUpdate.returnXCoordinate() / COUNTS_PER_INCH);
             telemetry.addData("Y Position", globalPositionUpdate.returnYCoordinate() / COUNTS_PER_INCH);
@@ -58,6 +63,40 @@ public class MyOdometryOpmode extends LinearOpMode {
 
         //Stop the thread
         globalPositionUpdate.stop();
+
+    }
+
+    public void goToPosition(double targetXPosition, double targetYPosition, double robotPower,double robotOrientation, double allowableDistanceError){
+
+        double distanceToXTarget = targetXPosition - globalPositionUpdate.returnXCoordinate();
+        double distanceToYTarget = targetYPosition - globalPositionUpdate.returnYCoordinate();
+
+    double distance = Math.hypot(distanceToXTarget, distanceToYTarget);
+
+        double speed = 1.0;
+        double zScale = 1.0;
+        RobotHardware robot = new RobotHardware(hardwareMap);
+
+        while(opModeIsActive() &&  distance > allowableDistanceError)
+    {
+
+
+        distanceToXTarget = targetXPosition - globalPositionUpdate.returnXCoordinate();
+        distanceToYTarget = targetYPosition - globalPositionUpdate.returnYCoordinate();
+
+        double robotMovementAngle = Math.toDegrees(Math.atan2(distanceToXTarget, distanceToYTarget));
+
+        double robotMovementXComponent = calculateX(robotMovementAngle, robotPower);
+        double robotMovementYComponent = calculateY(robotMovementAngle, robotPower);
+
+        double pivotCorection = robotOrientation - globalPositionUpdate.returnOrientation();
+
+        robot.motorRF.setPower(speed*((robotMovementYComponent - robotMovementXComponent) - (zScale * pivotCorection)));
+        robot.motorRB.setPower(speed*(-(robotMovementXComponent + robotMovementYComponent) - (zScale * pivotCorection)));
+        robot.motorLB.setPower(speed*((robotMovementYComponent + robotMovementXComponent) - (zScale * pivotCorection)));
+        robot.motorLF.setPower(speed*((robotMovementXComponent + robotMovementYComponent)) - (zScale * pivotCorection));
+
+        }
 
     }
 
