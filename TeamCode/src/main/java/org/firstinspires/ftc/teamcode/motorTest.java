@@ -37,7 +37,7 @@ public class motorTest extends LinearOpMode
             }
             else
             {
-            upstate = false;
+            downstate = false;
             }
             telemetry.addData("motorspeed", motorSpeed);
             telemetry.addData("upstate", upstate);
