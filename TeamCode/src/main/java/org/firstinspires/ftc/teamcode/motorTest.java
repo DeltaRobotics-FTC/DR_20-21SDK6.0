@@ -7,9 +7,8 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 @TeleOp(name = "motorTest", group = "")
 public class motorTest extends LinearOpMode
 {
-    public void runOpMode()
-    {
-
+    public void runOpMode() throws InterruptedException {
+        int waitTime = 500;
         double motorSpeed = 0;
         boolean upstate = true;
         boolean downstate = false;
@@ -22,7 +21,7 @@ public class motorTest extends LinearOpMode
         {
 
             robot.motorRF.setPower(motorSpeed);
-            if(gamepad1.dpad_up)
+            if(gamepad1.dpad_up )
             {
             upstate = false;
             }
@@ -44,6 +43,7 @@ public class motorTest extends LinearOpMode
             telemetry.addData("downstate", downstate);
             telemetry.update();
 
+            wait(waitTime);
         }
     }
 }
