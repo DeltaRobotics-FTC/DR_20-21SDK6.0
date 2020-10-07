@@ -24,19 +24,19 @@ public class motorTest extends LinearOpMode
             {
                 if (gamepad1.dpad_up)
                 {
-                    motorSpeed1 += 0.05;
+                    motorSpeed1 += 0.005;
                 }
                 if (gamepad1.dpad_down)
                 {
-                    motorSpeed1 -= 0.05;
+                    motorSpeed1 -= 0.005;
                 }
                 if(gamepad1.a)
                 {
-                    motorSpeed2 += 0.05;
+                    motorSpeed2 += 0.005;
                 }
                 if(gamepad1.b)
                 {
-                    motorSpeed2 -= 0.05;
+                    motorSpeed2 -= 0.005;
                 }
                 telemetry.addData("motorspeed1", motorSpeed1);
                 telemetry.addData("waitTime", waitTime);
