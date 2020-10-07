@@ -29,7 +29,7 @@ public class motorTest extends LinearOpMode
             telemetry.addData("waitTime", waitTime);
             telemetry.update();
 
-            while(waitTime < 1000)
+            while(waitTime < 10000)
             {
                 waitTime++;
             }
