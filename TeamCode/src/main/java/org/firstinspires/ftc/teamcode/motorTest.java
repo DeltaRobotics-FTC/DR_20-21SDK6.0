@@ -8,42 +8,32 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 public class motorTest extends LinearOpMode
 {
     public void runOpMode() throws InterruptedException {
-        int waitTime = 500;
-        double motorSpeed = 0;
-        boolean upstate = true;
-        boolean downstate = false;
-        boolean Astate = true;
-        boolean state = false;
+        int waitTime = 0;
+        double motorSpeed1 = 0;
         RobotHardware robot = new RobotHardware(hardwareMap);
         waitForStart();
 
         while(opModeIsActive())
         {
 
-            robot.motorRF.setPower(motorSpeed);
-            if(gamepad1.dpad_up )
+            robot.motorRF.setPower(motorSpeed1);
+            if(gamepad1.dpad_up)
             {
-            upstate = false;
+            motorSpeed1 += 0.05;
             }
-            else
+            if(gamepad1.dpad_down)
             {
-            upstate = true;
+            motorSpeed1 -= 0.05;
             }
-            if(!upstate && !downstate)
-            {
-            motorSpeed += 0.125;
-            downstate = true;
-            }
-            else
-            {
-            downstate = false;
-            }
-            telemetry.addData("motorspeed", motorSpeed);
-            telemetry.addData("upstate", upstate);
-            telemetry.addData("downstate", downstate);
+            telemetry.addData("motorspeed1", motorSpeed1);
+            telemetry.addData("waitTime", waitTime);
             telemetry.update();
 
-            wait(waitTime);
+            while(waitTime < 100)
+            {
+                waitTime++;
+            }
+            waitTime = 0;
         }
     }
 }
