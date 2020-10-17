@@ -34,7 +34,7 @@ public class RobotHardware
         motorLB = ahwMap.dcMotor.get("motorLB");
 
         verticalRight = motorLF;
-        verticalLeft = motorLB;
+        verticalLeft = motorRF;
         horizontal = motorRB;
 
         motorRF.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);

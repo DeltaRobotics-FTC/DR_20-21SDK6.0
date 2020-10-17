@@ -32,7 +32,7 @@ public class customOdometryTest extends LinearOpMode
         Thread positionThread = new Thread(globalPositionUpdate);
         positionThread.start();
 
-        goToPosition(24, 0, .25, 0, 1.5);
+        goToPosition(24, 0, 1, 0, 1.5);
 
 
         while(opModeIsActive())
@@ -87,10 +87,10 @@ public class customOdometryTest extends LinearOpMode
 
 
             //sets the power of the motors
-            double LFpower = robotMovementXComponent + robotMovementYComponent + pivotCorectionPower;
-            double LBpower = robotMovementXComponent - robotMovementYComponent + pivotCorectionPower;
-            double RFpower = robotMovementXComponent - robotMovementYComponent - pivotCorectionPower;
-            double RBpower = robotMovementXComponent + robotMovementYComponent - pivotCorectionPower;
+            double LFpower = robotMovementXComponent + robotMovementYComponent - pivotCorectionPower;
+            double LBpower = robotMovementXComponent - robotMovementYComponent - pivotCorectionPower;
+            double RFpower = robotMovementXComponent - robotMovementYComponent + pivotCorectionPower;
+            double RBpower = robotMovementXComponent + robotMovementYComponent + pivotCorectionPower;
 
 //if statement reduces/increases motor power accordingly if a motor has more than a power of 1 or less than a power of -1
 //that way all the motors remain proportional but at the highest speed possible forward or reverse
@@ -145,6 +145,21 @@ public class customOdometryTest extends LinearOpMode
             robot.motorRB.setPower(robotPower * RBpower * motorPowerRatio);
             robot.motorLB.setPower(robotPower * LBpower * motorPowerRatio);
             robot.motorLF.setPower(robotPower * LFpower * motorPowerRatio);
+
+            telemetry.addData("X Position", globalPositionUpdate.returnXCoordinate() / COUNTS_PER_INCH);
+            telemetry.addData("Y Position", globalPositionUpdate.returnYCoordinate() / COUNTS_PER_INCH);
+            telemetry.addData("Orientation (Degrees)", globalPositionUpdate.returnOrientation());
+
+            telemetry.addData("Vertical left encoder position", robot.verticalLeft.getCurrentPosition());
+            telemetry.addData("Vertical right encoder position", robot.verticalRight.getCurrentPosition());
+            telemetry.addData("horizontal encoder position", robot.horizontal.getCurrentPosition());
+
+            telemetry.addData("motorRF power", robot.motorRF.getPower());
+            telemetry.addData("motorRB power", robot.motorRB.getPower());
+            telemetry.addData("motorLF power", robot.motorLF.getPower());
+            telemetry.addData("motorLB power", robot.motorLB.getPower());
+
+            telemetry.update();
 
 
         }
