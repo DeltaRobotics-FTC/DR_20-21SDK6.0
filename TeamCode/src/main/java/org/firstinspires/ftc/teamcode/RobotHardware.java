@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -16,6 +17,10 @@ public class RobotHardware
     public DcMotor motorRB = null;
     public DcMotor motorLB = null;
 
+    public DcMotor verticalRight = null;
+    public DcMotor verticalLeft = null;
+    public DcMotor horizontal = null;
+
     boolean useEncoder = false;
 
     HardwareMap hwMap = null;
@@ -28,10 +33,27 @@ public class RobotHardware
         motorRB = ahwMap.dcMotor.get("motorRB");
         motorLB = ahwMap.dcMotor.get("motorLB");
 
+        verticalRight = motorLF;
+        verticalLeft = motorLB;
+        horizontal = motorRB;
+
         motorRF.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         motorLF.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         motorRB.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         motorLB.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        motorRF.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motorLF.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motorRB.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motorLB.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        motorRF.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        motorLF.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        motorRB.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        motorLB.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+        motorRF.setDirection(DcMotorSimple.Direction.REVERSE);
+        motorRB.setDirection(DcMotorSimple.Direction.REVERSE);
 
         motorRF.setPower(0);
         motorLF.setPower(0);
