@@ -32,7 +32,7 @@ public class customOdometryTest extends LinearOpMode
         Thread positionThread = new Thread(globalPositionUpdate);
         positionThread.start();
 
-        goToPosition(24, 0, 1, 0, 1.5);
+        goToPosition(24, 0, 1, 0, 6);
 
 
         while(opModeIsActive())
@@ -60,6 +60,8 @@ public class customOdometryTest extends LinearOpMode
     public void goToPosition(double targetXPosition, double targetYPosition, double robotPower, double robotOrientation, double allowableDistanceError)
     {
         RobotHardware robot = new RobotHardware(hardwareMap);
+
+        double distanceToTarget = Math.hypot(targetXPosition, targetYPosition);
 
         targetXPosition = targetXPosition * COUNTS_PER_INCH;
         targetYPosition = targetYPosition * COUNTS_PER_INCH;
@@ -98,53 +100,51 @@ public class customOdometryTest extends LinearOpMode
 
             double motorPowerRatio = 1;
 
-            if(LFpower >= 1 && LFpower >= LBpower && LFpower >= RFpower && LFpower >= RBpower)
+            if (LFpower >= 1 && LFpower >= LBpower && LFpower >= RFpower && LFpower >= RBpower)
             {
                 motorPowerRatio = 1 / LFpower;
-            }
-
-            else if(LBpower >= 1 && LBpower >= LFpower && LBpower >= RFpower && LBpower >= RBpower)
+            } else if (LBpower >= 1 && LBpower >= LFpower && LBpower >= RFpower && LBpower >= RBpower)
             {
                 motorPowerRatio = 1 / LBpower;
-            }
-
-            else if(RFpower >= 1 && RFpower >= LFpower && RFpower >= LBpower && RFpower >= RBpower)
+            } else if (RFpower >= 1 && RFpower >= LFpower && RFpower >= LBpower && RFpower >= RBpower)
             {
                 motorPowerRatio = 1 / RFpower;
-            }
-
-            else if(RBpower >= 1 && RBpower >= LFpower && RBpower >= RFpower && RBpower >= LBpower)
+            } else if (RBpower >= 1 && RBpower >= LFpower && RBpower >= RFpower && RBpower >= LBpower)
             {
                 motorPowerRatio = 1 / RBpower;
-            }
-
-            else if(LFpower <= -1 && LFpower <= LBpower && LFpower <= RFpower && LFpower <= RBpower)
+            } else if (LFpower <= -1 && LFpower <= LBpower && LFpower <= RFpower && LFpower <= RBpower)
             {
                 motorPowerRatio = -1 / LFpower;
-            }
-
-            else if(LBpower <= -1 && LBpower <= LFpower && LBpower <= RFpower && LBpower <= RBpower)
+            } else if (LBpower <= -1 && LBpower <= LFpower && LBpower <= RFpower && LBpower <= RBpower)
             {
                 motorPowerRatio = -1 / LBpower;
-            }
-
-            else if(RFpower <= -1 && RFpower <= LFpower && RFpower <= LBpower && RFpower <= RBpower)
+            } else if (RFpower <= -1 && RFpower <= LFpower && RFpower <= LBpower && RFpower <= RBpower)
             {
                 motorPowerRatio = -1 / RFpower;
-            }
-
-            else if(RBpower <= -1 && RBpower <= LFpower && RBpower <= RFpower && RBpower <= LBpower)
+            } else if (RBpower <= -1 && RBpower <= LFpower && RBpower <= RFpower && RBpower <= LBpower)
             {
                 motorPowerRatio = -1 / RBpower;
             }
 
+            //slows down as it nears the target
+            double slowDown;
+
+            if (distanceToTarget <= 6)
+            {
+                slowDown = Math.abs(distanceToTarget / 6);
+            }
+
+            else
+            {
+                slowDown = 1;
+            }
 
 //robot power is your speed multiplier
 
-            robot.motorRF.setPower(robotPower * RFpower * motorPowerRatio);
-            robot.motorRB.setPower(robotPower * RBpower * motorPowerRatio);
-            robot.motorLB.setPower(robotPower * LBpower * motorPowerRatio);
-            robot.motorLF.setPower(robotPower * LFpower * motorPowerRatio);
+            robot.motorRF.setPower(robotPower * RFpower * motorPowerRatio * slowDown);
+            robot.motorRB.setPower(robotPower * RBpower * motorPowerRatio * slowDown);
+            robot.motorLB.setPower(robotPower * LBpower * motorPowerRatio * slowDown);
+            robot.motorLF.setPower(robotPower * LFpower * motorPowerRatio * slowDown);
 
             telemetry.addData("X Position", globalPositionUpdate.returnXCoordinate() / COUNTS_PER_INCH);
             telemetry.addData("Y Position", globalPositionUpdate.returnYCoordinate() / COUNTS_PER_INCH);
