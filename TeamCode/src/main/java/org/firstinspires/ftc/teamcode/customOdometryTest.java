@@ -32,7 +32,7 @@ public class customOdometryTest extends LinearOpMode
         Thread positionThread = new Thread(globalPositionUpdate);
         positionThread.start();
 
-        goToPosition(24, 0, 1, 0, 6);
+        goToPosition(24, 0, 1, 0, 2);
 
 
         while(opModeIsActive())
@@ -61,8 +61,6 @@ public class customOdometryTest extends LinearOpMode
     {
         RobotHardware robot = new RobotHardware(hardwareMap);
 
-        double distanceToTarget = Math.hypot(targetXPosition, targetYPosition);
-
         targetXPosition = targetXPosition * COUNTS_PER_INCH;
         targetYPosition = targetYPosition * COUNTS_PER_INCH;
         allowableDistanceError = allowableDistanceError * COUNTS_PER_INCH;
@@ -74,7 +72,7 @@ public class customOdometryTest extends LinearOpMode
 
         while(opModeIsActive() &&  distance > allowableDistanceError)
         {
-
+			double distance = Math.hypot(distanceToXTarget, distanceToYTarget);
 
             distanceToXTarget = targetXPosition - globalPositionUpdate.returnXCoordinate();
             distanceToYTarget = targetYPosition - globalPositionUpdate.returnYCoordinate();
@@ -86,13 +84,26 @@ public class customOdometryTest extends LinearOpMode
 
             double pivotCorectionAngle = robotOrientation - globalPositionUpdate.returnOrientation();
             double pivotCorectionPower = pivotCorectionAngle / 180;
+			
+			//slows down as it nears the target
+            double slowDown;
+
+            if (distance / COUNTS_PER_INCH <= 6)
+            {
+                slowDown = Math.abs(distance / COUNTS_PER_INCH / 6);
+            }
+
+            else
+            {
+                slowDown = 1;
+            }
 
 
             //sets the power of the motors
-            double LFpower = robotMovementXComponent + robotMovementYComponent - pivotCorectionPower;
-            double LBpower = robotMovementXComponent - robotMovementYComponent - pivotCorectionPower;
-            double RFpower = robotMovementXComponent - robotMovementYComponent + pivotCorectionPower;
-            double RBpower = robotMovementXComponent + robotMovementYComponent + pivotCorectionPower;
+            double LFpower = (robotMovementXComponent + robotMovementYComponent - pivotCorectionPower) * slowDown * robotPower;
+            double LBpower = (robotMovementXComponent - robotMovementYComponent - pivotCorectionPower) * slowDown * robotPower;
+            double RFpower = (robotMovementXComponent - robotMovementYComponent + pivotCorectionPower) * slowDown * robotPower;
+            double RBpower = (robotMovementXComponent + robotMovementYComponent + pivotCorectionPower) * slowDown * robotPower;
 
 //if statement reduces/increases motor power accordingly if a motor has more than a power of 1 or less than a power of -1
 //that way all the motors remain proportional but at the highest speed possible forward or reverse
@@ -126,25 +137,14 @@ public class customOdometryTest extends LinearOpMode
                 motorPowerRatio = -1 / RBpower;
             }
 
-            //slows down as it nears the target
-            double slowDown;
-
-            if (distanceToTarget <= 6)
-            {
-                slowDown = Math.abs(distanceToTarget / 6);
-            }
-
-            else
-            {
-                slowDown = 1;
-            }
+            
 
 //robot power is your speed multiplier
 
-            robot.motorRF.setPower(robotPower * RFpower * motorPowerRatio * slowDown);
-            robot.motorRB.setPower(robotPower * RBpower * motorPowerRatio * slowDown);
-            robot.motorLB.setPower(robotPower * LBpower * motorPowerRatio * slowDown);
-            robot.motorLF.setPower(robotPower * LFpower * motorPowerRatio * slowDown);
+            robot.motorRF.setPower(RFpower * motorPowerRatio);
+            robot.motorRB.setPower(RBpower * motorPowerRatio);
+            robot.motorLB.setPower(LBpower * motorPowerRatio);
+            robot.motorLF.setPower(LFpower * motorPowerRatio);
 
             telemetry.addData("X Position", globalPositionUpdate.returnXCoordinate() / COUNTS_PER_INCH);
             telemetry.addData("Y Position", globalPositionUpdate.returnYCoordinate() / COUNTS_PER_INCH);
