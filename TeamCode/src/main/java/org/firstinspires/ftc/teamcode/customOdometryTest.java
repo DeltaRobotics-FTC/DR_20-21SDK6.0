@@ -72,7 +72,7 @@ public class customOdometryTest extends LinearOpMode
 
         while(opModeIsActive() &&  distance > allowableDistanceError)
         {
-			double distance = Math.hypot(distanceToXTarget, distanceToYTarget);
+			distance = Math.hypot(distanceToXTarget, distanceToYTarget);
 
             distanceToXTarget = targetXPosition - globalPositionUpdate.returnXCoordinate();
             distanceToYTarget = targetYPosition - globalPositionUpdate.returnYCoordinate();

@@ -23,7 +23,7 @@ public class velocityAndServo extends LinearOpMode
         servo = hardwareMap.crservo.get("servo");
         double waitTime = 1000;
         double speed = 0;
-
+        double servoPower = 0.5;
         boolean leftDPadState = false;
         boolean rightDPadState = false;
 
@@ -36,11 +36,11 @@ public class velocityAndServo extends LinearOpMode
 
         while(opModeIsActive())
         {
-            double servoPower = 0.5;
+
             ((DcMotorEx) motorRF).setVelocity(speed);
 
             //servo.setDirection(DcMotorSimple.Direction.FORWARD);
-            servo.setPower(.5);
+            servo.setPower(servoPower);
             waitTime++;
             if(waitTime > 100)
             {
@@ -56,26 +56,20 @@ public class velocityAndServo extends LinearOpMode
                     speed = speed - 100;
                     waitTime = 0;
                 }
-                if(gamepad1.a)
-                {
-                    servoPower = 0.5;
-                    waitTime = 0;
-                }
-                if(gamepad1.dpad_right)
-                {
-                    servoPower = .9;
-                    waitTime = 0;
-                }
-                if(gamepad1.dpad_left)
-                {
-                    servoPower = .4;
-                    waitTime = 0;
-
-                }
-
-
             }
 
+            if(gamepad1.a)
+            {
+                servoPower = 0.5;
+            }
+            if(gamepad1.b)
+            {
+                servoPower = -0.5;
+            }
+            if (gamepad1.dpad_up)
+            {
+                servoPower = 0;
+            }
 
 
 
