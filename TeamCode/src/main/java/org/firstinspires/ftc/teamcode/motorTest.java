@@ -39,6 +39,7 @@ public class motorTest extends LinearOpMode
                     motorSpeed2 -= 0.005;
                 }
                 telemetry.addData("motorspeed1", motorSpeed1);
+                telemetry.addData("motorSpeed2", motorSpeed2);
                 telemetry.addData("waitTime", waitTime);
                 telemetry.update();
                 waitTime = 0;
