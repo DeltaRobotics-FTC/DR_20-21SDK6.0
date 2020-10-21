@@ -32,7 +32,7 @@ public class customOdometryTest extends LinearOpMode
         Thread positionThread = new Thread(globalPositionUpdate);
         positionThread.start();
 
-        goToPosition(250, 0, 1, 0, .5);
+        goToPosition(250, 0, 1, 0, .5, 1);
 
         while(opModeIsActive())
         {
