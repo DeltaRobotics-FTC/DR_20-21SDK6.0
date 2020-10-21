@@ -61,7 +61,7 @@ public class customOdometryTest extends LinearOpMode
 
     }
 
-    public void goToPosition(double targetXPosition, double targetYPosition, double robotPower, double robotOrientation, double allowableDistanceError)
+    public void goToPosition(double targetXPosition, double targetYPosition, double robotPower, double robotOrientation, double allowableDistanceError, double allowableOrientationError)
     {
         RobotHardware robot = new RobotHardware(hardwareMap);
 
@@ -73,10 +73,11 @@ public class customOdometryTest extends LinearOpMode
         double distanceToYTarget = targetYPosition - globalPositionUpdate.returnYCoordinate();
 
         double distance = Math.hypot(distanceToXTarget, distanceToYTarget);
+	double pivotCorectionAngle = robotOrientation - globalPositionUpdate.returnOrientation();
 
-        while(opModeIsActive() &&  distance > allowableDistanceError)
+        while(opModeIsActive() && Math.abs(distance) > allowableDistanceError && Math.abs(pivotCorectionAngle) > allowableOrientationError)
         {
-			distance = Math.hypot(distanceToXTarget, distanceToYTarget);
+		distance = Math.hypot(distanceToXTarget, distanceToYTarget);
 
             distanceToXTarget = targetXPosition - globalPositionUpdate.returnXCoordinate();
             distanceToYTarget = targetYPosition - globalPositionUpdate.returnYCoordinate();
@@ -86,7 +87,7 @@ public class customOdometryTest extends LinearOpMode
             double robotMovementXComponent = calculateX(robotMovementAngle, robotPower);
             double robotMovementYComponent = calculateY(robotMovementAngle, robotPower);
 
-            double pivotCorectionAngle = robotOrientation - globalPositionUpdate.returnOrientation();
+            pivotCorectionAngle = robotOrientation - globalPositionUpdate.returnOrientation();
             double pivotCorectionPower = pivotCorectionAngle / 180;
 			
 			//slows down as it nears the target
