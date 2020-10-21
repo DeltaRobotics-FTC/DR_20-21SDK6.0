@@ -10,7 +10,7 @@ public class customOdometryTest extends LinearOpMode
 {
 
     //encoder counts per in of movement (counts per rotation / pi*r^2
-    final double COUNTS_PER_INCH = 2607.59459;
+    final double COUNTS_PER_INCH = 1312.54037886341;
 
     //OdometryGlobalCoordinatePosition is the thread
 //globalPositionThread is a variable that will hold the thread with specific info like the names of the encoders
@@ -32,24 +32,28 @@ public class customOdometryTest extends LinearOpMode
         Thread positionThread = new Thread(globalPositionUpdate);
         positionThread.start();
 
-        goToPosition(24, 0, 1, 0, 2);
-
+        goToPosition(250, 0, 1, 0, .5);
 
         while(opModeIsActive())
         {
 
 //Display Global (x, y, theta) coordinates
-            telemetry.addData("X Position", globalPositionUpdate.returnXCoordinate() / COUNTS_PER_INCH);
-            telemetry.addData("Y Position", globalPositionUpdate.returnYCoordinate() / COUNTS_PER_INCH);
-            telemetry.addData("Orientation (Degrees)", globalPositionUpdate.returnOrientation());
+            //telemetry.addData("X Position", globalPositionUpdate.returnXCoordinate() / COUNTS_PER_INCH);
+            //telemetry.addData("Y Position", globalPositionUpdate.returnYCoordinate() / COUNTS_PER_INCH);
+            //telemetry.addData("Orientation (Degrees)", globalPositionUpdate.returnOrientation());
 
 //Display encoder values
-            telemetry.addData("Vertical left encoder position", robot.verticalLeft.getCurrentPosition());
-            telemetry.addData("Vertical right encoder position", robot.verticalRight.getCurrentPosition());
-            telemetry.addData("horizontal encoder position", robot.horizontal.getCurrentPosition());
+            //telemetry.addData("Vertical left encoder position", robot.verticalLeft.getCurrentPosition());
+            //telemetry.addData("Vertical right encoder position", robot.verticalRight.getCurrentPosition());
+            //telemetry.addData("horizontal encoder position", robot.horizontal.getCurrentPosition());
 
-            telemetry.addData("Thread Active", positionThread.isAlive());
-            telemetry.update();
+            //telemetry.addData("motorRF power", robot.motorRF.getPower());
+            //telemetry.addData("motorRB power", robot.motorRB.getPower());
+            //telemetry.addData("motorLF power", robot.motorLF.getPower());
+            //telemetry.addData("motorLB power", robot.motorLB.getPower());
+
+            //telemetry.addData("Thread Active", positionThread.isAlive());
+            //telemetry.update();
         }
 
 //Stop the thread
@@ -72,7 +76,7 @@ public class customOdometryTest extends LinearOpMode
 
         while(opModeIsActive() &&  distance > allowableDistanceError)
         {
-			double distance = Math.hypot(distanceToXTarget, distanceToYTarget);
+			distance = Math.hypot(distanceToXTarget, distanceToYTarget);
 
             distanceToXTarget = targetXPosition - globalPositionUpdate.returnXCoordinate();
             distanceToYTarget = targetYPosition - globalPositionUpdate.returnYCoordinate();
@@ -88,9 +92,9 @@ public class customOdometryTest extends LinearOpMode
 			//slows down as it nears the target
             double slowDown;
 
-            if (distance / COUNTS_PER_INCH <= 6)
+            if (distance / COUNTS_PER_INCH <= 3)
             {
-                slowDown = Math.abs(distance / COUNTS_PER_INCH / 6);
+                slowDown = Math.abs(distance / COUNTS_PER_INCH / 3);
             }
 
             else
@@ -100,10 +104,10 @@ public class customOdometryTest extends LinearOpMode
 
 
             //sets the power of the motors
-            double LFpower = (robotMovementXComponent + robotMovementYComponent - pivotCorectionPower) * slowDown * robotPower;
-            double LBpower = (robotMovementXComponent - robotMovementYComponent - pivotCorectionPower) * slowDown * robotPower;
-            double RFpower = (robotMovementXComponent - robotMovementYComponent + pivotCorectionPower) * slowDown * robotPower;
-            double RBpower = (robotMovementXComponent + robotMovementYComponent + pivotCorectionPower) * slowDown * robotPower;
+            double LFpower = (robotMovementXComponent + robotMovementYComponent + pivotCorectionPower) * slowDown * robotPower;
+            double LBpower = (robotMovementXComponent - robotMovementYComponent + pivotCorectionPower) * slowDown * robotPower;
+            double RFpower = (robotMovementXComponent - robotMovementYComponent - pivotCorectionPower) * slowDown * robotPower;
+            double RBpower = (robotMovementXComponent + robotMovementYComponent - pivotCorectionPower) * slowDown * robotPower;
 
 //if statement reduces/increases motor power accordingly if a motor has more than a power of 1 or less than a power of -1
 //that way all the motors remain proportional but at the highest speed possible forward or reverse
@@ -163,6 +167,18 @@ public class customOdometryTest extends LinearOpMode
 
 
         }
+
+        setPowerAll(0);
+    }
+
+    public void setPowerAll(double power)
+    {
+        RobotHardware robot = new RobotHardware(hardwareMap);
+
+        robot.motorRF.setPower(power);
+        robot.motorRB.setPower(power);
+        robot.motorLB.setPower(power);
+        robot.motorLF.setPower(power);
     }
     /**
      * Calculate the power in the x direction
