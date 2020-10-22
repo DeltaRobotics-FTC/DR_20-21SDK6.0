@@ -17,7 +17,7 @@ package org.firstinspires.ftc.teamcode;
 public class customOdometryTest extends LinearOpMode
 {
 
-  //init
+  //init variables
   
   //genneral
   
@@ -33,6 +33,22 @@ public class customOdometryTest extends LinearOpMode
     public void runOpMode() throws InterruptedException
     {
 
+    //init 
+  
+    //genneral
+  
+    //odometry
+  
+    //TFOD
+  
+    //velocity
+  
+    //auto aim
+    
+    waitForStart();
+    
+    //Run Op Mode
+    
     //see rings with tensor flow
 
     //drive up to line and shoot with auto aim
