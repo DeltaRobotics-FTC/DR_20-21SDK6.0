@@ -13,8 +13,11 @@ package org.firstinspires.ftc.teamcode;
 //auto aim
 
 
-@TeleOp(name = "customOdometryTest")
-public class customOdometryTest extends LinearOpMode
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+
+@TeleOp(name = "blueAuto")
+public class blueAuto extends LinearOpMode
 {
 
   //init variables

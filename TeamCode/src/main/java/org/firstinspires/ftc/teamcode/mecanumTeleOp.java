@@ -18,10 +18,53 @@ public class mecanumTeleOp extends LinearOpMode {
 
         while (opModeIsActive())
         {
-            robot.motorRF.setPower(speed*((-gamepad1.right_stick_y - gamepad1.right_stick_x) - (zScale * gamepad1.left_stick_x)));
-            robot.motorRB.setPower(speed*(-(-gamepad1.right_stick_x + gamepad1.right_stick_y) - (zScale * gamepad1.left_stick_x)));
-            robot.motorLB.setPower(speed*((gamepad1.right_stick_y + gamepad1.right_stick_x) - (zScale * gamepad1.left_stick_x)));
-            robot.motorLF.setPower(speed*((-gamepad1.right_stick_x + gamepad1.right_stick_y)) - (zScale * gamepad1.left_stick_x));
+
+            //sets the power of the motors
+            double LFpower = ( -gamepad1.right_stick_y + gamepad1.right_stick_x + gamepad1.left_stick_x) * speed;
+            double LBpower = ( -gamepad1.right_stick_y - gamepad1.right_stick_x + gamepad1.left_stick_x) * speed;
+            double RFpower = ( -gamepad1.right_stick_y - gamepad1.right_stick_x - gamepad1.left_stick_x) * speed;
+            double RBpower = ( -gamepad1.right_stick_y + gamepad1.right_stick_x - gamepad1.left_stick_x) * speed;
+
+//if statement reduces/increases motor power accordingly if a motor has more than a power of 1 or less than a power of -1
+//that way all the motors remain proportional but at the highest speed possible forward or reverse
+//if you move slowly there is nothing to reduce and it will still go slowly
+
+            double motorPowerRatio = 1;
+
+            if (LFpower >= 1 && LFpower >= LBpower && LFpower >= RFpower && LFpower >= RBpower)
+            {
+                motorPowerRatio = 1 / LFpower;
+            } else if (LBpower >= 1 && LBpower >= LFpower && LBpower >= RFpower && LBpower >= RBpower)
+            {
+                motorPowerRatio = 1 / LBpower;
+            } else if (RFpower >= 1 && RFpower >= LFpower && RFpower >= LBpower && RFpower >= RBpower)
+            {
+                motorPowerRatio = 1 / RFpower;
+            } else if (RBpower >= 1 && RBpower >= LFpower && RBpower >= RFpower && RBpower >= LBpower)
+            {
+                motorPowerRatio = 1 / RBpower;
+            } else if (LFpower <= -1 && LFpower <= LBpower && LFpower <= RFpower && LFpower <= RBpower)
+            {
+                motorPowerRatio = -1 / LFpower;
+            } else if (LBpower <= -1 && LBpower <= LFpower && LBpower <= RFpower && LBpower <= RBpower)
+            {
+                motorPowerRatio = -1 / LBpower;
+            } else if (RFpower <= -1 && RFpower <= LFpower && RFpower <= LBpower && RFpower <= RBpower)
+            {
+                motorPowerRatio = -1 / RFpower;
+            } else if (RBpower <= -1 && RBpower <= LFpower && RBpower <= RFpower && RBpower <= LBpower)
+            {
+                motorPowerRatio = -1 / RBpower;
+            }
+
+
+
+//robot power is your speed multiplier
+
+            robot.motorRF.setPower(RFpower * motorPowerRatio);
+            robot.motorRB.setPower(RBpower * motorPowerRatio);
+            robot.motorLB.setPower(LBpower * motorPowerRatio);
+            robot.motorLF.setPower(LFpower * motorPowerRatio);
         }
     }
 }
