@@ -4,6 +4,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
 
 @TeleOp(name = "customOdometryTest")
 public class customOdometryTest extends LinearOpMode
@@ -23,6 +24,11 @@ public class customOdometryTest extends LinearOpMode
 //call hardware map
         RobotHardware robot = new RobotHardware(hardwareMap);
 
+        robot.motorRF.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.motorLF.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.motorRB.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.motorLB.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
         telemetry.addData("Status", "Init Complete");
         telemetry.update();
         waitForStart();
@@ -32,28 +38,35 @@ public class customOdometryTest extends LinearOpMode
         Thread positionThread = new Thread(globalPositionUpdate);
         positionThread.start();
 
-        goToPosition(250, 0, 1, 0, .5);
+        goToPosition(100, 0, 1, 0, .5);
+        goToPosition(0, 0, 1, 0, .5);
 
         while(opModeIsActive())
         {
 
+            goToPosition(50, 0, 1, 0, .5);
+
+            goToPosition(50, 50, 1, 0, .5);
+
+            goToPosition(0, 0, 1, 0, .5);
+
 //Display Global (x, y, theta) coordinates
-            //telemetry.addData("X Position", globalPositionUpdate.returnXCoordinate() / COUNTS_PER_INCH);
-            //telemetry.addData("Y Position", globalPositionUpdate.returnYCoordinate() / COUNTS_PER_INCH);
-            //telemetry.addData("Orientation (Degrees)", globalPositionUpdate.returnOrientation());
+            telemetry.addData("X Position", globalPositionUpdate.returnXCoordinate() / COUNTS_PER_INCH);
+            telemetry.addData("Y Position", globalPositionUpdate.returnYCoordinate() / COUNTS_PER_INCH);
+            telemetry.addData("Orientation (Degrees)", globalPositionUpdate.returnOrientation());
 
 //Display encoder values
-            //telemetry.addData("Vertical left encoder position", robot.verticalLeft.getCurrentPosition());
-            //telemetry.addData("Vertical right encoder position", robot.verticalRight.getCurrentPosition());
-            //telemetry.addData("horizontal encoder position", robot.horizontal.getCurrentPosition());
+            telemetry.addData("Vertical left encoder position", robot.verticalLeft.getCurrentPosition());
+            telemetry.addData("Vertical right encoder position", robot.verticalRight.getCurrentPosition());
+            telemetry.addData("horizontal encoder position", robot.horizontal.getCurrentPosition());
 
-            //telemetry.addData("motorRF power", robot.motorRF.getPower());
-            //telemetry.addData("motorRB power", robot.motorRB.getPower());
-            //telemetry.addData("motorLF power", robot.motorLF.getPower());
-            //telemetry.addData("motorLB power", robot.motorLB.getPower());
+            telemetry.addData("motorRF power", robot.motorRF.getPower());
+            telemetry.addData("motorRB power", robot.motorRB.getPower());
+            telemetry.addData("motorLF power", robot.motorLF.getPower());
+            telemetry.addData("motorLB power", robot.motorLB.getPower());
 
-            //telemetry.addData("Thread Active", positionThread.isAlive());
-            //telemetry.update();
+            telemetry.addData("Thread Active", positionThread.isAlive());
+            telemetry.update();
         }
 
 //Stop the thread
