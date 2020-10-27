@@ -38,17 +38,17 @@ public class customOdometryTest extends LinearOpMode
         Thread positionThread = new Thread(globalPositionUpdate);
         positionThread.start();
 
-        goToPosition(100, 0, 1, 0, .5);
-        goToPosition(0, 0, 1, 0, .5);
+        goToPosition(100, 0, 1, 0, .5, 1);
+        goToPosition(0, 0, 1, 0, .5, 1);
 
         while(opModeIsActive())
         {
 
-            goToPosition(50, 0, 1, 0, .5);
+            goToPosition(50, 0, 1, 0, .5, 1);
 
-            goToPosition(50, 50, 1, 0, .5);
+            goToPosition(50, 50, 1, 0, .5, 1);
 
-            goToPosition(0, 0, 1, 0, .5);
+            goToPosition(0, 0, 1, 0, .5, 1);
 
 //Display Global (x, y, theta) coordinates
             telemetry.addData("X Position", globalPositionUpdate.returnXCoordinate() / COUNTS_PER_INCH);
@@ -74,7 +74,7 @@ public class customOdometryTest extends LinearOpMode
 
     }
 
-    public void goToPosition(double targetXPosition, double targetYPosition, double robotPower, double robotOrientation, double allowableDistanceError)
+    public void goToPosition(double targetXPosition, double targetYPosition, double robotPower, double robotOrientation, double allowableDistanceError, double allowableOrientationError)
     {
         RobotHardware robot = new RobotHardware(hardwareMap);
 
@@ -181,7 +181,96 @@ public class customOdometryTest extends LinearOpMode
 
         }
 
+        turnCorrection(robotPower, robotOrientation, allowableOrientationError);
+
         setPowerAll(0);
+    }
+
+    public void turnCorrection(double robotPower, double robotOrientation, double allowableOrientationError) {
+
+        RobotHardware robot = new RobotHardware(hardwareMap);
+
+        double pivotCorectionAngle = robotOrientation - globalPositionUpdate.returnOrientation();
+
+        while(opModeIsActive() && Math.abs(pivotCorectionAngle) >= allowableOrientationError)
+        {
+
+            pivotCorectionAngle = robotOrientation - globalPositionUpdate.returnOrientation();
+            double pivotCorectionPower = pivotCorectionAngle / 15;
+
+            //slows down as it nears the target
+            double slowDown;
+
+            if (pivotCorectionAngle >= 5)
+            {
+                slowDown = Math.abs(pivotCorectionPower / 5);
+            } else
+            {
+                slowDown = 1;
+            }
+
+
+            //sets the power of the motors
+            double LFpower = (pivotCorectionPower) /* slowDown */ * robotPower;
+            double LBpower = (pivotCorectionPower) /* slowDown */ * robotPower;
+            double RFpower = (-pivotCorectionPower) /* slowDown */ * robotPower;
+            double RBpower = (-pivotCorectionPower) /* slowDown */ * robotPower;
+
+//if statement reduces/increases motor power accordingly if a motor has more than a power of 1 or less than a power of -1
+//that way all the motors remain proportional but at the highest speed possible forward or reverse
+//if you move slowly there is nothing to reduce and it will still go slowly
+
+            double motorPowerRatio = 1;
+
+            if (LFpower >= 1 && LFpower >= LBpower && LFpower >= RFpower && LFpower >= RBpower)
+            {
+                motorPowerRatio = 1 / LFpower;
+            } else if (LBpower >= 1 && LBpower >= LFpower && LBpower >= RFpower && LBpower >= RBpower)
+            {
+                motorPowerRatio = 1 / LBpower;
+            } else if (RFpower >= 1 && RFpower >= LFpower && RFpower >= LBpower && RFpower >= RBpower)
+            {
+                motorPowerRatio = 1 / RFpower;
+            } else if (RBpower >= 1 && RBpower >= LFpower && RBpower >= RFpower && RBpower >= LBpower)
+            {
+                motorPowerRatio = 1 / RBpower;
+            } else if (LFpower <= -1 && LFpower <= LBpower && LFpower <= RFpower && LFpower <= RBpower)
+            {
+                motorPowerRatio = -1 / LFpower;
+            } else if (LBpower <= -1 && LBpower <= LFpower && LBpower <= RFpower && LBpower <= RBpower)
+            {
+                motorPowerRatio = -1 / LBpower;
+            } else if (RFpower <= -1 && RFpower <= LFpower && RFpower <= LBpower && RFpower <= RBpower)
+            {
+                motorPowerRatio = -1 / RFpower;
+            } else if (RBpower <= -1 && RBpower <= LFpower && RBpower <= RFpower && RBpower <= LBpower)
+            {
+                motorPowerRatio = -1 / RBpower;
+            }
+
+
+//robot power is your speed multiplier
+
+            robot.motorRF.setPower(RFpower * motorPowerRatio);
+            robot.motorRB.setPower(RBpower * motorPowerRatio);
+            robot.motorLB.setPower(LBpower * motorPowerRatio);
+            robot.motorLF.setPower(LFpower * motorPowerRatio);
+
+            telemetry.addData("X Position", globalPositionUpdate.returnXCoordinate() / COUNTS_PER_INCH);
+            telemetry.addData("Y Position", globalPositionUpdate.returnYCoordinate() / COUNTS_PER_INCH);
+            telemetry.addData("Orientation (Degrees)", globalPositionUpdate.returnOrientation());
+
+            telemetry.addData("Vertical left encoder position", robot.verticalLeft.getCurrentPosition());
+            telemetry.addData("Vertical right encoder position", robot.verticalRight.getCurrentPosition());
+            telemetry.addData("horizontal encoder position", robot.horizontal.getCurrentPosition());
+
+            telemetry.addData("motorRF power", robot.motorRF.getPower());
+            telemetry.addData("motorRB power", robot.motorRB.getPower());
+            telemetry.addData("motorLF power", robot.motorLF.getPower());
+            telemetry.addData("motorLB power", robot.motorLB.getPower());
+
+            telemetry.update();
+        }
     }
 
     public void setPowerAll(double power)
