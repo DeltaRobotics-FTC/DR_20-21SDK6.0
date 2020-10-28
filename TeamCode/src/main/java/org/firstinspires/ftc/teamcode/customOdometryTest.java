@@ -78,6 +78,8 @@ public class customOdometryTest extends LinearOpMode
     {
         RobotHardware robot = new RobotHardware(hardwareMap);
 
+        boolean runLoop = true;
+
         targetXPosition = targetXPosition * COUNTS_PER_INCH;
         targetYPosition = targetYPosition * COUNTS_PER_INCH;
         allowableDistanceError = allowableDistanceError * COUNTS_PER_INCH;
@@ -85,11 +87,22 @@ public class customOdometryTest extends LinearOpMode
         double distanceToXTarget = targetXPosition - globalPositionUpdate.returnXCoordinate();
         double distanceToYTarget = targetYPosition - globalPositionUpdate.returnYCoordinate();
 
-        double distance = Math.hypot(distanceToXTarget, distanceToYTarget);
-
-        while(opModeIsActive() &&  distance > allowableDistanceError)
+        while(opModeIsActive() &&  runLoop)
         {
-            distance = Math.hypot(distanceToXTarget, distanceToYTarget);
+            double distance = Math.hypot(distanceToXTarget, distanceToYTarget);
+
+            double pivotCorectionAngle = robotOrientation - globalPositionUpdate.returnOrientation();
+
+            if (distance > allowableDistanceError || pivotCorectionAngle > allowableOrientationError)
+            {
+                runLoop = true;
+            }
+
+            else
+            {
+                runLoop = false;
+            }
+
 
             distanceToXTarget = targetXPosition - globalPositionUpdate.returnXCoordinate();
             distanceToYTarget = targetYPosition - globalPositionUpdate.returnYCoordinate();
@@ -99,21 +112,36 @@ public class customOdometryTest extends LinearOpMode
             double robotMovementXComponent = calculateX(robotMovementAngle, robotPower);
             double robotMovementYComponent = calculateY(robotMovementAngle, robotPower);
 
-            double pivotCorectionAngle = robotOrientation - globalPositionUpdate.returnOrientation();
+            double pivotCorectionAngl = robotOrientation - globalPositionUpdate.returnOrientation();
             double pivotCorectionPower = pivotCorectionAngle / 180;
 
-            //slows down as it nears the target
+            //slows down as it nears the target (average of the turn and distance error)
             double slowDown;
+            double distanceSlowDown;
+            double angleSlowDown;
 
-            if (distance / COUNTS_PER_INCH <= 3)
+            if (Math.abs(distance / COUNTS_PER_INCH) <= 3)
             {
-                slowDown = Math.abs(distance / COUNTS_PER_INCH / 3);
+                distanceSlowDown = Math.abs(distance / 3);
             }
 
             else
             {
-                slowDown = 1;
+                distanceSlowDown = 1;
             }
+
+            if (Math.abs(robotOrientation) <= 5 && Math.abs(distance / COUNTS_PER_INCH) <= 3)
+            {
+                angleSlowDown = Math.abs(robotOrientation / 5);
+            }
+
+            else
+            {
+                angleSlowDown = 1;
+            }
+
+            slowDown = (angleSlowDown + distanceSlowDown) / 2;
+
 
 
             //sets the power of the motors
