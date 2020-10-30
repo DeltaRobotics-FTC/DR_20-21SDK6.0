@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 
 import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
@@ -15,6 +16,7 @@ public class velocityTest extends LinearOpMode
         double waitTime = 1000;
         double speed = 1500;
         RobotHardware robot = new RobotHardware(hardwareMap);
+        robot.motorRF.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         waitForStart();
 
         while(opModeIsActive())
