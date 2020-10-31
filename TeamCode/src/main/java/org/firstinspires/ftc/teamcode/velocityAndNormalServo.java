@@ -63,20 +63,18 @@ public class velocityAndNormalServo extends LinearOpMode
             if (gamepad1.b)
             {
                 servoPosition = -0.5;
-
-                if (gamepad1.dpad_up)
-                {
-                    servoPosition = 0;
-                }
-
-
-                telemetry.addData("servo Pos", servo.getPosition());
-                telemetry.addData("servoPosition Var", servoPosition);
-                telemetry.addData("Fast Increment", fastIncrement);
-                telemetry.addData("speed", speed);
-                telemetry.addData("current speed", ((DcMotorEx) motorRF).getVelocity());
-                telemetry.update();
             }
+
+            if (gamepad1.dpad_up)
+            {
+                servoPosition = 0;
+            }
+            telemetry.addData("servo Pos", servo.getPosition());
+            telemetry.addData("servoPosition Var", servoPosition);
+            telemetry.addData("Fast Increment", fastIncrement);
+            telemetry.addData("speed", speed);
+            telemetry.addData("current speed", ((DcMotorEx) motorRF).getVelocity());
+            telemetry.update();
         }
     }
 }

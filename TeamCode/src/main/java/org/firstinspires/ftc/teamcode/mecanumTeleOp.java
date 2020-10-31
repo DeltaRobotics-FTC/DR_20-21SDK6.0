@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 @TeleOp(name="mecanumTeleOp" ,group = "")
@@ -20,10 +21,10 @@ public class mecanumTeleOp extends LinearOpMode {
         {
 
             //sets the power of the motors
-            double LFpower = ( -gamepad1.right_stick_y + gamepad1.right_stick_x + gamepad1.left_stick_x) * speed;
-            double LBpower = ( -gamepad1.right_stick_y - gamepad1.right_stick_x + gamepad1.left_stick_x) * speed;
-            double RFpower = ( -gamepad1.right_stick_y - gamepad1.right_stick_x - gamepad1.left_stick_x) * speed;
-            double RBpower = ( -gamepad1.right_stick_y + gamepad1.right_stick_x - gamepad1.left_stick_x) * speed;
+            double LFpower = (-gamepad1.right_stick_y + gamepad1.right_stick_x + gamepad1.left_stick_x) * speed;
+            double LBpower = (-gamepad1.right_stick_y - gamepad1.right_stick_x + gamepad1.left_stick_x) * speed;
+            double RFpower = (-gamepad1.right_stick_y - gamepad1.right_stick_x - gamepad1.left_stick_x) * speed;
+            double RBpower = (-gamepad1.right_stick_y + gamepad1.right_stick_x - gamepad1.left_stick_x) * speed;
 
 //if statement reduces/increases motor power accordingly if a motor has more than a power of 1 or less than a power of -1
 //that way all the motors remain proportional but at the highest speed possible forward or reverse
@@ -65,6 +66,11 @@ public class mecanumTeleOp extends LinearOpMode {
             robot.motorRB.setPower(RBpower * motorPowerRatio);
             robot.motorLB.setPower(LBpower * motorPowerRatio);
             robot.motorLF.setPower(LFpower * motorPowerRatio);
+
+            telemetry.addData("encoderposition VRight", robot.motorLF.getCurrentPosition());
+            telemetry.addData("encoderposition VLeft", robot.motorRF.getCurrentPosition());
+            telemetry.addData("encoderposition Horizontal", robot.motorRB.getCurrentPosition());
+            telemetry.update();
         }
     }
 }
