@@ -20,7 +20,7 @@ public class velocityAndNormalServo extends LinearOpMode
     {
         motorRF = hardwareMap.dcMotor.get("motorLB");
         servo = hardwareMap.servo.get("servo");
-        motorRF.setMode(dcMotor.Stop_And_Reset_Encoder)
+        motorRF.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         double waitTime = 1000;
         double speed = 25000;
         double servoPosition = 0;
