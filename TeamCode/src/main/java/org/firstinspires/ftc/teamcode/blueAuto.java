@@ -1,6 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 //other imports
 
 //genneral
@@ -14,7 +14,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp
 //auto aim
 
 
-;
+
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
@@ -31,6 +31,8 @@ public class blueAuto extends LinearOpMode {
   private static final String TFOD_MODEL_ASSET = "UltimateGoal.tflite";
   private static final String LABEL_FIRST_ELEMENT = "Quad";
   private static final String LABEL_SECOND_ELEMENT = "Single";
+  public String view = "";
+  public MecanumDriveTrain drive;
   //init variables
   private static final String VUFORIA_KEY =
           "AQIjJXP/////AAABmX8DXrmUxEBjvVNbT94EWcg3A75NZTjC3HG9/ur6NlOGrwrPUBWwLK8GlSeDl/fPcBsf+HkwYZQt7Fu8g/fJSvgftOYprWUaAWTCcyEnjfqU7CKCEEeWOO97PEJHdsjSPaRCoKAUjmRCknWJWxPuvgBXU4z63zwtr45AR0DzsF9FRdoj9pNR7hcmPKZmMLSfU6zdeBinzk2DQrJq2GGHJJgI0Mgh/IcrRA54NaGttRaqLpvLOuDHRiPyHnOtOXkjHBZp4Simdyqht675alc36Kyz3PF34/9X6m3b/43kuI231AaSBt1r5GnQv0jL9QRbGde2lr0U8mTmnatRm1ASpgCIcAJJ82jRpyWf3yELRH1w";
@@ -96,6 +98,7 @@ public class blueAuto extends LinearOpMode {
                         recognition.getLeft(), recognition.getTop());
                 telemetry.addData(String.format("  right,bottom (%d)", i), "%.03f , %.03f",
                         recognition.getRight(), recognition.getBottom());
+                view = recognition.getLabel();
               }
               telemetry.update();
             }
@@ -103,12 +106,28 @@ public class blueAuto extends LinearOpMode {
         }
       }
 
+
+
+
       if (tfod != null) {
         tfod.shutdown();
       }
 
 
+     if(view == "Quad")
+     {
+      drive.timeDrive(500,1,driveStyle.FORWARD);
+     }
+     else if(view == "Single")
+     {
+       drive.timeDrive(500,1,driveStyle.BACKWARD);
 
+     }
+     else
+      {
+        drive.timeDrive(500,1,driveStyle.STRAFE_LEFT);
+
+      }
 
       //Run Op Mode
 
@@ -159,6 +178,10 @@ public class blueAuto extends LinearOpMode {
     tfodParameters.minResultConfidence = 0.6f;
     tfod = ClassFactory.getInstance().createTFObjectDetector(tfodParameters, vuforia);
     tfod.loadModelFromAsset(TFOD_MODEL_ASSET, LABEL_FIRST_ELEMENT, LABEL_SECOND_ELEMENT);
+  }
+  public blueAuto(LinearOpMode linearOpMode) {
+    // Drive class for first meet with mecanum wheels
+    drive = new MecanumDriveTrain(linearOpMode);
   }
 
 }
