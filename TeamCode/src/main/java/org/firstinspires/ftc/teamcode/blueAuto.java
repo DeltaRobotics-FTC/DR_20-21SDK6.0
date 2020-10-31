@@ -106,6 +106,10 @@ public class blueAuto extends LinearOpMode {
       if (tfod != null) {
         tfod.shutdown();
       }
+
+
+
+
       //Run Op Mode
 
       //see rings with tensor flow
@@ -145,6 +149,7 @@ public class blueAuto extends LinearOpMode {
     vuforia = ClassFactory.getInstance().createVuforia(parameters);
 
     // Loading trackables is not necessary for the TensorFlow Object Detection engine.
+
   }
 
   public void initTfod() {
