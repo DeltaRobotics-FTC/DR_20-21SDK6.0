@@ -38,17 +38,10 @@ public class customOdometryTest extends LinearOpMode
         Thread positionThread = new Thread(globalPositionUpdate);
         positionThread.start();
 
-        goToPosition(100, 0, 1, 0, .5, 1);
-        goToPosition(0, 0, 1, 0, .5, 1);
+        goToPosition(0, 0, 1, 90, .5, 1);
 
         while(opModeIsActive())
         {
-
-            goToPosition(50, 0, 1, 0, .5, 1);
-
-            goToPosition(50, 50, 1, 0, .5, 1);
-
-            goToPosition(0, 0, 1, 0, .5, 1);
 
 //Display Global (x, y, theta) coordinates
             telemetry.addData("X Position", globalPositionUpdate.returnXCoordinate() / COUNTS_PER_INCH);
@@ -113,7 +106,7 @@ public class customOdometryTest extends LinearOpMode
             double robotMovementYComponent = calculateY(robotMovementAngle, robotPower);
 
             double pivotCorectionAngl = robotOrientation - globalPositionUpdate.returnOrientation();
-            double pivotCorectionPower = pivotCorectionAngle / 180;
+            double pivotCorectionPower = pivotCorectionAngl / 180;
 
             //slows down as it nears the target (average of the turn and distance error)
             double slowDown;
