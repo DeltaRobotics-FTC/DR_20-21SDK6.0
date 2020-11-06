@@ -1,4 +1,5 @@
 package org.firstinspires.ftc.teamcode;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 //other imports
@@ -25,7 +26,7 @@ import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
 import java.util.List;
 
 
-@TeleOp(name = "blueAuto")
+@Autonomous(name = "blueAuto")
 public class blueAuto extends LinearOpMode {
 
   private static final String TFOD_MODEL_ASSET = "UltimateGoal.tflite";
@@ -170,7 +171,7 @@ public class blueAuto extends LinearOpMode {
     //  Instantiate the Vuforia engine
     vuforia = ClassFactory.getInstance().createVuforia(parameters);
 
-    // Loading trackables is not necessary for the TensorFlow Object Detection engine.
+    // Loading trackables is not necessary for the               TensorFlow Object Detection engine.
 
   }
 
