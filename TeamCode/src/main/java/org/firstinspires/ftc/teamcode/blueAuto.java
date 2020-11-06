@@ -114,6 +114,9 @@ public class blueAuto extends LinearOpMode {
       }
 
 
+
+      sleep(3000);
+
      if(view == "Quad")
      {
       drive.timeDrive(500,1,driveStyle.FORWARD);
