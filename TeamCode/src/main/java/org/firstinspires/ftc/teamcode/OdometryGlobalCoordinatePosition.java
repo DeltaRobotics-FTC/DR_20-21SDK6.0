@@ -91,13 +91,13 @@ public class OdometryGlobalCoordinatePosition implements Runnable{
      * Returns the robot's global x coordinate
      * @return global x coordinate
      */
-    public double returnXCoordinate(){ return robotGlobalYCoordinatePosition; }
+    public double returnXCoordinate(){ return robotGlobalXCoordinatePosition; }
 
     /**
      * Returns the robot's global y coordinate
      * @return global y coordinate
      */
-    public double returnYCoordinate(){ return robotGlobalXCoordinatePosition; }
+    public double returnYCoordinate(){ return robotGlobalYCoordinatePosition; }
 
     /**
      * Returns the robot's global orientation
