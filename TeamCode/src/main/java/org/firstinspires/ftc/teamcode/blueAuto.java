@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode;
+           package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -54,8 +54,9 @@ public class blueAuto extends LinearOpMode {
   public void runOpMode() throws InterruptedException {
     initVuforia();
     initTfod();
+    MecanumDriveTrain drive = new MecanumDriveTrain(this);
 
-    //init 
+    //init
     if (tfod != null) {
       tfod.activate();
 
@@ -67,7 +68,7 @@ public class blueAuto extends LinearOpMode {
       // (typically 1.78 or 16/9).
 
       // Uncomment the following line if you want to adjust the magnification and/or the aspect ratio of the input images.
-      tfod.setZoom(3, 1.78);
+     tfod.setZoom(2, 1.78);
     }
     //genneral
 
@@ -82,9 +83,9 @@ public class blueAuto extends LinearOpMode {
     telemetry.update();
     waitForStart();
 
-    while (opModeIsActive()) {
-      if (opModeIsActive()) {
-        while (opModeIsActive()) {
+
+
+
           if (tfod != null) {
             // getUpdatedRecognitions() will return null if no new information is available since
             // the last time that call was made.
@@ -103,33 +104,32 @@ public class blueAuto extends LinearOpMode {
               }
               telemetry.update();
             }
-          }
-        }
       }
 
 
 
+
+          drive.timeDrive(100,.5,driveStyle.BACKWARD);
 
       if (tfod != null) {
         tfod.shutdown();
       }
 
 
-
       sleep(3000);
 
      if(view == "Quad")
      {
-      drive.timeDrive(500,1,driveStyle.FORWARD);
+       drive.timeDrive(1000,.5,driveStyle.BACKWARD);
      }
      else if(view == "Single")
      {
-       drive.timeDrive(500,1,driveStyle.BACKWARD);
+       drive.timeDrive(1000,.5,driveStyle.FORWARD);
 
      }
      else
       {
-        drive.timeDrive(500,1,driveStyle.STRAFE_LEFT);
+        drive.timeDrive(1000,.5,driveStyle.STRAFE_LEFT);
 
       }
 
@@ -155,7 +155,7 @@ public class blueAuto extends LinearOpMode {
 
       //drive to line
     }
-  }
+
 
 
 
@@ -183,10 +183,7 @@ public class blueAuto extends LinearOpMode {
     tfod = ClassFactory.getInstance().createTFObjectDetector(tfodParameters, vuforia);
     tfod.loadModelFromAsset(TFOD_MODEL_ASSET, LABEL_FIRST_ELEMENT, LABEL_SECOND_ELEMENT);
   }
-  public blueAuto(LinearOpMode linearOpMode) {
-    // Drive class for first meet with mecanum wheels
-    drive = new MecanumDriveTrain(linearOpMode);
-  }
+
 
 }
 

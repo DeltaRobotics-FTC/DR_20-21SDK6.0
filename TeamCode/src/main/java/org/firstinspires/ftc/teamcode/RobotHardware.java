@@ -16,6 +16,7 @@ public class RobotHardware
     public DcMotor motorLF = null;
     public DcMotor motorRB = null;
     public DcMotor motorLB = null;
+    public DcMotor intake1 = null;
 
     public DcMotor verticalRight = null;
     public DcMotor verticalLeft = null;
@@ -32,6 +33,9 @@ public class RobotHardware
         motorLF = ahwMap.dcMotor.get("motorLF");
         motorRB = ahwMap.dcMotor.get("motorRB");
         motorLB = ahwMap.dcMotor.get("motorLB");
+        intake1 = ahwMap.dcMotor.get("intake1");
+
+
 
         verticalRight = motorLF;
         verticalLeft = motorRF;
@@ -54,6 +58,7 @@ public class RobotHardware
         motorLF.setPower(0);
         motorRB.setPower(0);
         motorLB.setPower(0);
+        intake1.setPower(0);
     }
 
 }

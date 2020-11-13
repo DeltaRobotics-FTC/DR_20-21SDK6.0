@@ -627,7 +627,7 @@ public class MecanumDriveTrain
         motorLB.setPower(teleOpDrive(0, -motorPower, 0)[2]);
         motorLF.setPower(teleOpDrive(0, -motorPower, 0)[3]);
     }
-    private void backward(double motorPower)
+    public void backward(double motorPower)
     {
         motorRF.setPower(teleOpDrive(0, motorPower, 0)[0]);
         motorRB.setPower(teleOpDrive(0, motorPower, 0)[1]);
