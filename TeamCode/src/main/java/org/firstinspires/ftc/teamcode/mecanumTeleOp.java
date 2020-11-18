@@ -15,7 +15,7 @@ public class mecanumTeleOp extends LinearOpMode {
 
     //OdometryGlobalCoordinatePosition is the thread
 //globalPositionThread is a variable that will hold the thread with specific info like the names of the encoders
-    OdometryGlobalCoordinatePosition globalPositionUpdate;
+    //////////////////////////////////OdometryGlobalCoordinatePosition globalPositionUpdate;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -26,9 +26,9 @@ public class mecanumTeleOp extends LinearOpMode {
         //stopEncoder();
 
         //fills the thread variable with the thread with encoder names how many ticks per in and the delay
-        globalPositionUpdate = new OdometryGlobalCoordinatePosition(robot.verticalLeft, robot.verticalRight, robot.horizontal, COUNTS_PER_INCH, 75);
-        Thread positionThread = new Thread(globalPositionUpdate);
-        positionThread.start();
+        ///////////////////////////////globalPositionUpdate = new OdometryGlobalCoordinatePosition(robot.verticalLeft, robot.verticalRight, robot.horizontal, COUNTS_PER_INCH, 75);
+        //////////////////////////////Thread positionThread = new Thread(globalPositionUpdate);
+        ////////////////////////////////positionThread.start();
 
         waitForStart();
 
@@ -82,10 +82,10 @@ public class mecanumTeleOp extends LinearOpMode {
             robot.motorLB.setPower(LBpower * motorPowerRatio);
             robot.motorLF.setPower(LFpower * motorPowerRatio);
 
-            telemetry.addData("orientation", globalPositionUpdate.returnOrientation());
-            telemetry.addData("X cord", globalPositionUpdate.returnXCoordinate());
-            telemetry.addData("Y cord", globalPositionUpdate.returnYCoordinate());
-            telemetry.update();
+            ///////////////////telemetry.addData("orientation", globalPositionUpdate.returnOrientation());
+            /////////////////////telemetry.addData("X cord", globalPositionUpdate.returnXCoordinate());
+            //////////////////////telemetry.addData("Y cord", globalPositionUpdate.returnYCoordinate());
+           /////////////////////////// telemetry.update();
         }
 
 
