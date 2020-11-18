@@ -15,7 +15,7 @@ public class customOdometryTestV2 extends LinearOpMode
 
     //OdometryGlobalCoordinatePosition is the thread
 //globalPositionThread is a variable that will hold the thread with specific info like the names of the encoders
-    OdometryGlobalCoordinatePosition globalPositionUpdate;
+    //OdometryGlobalCoordinatePosition globalPositionUpdate;
 
     @Override
     public void runOpMode() throws InterruptedException
@@ -34,9 +34,9 @@ public class customOdometryTestV2 extends LinearOpMode
         waitForStart();
 
 //fills the thread variable with the thread with encoder names how many ticks per in and the delay
-        globalPositionUpdate = new OdometryGlobalCoordinatePosition(robot.verticalLeft, robot.verticalRight, robot.horizontal, COUNTS_PER_INCH, 75);
-        Thread positionThread = new Thread(globalPositionUpdate);
-        positionThread.start();
+        //globalPositionUpdate = new OdometryGlobalCoordinatePosition(robot.verticalLeft, robot.verticalRight, robot.horizontal, COUNTS_PER_INCH, 75);
+        //Thread positionThread = new Thread(globalPositionUpdate);
+        //positionThread.start();
 
         goToPosition(5,5,0);
 
@@ -44,9 +44,9 @@ public class customOdometryTestV2 extends LinearOpMode
         {
 
 //Display Global (x, y, theta) coordinates
-            telemetry.addData("X Position", globalPositionUpdate.returnXCoordinate() / COUNTS_PER_INCH);
-            telemetry.addData("Y Position", globalPositionUpdate.returnYCoordinate() / COUNTS_PER_INCH);
-            telemetry.addData("Orientation (Degrees)", globalPositionUpdate.returnOrientation());
+            //telemetry.addData("X Position", globalPositionUpdate.returnXCoordinate() / COUNTS_PER_INCH);
+            //telemetry.addData("Y Position", globalPositionUpdate.returnYCoordinate() / COUNTS_PER_INCH);
+            //telemetry.addData("Orientation (Degrees)", globalPositionUpdate.returnOrientation());
 
 //Display encoder values
             telemetry.addData("Vertical left encoder position", robot.verticalLeft.getCurrentPosition());
@@ -58,12 +58,12 @@ public class customOdometryTestV2 extends LinearOpMode
             telemetry.addData("motorLF power", robot.motorLF.getPower());
             telemetry.addData("motorLB power", robot.motorLB.getPower());
 
-            telemetry.addData("Thread Active", positionThread.isAlive());
+            //telemetry.addData("Thread Active", positionThread.isAlive());
             telemetry.update();
         }
 
 //Stop the thread
-        globalPositionUpdate.stop();
+        //globalPositionUpdate.stop();
 
     }
 
@@ -74,9 +74,9 @@ public class customOdometryTestV2 extends LinearOpMode
         double XTargetTicks = XTargetInches * COUNTS_PER_INCH;
         double YTargetTicks = YTargetInches * COUNTS_PER_INCH;
 
-        double XDistanceTicks = XTargetTicks - globalPositionUpdate.returnXCoordinate();
-        double YDistanceTicks = YTargetTicks - globalPositionUpdate.returnYCoordinate();
+        //double XDistanceTicks = XTargetTicks - globalPositionUpdate.returnXCoordinate();
+        //double YDistanceTicks = YTargetTicks - globalPositionUpdate.returnYCoordinate();
 
-        double robotMovementAngle = Math.toDegrees(Math.atan2(XDistanceTicks, YDistanceTicks));
+        //double robotMovementAngle = Math.toDegrees(Math.atan2(XDistanceTicks, YDistanceTicks));
     }
 }
