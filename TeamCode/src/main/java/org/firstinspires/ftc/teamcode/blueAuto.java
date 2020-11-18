@@ -1,6 +1,7 @@
-package org.firstinspires.ftc.teamcode;
+           package org.firstinspires.ftc.teamcode;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 //other imports
 
 //genneral
@@ -14,7 +15,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp
 //auto aim
 
 
-;
+
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
@@ -25,12 +26,14 @@ import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
 import java.util.List;
 
 
-@TeleOp(name = "blueAuto")
+@Autonomous(name = "blueAuto")
 public class blueAuto extends LinearOpMode {
 
   private static final String TFOD_MODEL_ASSET = "UltimateGoal.tflite";
   private static final String LABEL_FIRST_ELEMENT = "Quad";
   private static final String LABEL_SECOND_ELEMENT = "Single";
+  public String view = "";
+  public MecanumDriveTrain drive;
   //init variables
   private static final String VUFORIA_KEY =
           "AQIjJXP/////AAABmX8DXrmUxEBjvVNbT94EWcg3A75NZTjC3HG9/ur6NlOGrwrPUBWwLK8GlSeDl/fPcBsf+HkwYZQt7Fu8g/fJSvgftOYprWUaAWTCcyEnjfqU7CKCEEeWOO97PEJHdsjSPaRCoKAUjmRCknWJWxPuvgBXU4z63zwtr45AR0DzsF9FRdoj9pNR7hcmPKZmMLSfU6zdeBinzk2DQrJq2GGHJJgI0Mgh/IcrRA54NaGttRaqLpvLOuDHRiPyHnOtOXkjHBZp4Simdyqht675alc36Kyz3PF34/9X6m3b/43kuI231AaSBt1r5GnQv0jL9QRbGde2lr0U8mTmnatRm1ASpgCIcAJJ82jRpyWf3yELRH1w";
@@ -51,8 +54,9 @@ public class blueAuto extends LinearOpMode {
   public void runOpMode() throws InterruptedException {
     initVuforia();
     initTfod();
+    MecanumDriveTrain drive = new MecanumDriveTrain(this);
 
-    //init 
+    //init
     if (tfod != null) {
       tfod.activate();
 
@@ -64,7 +68,7 @@ public class blueAuto extends LinearOpMode {
       // (typically 1.78 or 16/9).
 
       // Uncomment the following line if you want to adjust the magnification and/or the aspect ratio of the input images.
-      tfod.setZoom(3, 1.78);
+     tfod.setZoom(2, 1.78);
     }
     //genneral
 
@@ -79,9 +83,9 @@ public class blueAuto extends LinearOpMode {
     telemetry.update();
     waitForStart();
 
-    while (opModeIsActive()) {
-      if (opModeIsActive()) {
-        while (opModeIsActive()) {
+
+
+
           if (tfod != null) {
             // getUpdatedRecognitions() will return null if no new information is available since
             // the last time that call was made.
@@ -96,16 +100,39 @@ public class blueAuto extends LinearOpMode {
                         recognition.getLeft(), recognition.getTop());
                 telemetry.addData(String.format("  right,bottom (%d)", i), "%.03f , %.03f",
                         recognition.getRight(), recognition.getBottom());
+                view = recognition.getLabel();
               }
               telemetry.update();
             }
-          }
-        }
       }
+
+
+
+
+          drive.timeDrive(100,.5,driveStyle.BACKWARD);
 
       if (tfod != null) {
         tfod.shutdown();
       }
+
+
+      sleep(3000);
+
+     if(view == "Quad")
+     {
+       drive.timeDrive(1000,.5,driveStyle.BACKWARD);
+     }
+     else if(view == "Single")
+     {
+       drive.timeDrive(1000,.5,driveStyle.FORWARD);
+
+     }
+     else
+      {
+        drive.timeDrive(1000,.5,driveStyle.STRAFE_LEFT);
+
+      }
+
       //Run Op Mode
 
       //see rings with tensor flow
@@ -128,7 +155,7 @@ public class blueAuto extends LinearOpMode {
 
       //drive to line
     }
-  }
+
 
 
 
@@ -144,7 +171,8 @@ public class blueAuto extends LinearOpMode {
     //  Instantiate the Vuforia engine
     vuforia = ClassFactory.getInstance().createVuforia(parameters);
 
-    // Loading trackables is not necessary for the TensorFlow Object Detection engine.
+    // Loading trackables is not necessary for the               TensorFlow Object Detection engine.
+
   }
 
   public void initTfod() {
@@ -155,6 +183,7 @@ public class blueAuto extends LinearOpMode {
     tfod = ClassFactory.getInstance().createTFObjectDetector(tfodParameters, vuforia);
     tfod.loadModelFromAsset(TFOD_MODEL_ASSET, LABEL_FIRST_ELEMENT, LABEL_SECOND_ELEMENT);
   }
+
 
 }
 
