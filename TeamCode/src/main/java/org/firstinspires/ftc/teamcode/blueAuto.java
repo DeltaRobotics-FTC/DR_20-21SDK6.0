@@ -1,4 +1,5 @@
            package org.firstinspires.ftc.teamcode;
+import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -39,6 +40,7 @@ public class blueAuto extends LinearOpMode {
           "AQIjJXP/////AAABmX8DXrmUxEBjvVNbT94EWcg3A75NZTjC3HG9/ur6NlOGrwrPUBWwLK8GlSeDl/fPcBsf+HkwYZQt7Fu8g/fJSvgftOYprWUaAWTCcyEnjfqU7CKCEEeWOO97PEJHdsjSPaRCoKAUjmRCknWJWxPuvgBXU4z63zwtr45AR0DzsF9FRdoj9pNR7hcmPKZmMLSfU6zdeBinzk2DQrJq2GGHJJgI0Mgh/IcrRA54NaGttRaqLpvLOuDHRiPyHnOtOXkjHBZp4Simdyqht675alc36Kyz3PF34/9X6m3b/43kuI231AaSBt1r5GnQv0jL9QRbGde2lr0U8mTmnatRm1ASpgCIcAJJ82jRpyWf3yELRH1w";
   private VuforiaLocalizer vuforia;
   private TFObjectDetector tfod;
+  public BNO055IMU imu;
   //genneral
 
   //odometry
@@ -54,6 +56,7 @@ public class blueAuto extends LinearOpMode {
   public void runOpMode() throws InterruptedException {
     initVuforia();
     initTfod();
+    telemetry();
     MecanumDriveTrain drive = new MecanumDriveTrain(this);
 
     //init
@@ -84,9 +87,12 @@ public class blueAuto extends LinearOpMode {
     waitForStart();
 
 
+    drive.encoderDrive(250,driveStyle.BACKWARD,.7);
+
+    drive.OrientationDrive(360,.7, imu);
 
 
-          if (tfod != null) {
+    if (tfod != null) {
             // getUpdatedRecognitions() will return null if no new information is available since
             // the last time that call was made.
             List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
@@ -105,15 +111,17 @@ public class blueAuto extends LinearOpMode {
               telemetry.update();
             }
       }
-
-
-
-
-          drive.timeDrive(100,.5,driveStyle.BACKWARD);
-
       if (tfod != null) {
         tfod.shutdown();
       }
+
+      drive.encoderDrive(500,driveStyle.BACKWARD,.7);
+
+      drive.OrientationDrive(30,.7,imu);
+
+      wait(5000);
+
+      drive.OrientationDrive(-30,.7,imu);
 
 
       sleep(3000);
@@ -182,6 +190,14 @@ public class blueAuto extends LinearOpMode {
     tfodParameters.minResultConfidence = 0.6f;
     tfod = ClassFactory.getInstance().createTFObjectDetector(tfodParameters, vuforia);
     tfod.loadModelFromAsset(TFOD_MODEL_ASSET, LABEL_FIRST_ELEMENT, LABEL_SECOND_ELEMENT);
+  }
+
+  public void telemetry() {
+    while(opModeIsActive())
+    {
+      telemetry.addData("motor position",drive.motorRB.getCurrentPosition());
+      telemetry.update();
+    }
   }
 
 
