@@ -21,10 +21,10 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
             while (opModeIsActive()) {
 
                 //sets the power of the motors
-                robot.motorRF.setPower(speed*((-gamepad1.left_stick_y - gamepad1.left_stick_x) - (zScale * gamepad1.right_stick_x)));
-                robot.motorRB.setPower(speed*(-(-gamepad1.left_stick_x + gamepad1.left_stick_y) - (zScale * gamepad1.right_stick_x)));
-                robot.motorLB.setPower(speed*((gamepad1.left_stick_y + gamepad1.left_stick_x) - (zScale * gamepad1.right_stick_x)));
-                robot.motorLF.setPower(speed*((-gamepad1.left_stick_x + gamepad1.left_stick_y)) - (zScale * gamepad1.right_stick_x));
+                robot.motorRF.setPower(-speed*((-gamepad1.left_stick_y - gamepad1.left_stick_x) - (zScale * gamepad1.right_stick_x)));
+                robot.motorRB.setPower(-speed*(-(-gamepad1.left_stick_x + gamepad1.left_stick_y) - (zScale * gamepad1.right_stick_x)));
+                robot.motorLB.setPower(-speed*((gamepad1.left_stick_y + gamepad1.left_stick_x) - (zScale * gamepad1.right_stick_x)));
+                robot.motorLF.setPower(-speed*((-gamepad1.left_stick_x + gamepad1.left_stick_y)) - (zScale * gamepad1.right_stick_x));
 
 //if statement reduces/increases motor power accordingly if a motor has more than a power of 1 or less than a power of -1
 //that way all the motors remain proportional but at the highest speed possible forward or reverse
