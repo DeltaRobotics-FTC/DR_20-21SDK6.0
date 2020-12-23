@@ -10,6 +10,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 public class velocityAndNormalServo extends LinearOpMode
 {
     private Servo servo;
+    private Servo servo2;
     private DcMotor motorLB;
 
 
@@ -18,14 +19,17 @@ public class velocityAndNormalServo extends LinearOpMode
     {
         motorLB = hardwareMap.dcMotor.get("motorLB");
         servo = hardwareMap.servo.get("servo");
+        servo2 = hardwareMap.servo.get("servo2");
         motorLB.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         double waitTime = 1000;
-        double speed = 25000;
-        double servoPosition = 0;
+        double speed = 0;
+        double servoPosition2 = 0;
+        double servoPosition = 0.25;
+        double change = 0.00556;
         boolean leftDPadState = false;
         boolean rightDPadState = false;
 
-        boolean fastIncrement = true;
+
 
 
         waitForStart();
@@ -35,41 +39,53 @@ public class velocityAndNormalServo extends LinearOpMode
 
             ((DcMotorEx) motorLB).setVelocity(speed);
 
+            //motorLB.setPower(speed);
+
             //servo.setDirection(DcMotorSimple.Direction.FORWARD);
             servo.setPosition(servoPosition);
+            servo2.setPosition(servoPosition2);
             waitTime++;
             if (waitTime > 100)
             {
 
                 if (gamepad1.x)
                 {
-                    speed = speed + 100;
+                    speed = speed + 50;
                     waitTime = 0;
                 }
 
                 if (gamepad1.y)
                 {
-                    speed = speed - 100;
+                    speed = speed - 50;
+                    waitTime = 0;
+                }
+                if (gamepad1.dpad_down){
+                    servoPosition2 = servoPosition2 - change;
+                    waitTime = 0;
+                }
+                if (gamepad1.dpad_up){
+                    servoPosition2 = servoPosition2 + change;
                     waitTime = 0;
                 }
             }
 
             if (gamepad1.a)
             {
-                servoPosition = 0.5;
+                servoPosition = 0.25;
             }
             if (gamepad1.b)
             {
-                servoPosition = -0.5;
+                servoPosition = -0.25;
             }
 
-            if (gamepad1.dpad_up)
-            {
-                servoPosition = 0;
-            }
+            //if (gamepad1.dpad_up)
+            //{
+             //   servoPosition = 0;
+            //}
             telemetry.addData("servo Pos", servo.getPosition());
+            telemetry.addData("servo pos2", servo2.getPosition());
             telemetry.addData("servoPosition Var", servoPosition);
-            telemetry.addData("Fast Increment", fastIncrement);
+            telemetry.addData("servo2 position var", servoPosition2);
             telemetry.addData("speed", speed);
             telemetry.addData("current speed", ((DcMotorEx) motorLB).getVelocity());
             telemetry.update();

@@ -17,6 +17,7 @@ public class gen2teleOp extends LinearOpMode {
     private static final String TFOD_MODEL_ASSET = "UltimateGoal.tflite";
     private static final String LABEL_FIRST_ELEMENT = "Quad";
     private static final String LABEL_SECOND_ELEMENT = "Single";
+    public double init = 0;
     public String view = "";
     public MecanumDriveTrain drive;
     //init variables
@@ -43,7 +44,7 @@ public class gen2teleOp extends LinearOpMode {
         MecanumDriveTrain drive = new MecanumDriveTrain(this);
 
 
-        while (!opModeIsActive()) {
+        while (init == 0) {
         if (tfod != null) {
             // getUpdatedRecognitions() will return null if no new information is available since
             // the last time that call was made.
@@ -69,6 +70,8 @@ public class gen2teleOp extends LinearOpMode {
             waitForStart();
 
             while (opModeIsActive()) {
+            init++;
+            telemetry.addData("init", init);
             telemetry.addData("bla", view);
             telemetry.update();
             }
@@ -76,3 +79,6 @@ public class gen2teleOp extends LinearOpMode {
 
     }
 }
+
+
+
