@@ -30,7 +30,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 //that way all the motors remain proportional but at the highest speed possible forward or reverse
 //if you move slowly there is nothing to reduce and it will still go slowly
 
-                robot.intake1.setPower(motorSpeed1);
+                //robot.intake1.setPower(motorSpeed1);
                 waitTime++;
                 if (waitTime > 1000) {
                     if (gamepad1.dpad_up) {

@@ -33,7 +33,7 @@ public class RobotHardware
         motorLF = ahwMap.dcMotor.get("motorLF");
         motorRB = ahwMap.dcMotor.get("motorRB");
         motorLB = ahwMap.dcMotor.get("motorLB");
-        intake1 = ahwMap.dcMotor.get("intake1");
+        //intake1 = ahwMap.dcMotor.get("intake1");
 
 
 
