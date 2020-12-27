@@ -1,0 +1,28 @@
+           package org.firstinspires.ftc.teamcode;
+import com.qualcomm.hardware.bosch.BNO055IMU;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+
+@Autonomous(name = "blueAuto")
+public class blueAuto extends LinearOpMode {
+
+  public MecanumDriveTrain drive;
+ 
+  public BNO055IMU imu;
+
+  @Override
+  public void runOpMode() throws InterruptedException {
+    
+  MecanumDriveTrain drive = new MecanumDriveTrain(this);
+
+  telemetry.addData(">", "Press Play to start op mode");
+  telemetry.update();
+  waitForStart();
+
+
+  drive.encoderDrive(250,driveStyle.BACKWARD,.7);
+
+  drive.OrientationDrive(360,.7, imu);
+  }
+}
