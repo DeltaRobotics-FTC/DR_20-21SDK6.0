@@ -17,7 +17,7 @@ public class Meet1Auto extends LinearOpMode {
     int shootingSpot = 2029;
     int park = 3607 - shootingSpot;
     double flywheelSpeed = 1700;
-    double shoot = .14;
+    double shoot = -.1;
     private Servo servo;
     private DcMotor flywheel;
 
@@ -41,16 +41,16 @@ public class Meet1Auto extends LinearOpMode {
         //start flywheel
         ((DcMotorEx) flywheel).setVelocity(flywheelSpeed);
 
-        while (((DcMotorEx) flywheel).getVelocity() < 1700) {
-            wait(20);
+        while (((DcMotorEx) flywheel).getVelocity() != 1700) {
+            sleep(1);
         }
         //shoot rings
             servo.setPosition(shoot);
             servo.setPosition(0);
-            //wait(20);
+            sleep(100);
             servo.setPosition(shoot);
         servo.setPosition(0);
-        //wait(20);
+        sleep(100);
         servo.setPosition(shoot);
         servo.setPosition(0);
 
