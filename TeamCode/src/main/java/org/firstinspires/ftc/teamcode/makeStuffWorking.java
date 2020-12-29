@@ -29,8 +29,8 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 //if statement reduces/increases motor power accordingly if a motor has more than a power of 1 or less than a power of -1
 //that way all the motors remain proportional but at the highest speed possible forward or reverse
 //if you move slowly there is nothing to reduce and it will still go slowly
-
-                //robot.intake1.setPower(motorSpeed1);
+/*
+                robot.intake1.setPower(motorSpeed1);
                 waitTime++;
                 if (waitTime > 1000) {
                     if (gamepad1.dpad_up) {
@@ -40,14 +40,14 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
                         motorSpeed1 -= 0.005;
                     }
 
-
+*/
 
 //robot power is your speed multiplier
 
 
 
 
-                }
+  //              }
             }
         }
     }

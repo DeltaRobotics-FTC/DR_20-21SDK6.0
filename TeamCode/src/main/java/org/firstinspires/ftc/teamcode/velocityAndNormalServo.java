@@ -69,6 +69,11 @@ public class velocityAndNormalServo extends LinearOpMode
                 }
             }
 
+            if(gamepad1.left_bumper)
+            {
+                speed = -1650;
+            }
+
             if (gamepad1.a)
             {
                 servoPosition = 0.25;
