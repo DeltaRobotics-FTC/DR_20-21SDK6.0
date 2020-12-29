@@ -19,7 +19,7 @@ public class velocityAndServo extends LinearOpMode
     @Override
     public void runOpMode()
     {
-        motorRF = hardwareMap.dcMotor.get("motorRF");
+        motorRF = hardwareMap.dcMotor.get("flywheel");
         servo = hardwareMap.crservo.get("servo");
         double waitTime = 1000;
         double speed = 0;
