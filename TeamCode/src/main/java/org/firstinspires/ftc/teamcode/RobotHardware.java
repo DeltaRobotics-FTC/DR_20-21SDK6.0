@@ -51,8 +51,8 @@ public class RobotHardware
         motorRB.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         motorLB.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-        motorRF.setDirection(DcMotorSimple.Direction.REVERSE);
-        motorRB.setDirection(DcMotorSimple.Direction.REVERSE);
+        motorLF.setDirection(DcMotorSimple.Direction.REVERSE);
+        motorLB.setDirection(DcMotorSimple.Direction.REVERSE);
 
         motorRF.setPower(0);
         motorLF.setPower(0);

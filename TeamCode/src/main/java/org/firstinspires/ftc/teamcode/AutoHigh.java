@@ -43,9 +43,9 @@ public class AutoHigh extends LinearOpMode
     }
 
     public void straight () {
-        motorLB.r(runDistance);
-        motorRB.r(runDistance);
-        motorLF.r(runDistance);
-        motorRF.r(runDistance);
+        //motorLB.r(runDistance);
+        //motorRB.r(runDistance);
+        //motorLF.r(runDistance);
+        //motorRF.r(runDistance);
     }
 }

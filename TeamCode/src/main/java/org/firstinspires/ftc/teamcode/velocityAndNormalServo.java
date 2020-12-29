@@ -17,7 +17,7 @@ public class velocityAndNormalServo extends LinearOpMode
     @Override
     public void runOpMode()
     {
-        motorLB = hardwareMap.dcMotor.get("motorLB");
+        motorLB = hardwareMap.dcMotor.get("flywheel");
         servo = hardwareMap.servo.get("servo");
         servo2 = hardwareMap.servo.get("servo2");
         motorLB.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
