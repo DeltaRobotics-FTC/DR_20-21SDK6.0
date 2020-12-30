@@ -18,24 +18,20 @@ public class Meet1Auto extends LinearOpMode {
     int park = 3607 - shootingSpot;
     double flywheelSpeed = 1700;
     double shoot = -.1;
-    private Servo servo;
-    private DcMotor flywheel;
 
     @Override
     public void runOpMode() throws InterruptedException {
 
         MecanumDriveTrain drive = new MecanumDriveTrain(this);
-
-        flywheel = hardwareMap.dcMotor.get("flywheel");
-        servo = hardwareMap.servo.get("servo");
-        flywheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        
+        RobotHardware robot = new RobotHardware(hardwareMap);
 
         telemetry.addData(">", "Press Play to start op mode");
         telemetry.update();
         waitForStart();
 
 //drive to shooting location
-        drive.encoderDrive(shootingSpot,driveStyle.BACKWARD,.7);
+        drive.encoderDrive(shootingSpot,driveStyle.BACKWARD,.4);
 
 
         //start flywheel
@@ -58,7 +54,7 @@ public class Meet1Auto extends LinearOpMode {
         ((DcMotorEx) flywheel).setVelocity(0);
 
         //drive to the line
-        drive.encoderDrive(park,driveStyle.BACKWARD,.7);
+        drive.encoderDrive(park,driveStyle.BACKWARD,.4);
 
         //drive.OrientationDrive(360,.7, imu);
     }
