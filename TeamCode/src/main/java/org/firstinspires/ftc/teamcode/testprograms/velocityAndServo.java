@@ -9,6 +9,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
 @TeleOp(name = "velocityAndServo", group = "")
+@Disabled
 public class velocityAndServo extends LinearOpMode
 {
     private CRServo servo;
