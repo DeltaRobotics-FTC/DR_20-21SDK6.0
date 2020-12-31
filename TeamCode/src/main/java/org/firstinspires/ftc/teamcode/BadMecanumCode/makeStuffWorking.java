@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 
     @TeleOp(name="makeStuffWorking" ,group = "")
+    @Disabled
     public class makeStuffWorking extends LinearOpMode {
 
 
