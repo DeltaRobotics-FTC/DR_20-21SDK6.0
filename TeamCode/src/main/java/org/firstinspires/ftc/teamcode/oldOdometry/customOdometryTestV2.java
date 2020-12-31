@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 @TeleOp(name = "customOdometryTestV2")
+@Disabled
 public class customOdometryTestV2 extends LinearOpMode
 {
 
