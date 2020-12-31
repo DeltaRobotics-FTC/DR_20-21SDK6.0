@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 @TeleOp(name = "motorTest", group = "")
+@Disabled
 public class motorTest extends LinearOpMode
 {
     public void runOpMode() throws InterruptedException {
