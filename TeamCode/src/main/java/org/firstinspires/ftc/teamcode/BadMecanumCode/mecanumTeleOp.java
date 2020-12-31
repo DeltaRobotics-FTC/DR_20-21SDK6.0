@@ -8,6 +8,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 @TeleOp(name="mecanumTeleOp" ,group = "")
+@Disabled
 public class mecanumTeleOp extends LinearOpMode {
 
     //encoder counts per in of movement (counts per rotation / pi*r^2
