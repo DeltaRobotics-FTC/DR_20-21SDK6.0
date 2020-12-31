@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 @TeleOp (name="mecanumHardCoded" ,group = "")
+@Disabled
 public class mecanumHardCoded extends LinearOpMode
 {
 
