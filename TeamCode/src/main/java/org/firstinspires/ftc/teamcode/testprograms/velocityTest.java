@@ -8,6 +8,7 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
 
 @TeleOp(name = "velocityTest", group = "")
+@Disabled
 public class velocityTest extends LinearOpMode
 {
     @Override
