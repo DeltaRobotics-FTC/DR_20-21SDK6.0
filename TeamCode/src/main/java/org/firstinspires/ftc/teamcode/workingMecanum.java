@@ -34,7 +34,7 @@ public class workingMecanum extends LinearOpMode
             robot.motorLB.setPower(LBpower * speed);
             robot.motorLF.setPower(LFpower * speed);
             
-            if (gamepad1LeftJoysticButton == true) {
+            if (gamepad1.left_stick_button) {
                 turnSpeed = 1.0;
             }
             
@@ -42,7 +42,7 @@ public class workingMecanum extends LinearOpMode
                 turnSpeed = .5;
             }
             
-             if (gamepad1rightJoysticButton == true) {
+             if (gamepad1.right_stick_button) {
                 driveSpeed = 1.0;
             }
             

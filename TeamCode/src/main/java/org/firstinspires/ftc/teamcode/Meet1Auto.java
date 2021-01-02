@@ -35,23 +35,23 @@ public class Meet1Auto extends LinearOpMode {
 
 
         //start flywheel
-        ((DcMotorEx) flywheel).setVelocity(flywheelSpeed);
+        ((DcMotorEx) robot.flywheel).setVelocity(flywheelSpeed);
 
-        while (((DcMotorEx) flywheel).getVelocity() != 1700) {
+        while (((DcMotorEx) robot.flywheel).getVelocity() != 1700) {
             sleep(1);
         }
         //shoot rings
-            servo.setPosition(shoot);
-            servo.setPosition(0);
+            robot.servo.setPosition(shoot);
+            robot.servo.setPosition(0);
             sleep(100);
-            servo.setPosition(shoot);
-        servo.setPosition(0);
+            robot.servo.setPosition(shoot);
+        robot.servo.setPosition(0);
         sleep(100);
-        servo.setPosition(shoot);
-        servo.setPosition(0);
+        robot.servo.setPosition(shoot);
+        robot.servo.setPosition(0);
 
         //stop flywheel
-        ((DcMotorEx) flywheel).setVelocity(0);
+        ((DcMotorEx) robot.flywheel).setVelocity(0);
 
         //drive to the line
         drive.encoderDrive(park,driveStyle.BACKWARD,.4);

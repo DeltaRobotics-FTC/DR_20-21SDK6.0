@@ -58,8 +58,8 @@ public class RobotHardware
         horizontal = motorRB;
 
         //servos
-        servo = hardwareMap.servo.get("servo");
-        servo2 = hardwareMap.servo.get("servo2");
+        servo = ahwMap.servo.get("servo");
+        servo2 = ahwMap.servo.get("servo2");
         
         //drive motors and odometry encoders
         motorRF.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
