@@ -28,11 +28,18 @@ public class Meet1TeleOp extends LinearOpMode
     double servoPosition = 0.25;
 
     //wobble
+    int upPosition = 454;
+    int grabPosition = 227;
+    double openPosition = 1;
+    double closedPosition = -1;
 
     @Override
     public void runOpMode() throws InterruptedException
     {
         RobotHardware robot = new RobotHardware(hardwareMap);
+        
+        wobble.setTargetPosition(0)
+        wobble.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         waitForStart();
 
@@ -51,7 +58,6 @@ public class Meet1TeleOp extends LinearOpMode
             robot.motorLB.setPower(LBpower * speed);
             robot.motorLF.setPower(LFpower * speed);
 
-            //fix gamepad buttons
             if (gamepad1.left_stick_button == true) {
                 turnSpeed = 1.0;
             }
@@ -105,32 +111,54 @@ public class Meet1TeleOp extends LinearOpMode
                 servoPosition = -0.1;
             }
 
-            telemetry.addData("servo Pos", robot.servo.getPosition());
-            telemetry.addData("servoPosition Var", servoPosition);
-            telemetry.addData("speed", speed);
-            telemetry.addData("current speed", ((DcMotorEx) robot.flywheel).getVelocity());
-            telemetry.update();
-
             //wobble
             if(gamepad1.dpad_up)
             {
-                //motor up
+                robot.wobble.setTargetPosition(upPosition)
+                robot.wobble.setMode(DcMotor.RunMode.RUN_TO_POSIOION)
+                
+                //upPosition
             }
 
             if(gamepad1.dpad_down)
             {
-                //motor down
+                robot.wobble.setTargetPosition(grabPosition)
+                robot.wobble.setMode(DcMotor.RunMode.RUN_TO_POSIOION)
+                
+                //grabPosition
             }
 
             if(gamepad1.dpad_left)
             {
-                //servo open
+                robot.servo2.setPosition(openPosition);
             }
 
             if(gamepad1.dpad_right)
             {
-                //servo close
+                robot.servo2.setPosition(closedPosition)
             }
+            
+            //drive wobble arm (if encoders are off)
+            //eventualy replace with intake
+            //robot.wobble.setPower(-gamepad1.leftTriger + gamepad1.rightTriger);
+            
+            //telemetry
+            
+            //drive
+            telemetry.addData("turnSpeed", turnSpeed);
+            telemetry.addData("driveSpeed", driveSpeed);
+            
+            //shooter
+            telemetry.addData("servo Pos", robot.servo.getPosition());
+            telemetry.addData("servoPosition Var", servoPosition);
+            telemetry.addData("wheelSpeed", wheelSpeed);
+            telemetry.addData("current wheelSpeed", ((DcMotorEx) robot.flywheel).getVelocity());
+            
+            //wobble
+            telemetry.addData("armPosition", robot.wobble.getCurrentPosition());
+            telemetry.addData("servoPosition", robot.servo2.getPosition());
+            
+            telemetry.update();
         }
     }
 }
