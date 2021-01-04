@@ -12,6 +12,8 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 //wobble
 
+//intake
+
 @TeleOp(name="Meet1TeleOp" ,group = "")
 public class Meet1TeleOp extends LinearOpMode
 {
@@ -32,12 +34,16 @@ public class Meet1TeleOp extends LinearOpMode
     int grabPosition = 227;
     double openPosition = 1;
     double closedPosition = -1;
+    
+    //intake
+    double speed = .75;
 
     @Override
     public void runOpMode() throws InterruptedException
     {
         RobotHardware robot = new RobotHardware(hardwareMap);
         
+        //wobble 
         wobble.setTargetPosition(0)
         wobble.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
@@ -139,8 +145,11 @@ public class Meet1TeleOp extends LinearOpMode
             }
             
             //drive wobble arm (if encoders are off)
-            //eventualy replace with intake
             //robot.wobble.setPower(-gamepad1.leftTriger + gamepad1.rightTriger);
+            
+            //intake
+            robot.intake1.setPower(-gamepad1.leftTriger + gamepad1.rightTriger);
+            robot.intake2.setPower(-gamepad1.rightTriger + gamepad1.leftTriger);
             
             //telemetry
             
