@@ -10,7 +10,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 @Autonomous(name = "Meet1Auto")
 public class Meet1Auto extends LinearOpMode {
 
-    int shootingSpot = -2300;
+    int shootingSpot = -2900;
     int park = -3607;
     double flywheelSpeed = 1700;
     double shoot = -.1;
@@ -66,21 +66,23 @@ public class Meet1Auto extends LinearOpMode {
 
         while (((DcMotorEx) robot.flywheel).getVelocity() != 1700) {}
 
+        sleep(3000);
+
         //shoot rings
         robot.servo.setPosition(shoot);
-        sleep(1000);
+        sleep(2000);
 
         robot.servo.setPosition(0.25);
         sleep(1000);
 
         robot.servo.setPosition(shoot);
-        sleep(1000);
+        sleep(2000);
 
         robot.servo.setPosition(0.25);
         sleep(1000);
 
         robot.servo.setPosition(shoot);
-        sleep(1000);
+        sleep(2000);
 
         robot.servo.setPosition(0.25);
 
