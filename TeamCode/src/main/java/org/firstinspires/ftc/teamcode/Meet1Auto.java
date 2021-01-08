@@ -10,10 +10,10 @@ import com.qualcomm.robotcore.hardware.Servo;
 @Autonomous(name = "Meet1Auto")
 public class Meet1Auto extends LinearOpMode {
 
-    int shootingSpot = -2029;
+    int shootingSpot = -2300;
     int park = -3607;
     double flywheelSpeed = 1700;
-    double shoot = .1;
+    double shoot = -.1;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -68,13 +68,21 @@ public class Meet1Auto extends LinearOpMode {
 
         //shoot rings
         robot.servo.setPosition(shoot);
-        robot.servo.setPosition(0);
         sleep(1000);
-        robot.servo.setPosition(shoot);
-        robot.servo.setPosition(0);
+
+        robot.servo.setPosition(0.25);
         sleep(1000);
+
         robot.servo.setPosition(shoot);
-        robot.servo.setPosition(0);
+        sleep(1000);
+
+        robot.servo.setPosition(0.25);
+        sleep(1000);
+
+        robot.servo.setPosition(shoot);
+        sleep(1000);
+
+        robot.servo.setPosition(0.25);
 
         //stop flywheel
         ((DcMotorEx) robot.flywheel).setVelocity(0);

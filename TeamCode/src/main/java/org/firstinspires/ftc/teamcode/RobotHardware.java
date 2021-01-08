@@ -97,7 +97,7 @@ public class RobotHardware
         intake1.setPower(0);
         
         //servos
-        servo.setPosition(0);
+        servo.setPosition(0.25);
         servo2.setPosition(0);
     }
 
