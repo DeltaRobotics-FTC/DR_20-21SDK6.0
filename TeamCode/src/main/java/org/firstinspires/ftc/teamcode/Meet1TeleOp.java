@@ -36,7 +36,7 @@ public class Meet1TeleOp extends LinearOpMode
     double closedPosition = -1;
     
     //intake
-    double speed = .75;
+    double Inspeed = .75;
 
     @Override
     public void runOpMode() throws InterruptedException
@@ -44,8 +44,8 @@ public class Meet1TeleOp extends LinearOpMode
         RobotHardware robot = new RobotHardware(hardwareMap);
         
         //wobble 
-        wobble.setTargetPosition(0)
-        wobble.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.wobble.setTargetPosition(0);
+        robot.wobble.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         waitForStart();
 
@@ -107,6 +107,10 @@ public class Meet1TeleOp extends LinearOpMode
             {
                 wheelSpeed = 1700;
             }
+            if(gamepad1.right_bumper)
+            {
+                wheelSpeed = 0;
+            }
 
             if (gamepad1.a)
             {
@@ -120,16 +124,16 @@ public class Meet1TeleOp extends LinearOpMode
             //wobble
             if(gamepad1.dpad_up)
             {
-                robot.wobble.setTargetPosition(upPosition)
-                robot.wobble.setMode(DcMotor.RunMode.RUN_TO_POSIOION)
+                robot.wobble.setTargetPosition(upPosition);
+                robot.wobble.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 
                 //upPosition
             }
 
             if(gamepad1.dpad_down)
             {
-                robot.wobble.setTargetPosition(grabPosition)
-                robot.wobble.setMode(DcMotor.RunMode.RUN_TO_POSIOION)
+                robot.wobble.setTargetPosition(grabPosition);
+                robot.wobble.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 
                 //grabPosition
             }
@@ -141,15 +145,15 @@ public class Meet1TeleOp extends LinearOpMode
 
             if(gamepad1.dpad_right)
             {
-                robot.servo2.setPosition(closedPosition)
+                robot.servo2.setPosition(closedPosition);
             }
             
             //drive wobble arm (if encoders are off)
             //robot.wobble.setPower(-gamepad1.leftTriger + gamepad1.rightTriger);
             
             //intake
-            robot.intake1.setPower(-gamepad1.leftTriger + gamepad1.rightTriger);
-            robot.intake2.setPower(-gamepad1.rightTriger + gamepad1.leftTriger);
+            robot.intake1.setPower(-gamepad1.left_trigger + gamepad1.right_trigger);
+            robot.intake2.setPower(-gamepad1.right_trigger + gamepad1.left_trigger);
             
             //telemetry
             

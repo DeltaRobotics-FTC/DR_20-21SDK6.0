@@ -11,7 +11,6 @@ import com.qualcomm.robotcore.hardware.Servo;
 public class Meet1Auto extends LinearOpMode {
 
     public MecanumDriveTrain drive;
-
     public BNO055IMU imu;
 
     int shootingSpot = 2029;
@@ -21,7 +20,6 @@ public class Meet1Auto extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-
         MecanumDriveTrain drive = new MecanumDriveTrain(this);
         
         RobotHardware robot = new RobotHardware(hardwareMap);
@@ -30,9 +28,10 @@ public class Meet1Auto extends LinearOpMode {
         telemetry.update();
         waitForStart();
 
-//drive to shooting location
+        //drive to shooting location
         drive.encoderDrive(shootingSpot,driveStyle.BACKWARD,.4);
 
+        sleep(100);
 
         //start flywheel
         ((DcMotorEx) robot.flywheel).setVelocity(flywheelSpeed);
@@ -41,13 +40,20 @@ public class Meet1Auto extends LinearOpMode {
             sleep(1);
         }
         //shoot rings
-            robot.servo.setPosition(shoot);
-            robot.servo.setPosition(0);
-            sleep(100);
-            robot.servo.setPosition(shoot);
-        robot.servo.setPosition(0);
-        sleep(100);
         robot.servo.setPosition(shoot);
+
+        robot.servo.setPosition(0);
+
+        sleep(100);
+
+        robot.servo.setPosition(shoot);
+
+        robot.servo.setPosition(0);
+
+        sleep(100);
+
+        robot.servo.setPosition(shoot);
+
         robot.servo.setPosition(0);
 
         //stop flywheel
