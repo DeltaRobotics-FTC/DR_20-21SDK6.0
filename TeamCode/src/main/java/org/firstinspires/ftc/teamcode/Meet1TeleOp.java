@@ -33,8 +33,8 @@ public class Meet1TeleOp extends LinearOpMode
     //wobble
     int upPosition = 454;
     int grabPosition = 227;
-    double openPosition = 1;
-    double closedPosition = -1;
+    double openPosition = 0;
+    double closedPosition = 0.6;
 
     //intake
     double speed762590432128 = .75;
@@ -117,19 +117,7 @@ public class Meet1TeleOp extends LinearOpMode
             }
 
             //wobble
-            if(gamepad1.dpad_up)
-            {
-                robot.wobble.setPower(0.4);
-            }
-
-            else if(gamepad1.dpad_down) {
-                robot.wobble.setPower(-0.4);
-            }
-
-            else
-            {
-                robot.wobble.setPower(0);
-            }
+            robot.wobble.setPower(gamepad1.left_trigger/2 + -gamepad1.right_trigger/3);
 
             if(gamepad1.dpad_left)
             {

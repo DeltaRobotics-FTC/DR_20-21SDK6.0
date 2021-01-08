@@ -98,7 +98,7 @@ public class RobotHardware
         
         //servos
         servo.setPosition(0.25);
-        servo2.setPosition(0);
+        servo2.setPosition(0.6);
     }
 
 }
