@@ -67,10 +67,15 @@ public class RobotHardware
         motorRB.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         motorLB.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         
-        motorRF.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        motorLF.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        motorRB.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        motorLB.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        motorRF.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        motorLF.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        motorRB.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        motorLB.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        
+        motorRF.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motorLF.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motorRB.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motorLB.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         
         motorLF.setDirection(DcMotorSimple.Direction.REVERSE);
         motorLB.setDirection(DcMotorSimple.Direction.REVERSE);
