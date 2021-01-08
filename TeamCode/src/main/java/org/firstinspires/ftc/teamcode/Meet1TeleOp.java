@@ -64,19 +64,19 @@ public class Meet1TeleOp extends LinearOpMode
             robot.motorLF.setPower(LFpower * speed);
 
             if (gamepad1.left_stick_button == true) {
+                turnSpeed = 0.5;
+            }
+
+            else {
                 turnSpeed = 1.0;
             }
 
-            else {
-                turnSpeed = .5;
-            }
-
             if (gamepad1.right_stick_button == true) {
-                driveSpeed = 1.0;
+                driveSpeed = 0.5;
             }
 
             else {
-                driveSpeed = .5;
+                driveSpeed = 1.0;
             }
 
             //flywheel
@@ -117,7 +117,25 @@ public class Meet1TeleOp extends LinearOpMode
             }
 
             //wobble
-            robot.wobble.setPower(gamepad1.left_trigger/2 + -gamepad1.right_trigger/3);
+            if (454 >= robot.wobble.getCurrentPosition && robot.wobble.getCurrentPosition >= 0)
+            {
+                robot.wobble.setPower(gamepad1.left_trigger/2 + -gamepad1.right_trigger/3);
+            }
+            
+            else if (454 <= robot.wobble.getCurrentPosition)
+            {
+                robot.wobble.setPower(-gamepad1.right_trigger/3);
+            }
+            
+            else if (0 >= robot.wobble.getCurrentPosition)
+            {
+                robot.wobble.setPower(gamepad1.left_trigger/2);
+            }
+            
+            else 
+            {
+                robot.wobble.setPower(0);
+            }
 
             if(gamepad1.dpad_left)
             {
