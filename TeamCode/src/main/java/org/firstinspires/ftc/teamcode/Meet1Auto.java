@@ -10,58 +10,97 @@ import com.qualcomm.robotcore.hardware.Servo;
 @Autonomous(name = "Meet1Auto")
 public class Meet1Auto extends LinearOpMode {
 
-    public MecanumDriveTrain drive;
-    public BNO055IMU imu;
-
-    int shootingSpot = 2029;
-    int park = 3607 - shootingSpot;
+    int shootingSpot = -2029;
+    int park = -3607;
     double flywheelSpeed = 1700;
-    double shoot = -.1;
+    double shoot = .1;
 
     @Override
     public void runOpMode() throws InterruptedException {
-        MecanumDriveTrain drive = new MecanumDriveTrain(this);
-        
+
         RobotHardware robot = new RobotHardware(hardwareMap);
 
+        robot.motorRB.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.motorRF.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.motorLB.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.motorLF.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
         telemetry.addData(">", "Press Play to start op mode");
+        //telemetry.addData("bla", robot.motorRB.getCurrentPosition();
+        //telemetry.addData(robot.motorRF.getCurrentPosition());
+        //telemetry.addData(robot.motorLF.getCurrentPosition());
+        //telemetry.addData(robot.motorLB.getCurrentPosition());
         telemetry.update();
         waitForStart();
 
         //drive to shooting location
-        drive.encoderDrive(shootingSpot,driveStyle.BACKWARD,.4);
+        robot.motorLB.setTargetPosition(shootingSpot);
+        robot.motorLF.setTargetPosition(shootingSpot);
+        robot.motorRB.setTargetPosition(shootingSpot);
+        robot.motorRF.setTargetPosition(shootingSpot);
 
-        sleep(100);
+
+        robot.motorLB.setPower(0.4);
+        robot.motorLF.setPower(0.4);
+        robot.motorRB.setPower(0.4);
+        robot.motorRF.setPower(0.4);
+
+        robot.motorLB.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.motorLF.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.motorRB.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.motorRF.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+
+
+        while (robot.motorLB.isBusy()) {}
+
+        sleep(1000);
+
+        robot.motorLB.setPower(0);
+        robot.motorLF.setPower(0);
+        robot.motorRB.setPower(0);
+        robot.motorRF.setPower(0);
 
         //start flywheel
         ((DcMotorEx) robot.flywheel).setVelocity(flywheelSpeed);
 
-        while (((DcMotorEx) robot.flywheel).getVelocity() != 1700) {
-            sleep(1);
-        }
+        while (((DcMotorEx) robot.flywheel).getVelocity() != 1700) {}
+
         //shoot rings
         robot.servo.setPosition(shoot);
-
         robot.servo.setPosition(0);
-
-        sleep(100);
-
+        sleep(1000);
         robot.servo.setPosition(shoot);
-
         robot.servo.setPosition(0);
-
-        sleep(100);
-
+        sleep(1000);
         robot.servo.setPosition(shoot);
-
         robot.servo.setPosition(0);
 
         //stop flywheel
         ((DcMotorEx) robot.flywheel).setVelocity(0);
 
         //drive to the line
-        drive.encoderDrive(park,driveStyle.BACKWARD,.4);
+        robot.motorLB.setTargetPosition(park);
+        robot.motorLF.setTargetPosition(park);
+        robot.motorRB.setTargetPosition(park);
+        robot.motorRF.setTargetPosition(park);
 
-        //drive.OrientationDrive(360,.7, imu);
+
+        robot.motorLB.setPower(0.4);
+        robot.motorLF.setPower(0.4);
+        robot.motorRB.setPower(0.4);
+        robot.motorRF.setPower(0.4);
+
+        robot.motorLB.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.motorLF.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.motorRB.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.motorRF.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        while (robot.motorLB.isBusy()) {}
+
+        robot.motorLB.setPower(0);
+        robot.motorLF.setPower(0);
+        robot.motorRB.setPower(0);
+        robot.motorRF.setPower(0);
     }
 }

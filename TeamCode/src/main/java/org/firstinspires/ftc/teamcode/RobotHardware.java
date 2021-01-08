@@ -72,11 +72,6 @@ public class RobotHardware
         motorRB.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         motorLB.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         
-        motorRF.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        motorLF.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        motorRB.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        motorLB.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        
         motorLF.setDirection(DcMotorSimple.Direction.REVERSE);
         motorLB.setDirection(DcMotorSimple.Direction.REVERSE);
 
@@ -92,7 +87,7 @@ public class RobotHardware
         intake2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
 
         flywheel.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        wobble.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        wobble.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         intake1.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         intake2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 

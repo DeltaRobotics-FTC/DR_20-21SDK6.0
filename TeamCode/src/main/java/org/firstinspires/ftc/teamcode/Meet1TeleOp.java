@@ -4,6 +4,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 //flywheel
@@ -34,18 +35,16 @@ public class Meet1TeleOp extends LinearOpMode
     int grabPosition = 227;
     double openPosition = 1;
     double closedPosition = -1;
-    
+
     //intake
-    double Inspeed = .75;
+    double speed762590432128 = .75;
 
     @Override
     public void runOpMode() throws InterruptedException
     {
         RobotHardware robot = new RobotHardware(hardwareMap);
-        
-        //wobble 
-        robot.wobble.setTargetPosition(0);
-        robot.wobble.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        //wobble
 
         waitForStart();
 
@@ -54,10 +53,10 @@ public class Meet1TeleOp extends LinearOpMode
             //drive
 
             //sets the power of the motors
-            double LFpower = ( ((-gamepad1.right_stick_y + gamepad1.right_stick_x) * driveSpeed) + (gamepad1.left_stick_x * zScale * turnSpeed));
-            double LBpower = ( ((-gamepad1.right_stick_y - gamepad1.right_stick_x) * driveSpeed) + (gamepad1.left_stick_x * zScale * turnSpeed));
-            double RFpower = ( ((-gamepad1.right_stick_y - gamepad1.right_stick_x) * driveSpeed) - (gamepad1.left_stick_x * zScale * turnSpeed));
-            double RBpower = ( ((-gamepad1.right_stick_y + gamepad1.right_stick_x) * driveSpeed) - (gamepad1.left_stick_x * zScale * turnSpeed));
+            double LFpower = ( ((-gamepad1.right_stick_y + gamepad1.right_stick_x) * driveSpeed) + (gamepad1.left_stick_x * zScale * turnSpeed) );
+            double LBpower = ( ((-gamepad1.right_stick_y - gamepad1.right_stick_x) * driveSpeed) + (gamepad1.left_stick_x * zScale * turnSpeed) );
+            double RFpower = ( ((-gamepad1.right_stick_y - gamepad1.right_stick_x) * driveSpeed) - (gamepad1.left_stick_x * zScale * turnSpeed) );
+            double RBpower = ( ((-gamepad1.right_stick_y + gamepad1.right_stick_x) * driveSpeed) - (gamepad1.left_stick_x * zScale * turnSpeed) );
 
             robot.motorRF.setPower(RFpower * speed);
             robot.motorRB.setPower(RBpower * speed);
@@ -107,10 +106,6 @@ public class Meet1TeleOp extends LinearOpMode
             {
                 wheelSpeed = 1700;
             }
-            if(gamepad1.right_bumper)
-            {
-                wheelSpeed = 0;
-            }
 
             if (gamepad1.a)
             {
@@ -124,18 +119,16 @@ public class Meet1TeleOp extends LinearOpMode
             //wobble
             if(gamepad1.dpad_up)
             {
-                robot.wobble.setTargetPosition(upPosition);
-                robot.wobble.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                
-                //upPosition
+                robot.wobble.setPower(0.4);
             }
 
-            if(gamepad1.dpad_down)
+            else if(gamepad1.dpad_down) {
+                robot.wobble.setPower(-0.4);
+            }
+
+            else
             {
-                robot.wobble.setTargetPosition(grabPosition);
-                robot.wobble.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                
-                //grabPosition
+                robot.wobble.setPower(0);
             }
 
             if(gamepad1.dpad_left)
@@ -147,30 +140,27 @@ public class Meet1TeleOp extends LinearOpMode
             {
                 robot.servo2.setPosition(closedPosition);
             }
-            
-            //drive wobble arm (if encoders are off)
-            //robot.wobble.setPower(-gamepad1.leftTriger + gamepad1.rightTriger);
-            
+
             //intake
-            robot.intake1.setPower(-gamepad1.left_trigger + gamepad1.right_trigger);
-            robot.intake2.setPower(-gamepad1.right_trigger + gamepad1.left_trigger);
-            
+            //robot.intake1.setPower(-gamepad1.leftTriger + gamepad1.rightTriger);
+            //robot.intake2.setPower(-gamepad1.rightTriger + gamepad1.leftTriger);
+
             //telemetry
-            
+
             //drive
             telemetry.addData("turnSpeed", turnSpeed);
             telemetry.addData("driveSpeed", driveSpeed);
-            
+
             //shooter
             telemetry.addData("servo Pos", robot.servo.getPosition());
             telemetry.addData("servoPosition Var", servoPosition);
             telemetry.addData("wheelSpeed", wheelSpeed);
             telemetry.addData("current wheelSpeed", ((DcMotorEx) robot.flywheel).getVelocity());
-            
+
             //wobble
             telemetry.addData("armPosition", robot.wobble.getCurrentPosition());
             telemetry.addData("servoPosition", robot.servo2.getPosition());
-            
+
             telemetry.update();
         }
     }
