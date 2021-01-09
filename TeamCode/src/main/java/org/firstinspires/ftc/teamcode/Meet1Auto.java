@@ -24,6 +24,7 @@ public class Meet1Auto extends LinearOpMode {
         robot.motorRF.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.motorLB.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.motorLF.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.wobble.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         telemetry.addData(">", "Press Play to start op mode");
         //telemetry.addData("bla", robot.motorRB.getCurrentPosition();

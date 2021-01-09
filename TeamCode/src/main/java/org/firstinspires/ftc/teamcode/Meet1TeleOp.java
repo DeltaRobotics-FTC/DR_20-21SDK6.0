@@ -45,6 +45,7 @@ public class Meet1TeleOp extends LinearOpMode
         RobotHardware robot = new RobotHardware(hardwareMap);
 
         //wobble
+        //robot.wobble.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         waitForStart();
 
@@ -117,17 +118,17 @@ public class Meet1TeleOp extends LinearOpMode
             }
 
             //wobble
-            if (454 >= robot.wobble.getCurrentPosition && robot.wobble.getCurrentPosition >= 0)
+            if (800 >= robot.wobble.getCurrentPosition() && robot.wobble.getCurrentPosition() >= 0)
             {
                 robot.wobble.setPower(gamepad1.left_trigger/2 + -gamepad1.right_trigger/3);
             }
             
-            else if (454 <= robot.wobble.getCurrentPosition)
+            else if (800 <= robot.wobble.getCurrentPosition())
             {
                 robot.wobble.setPower(-gamepad1.right_trigger/3);
             }
             
-            else if (0 >= robot.wobble.getCurrentPosition)
+            else if (0 >= robot.wobble.getCurrentPosition())
             {
                 robot.wobble.setPower(gamepad1.left_trigger/2);
             }
