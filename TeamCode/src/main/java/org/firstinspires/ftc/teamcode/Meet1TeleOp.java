@@ -4,7 +4,6 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 //flywheel
@@ -33,19 +32,20 @@ public class Meet1TeleOp extends LinearOpMode
     //wobble
     int upPosition = 454;
     int grabPosition = 227;
-    double openPosition = 0;
-    double closedPosition = 0.6;
-
+    double openPosition = 1;
+    double closedPosition = -1;
+    
     //intake
-    double speed762590432128 = .75;
+    double Inspeed = .75;
 
     @Override
     public void runOpMode() throws InterruptedException
     {
         RobotHardware robot = new RobotHardware(hardwareMap);
-
-        //wobble
-        //robot.wobble.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        
+        //wobble 
+        robot.wobble.setTargetPosition(0);
+        robot.wobble.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         waitForStart();
 
@@ -54,10 +54,10 @@ public class Meet1TeleOp extends LinearOpMode
             //drive
 
             //sets the power of the motors
-            double LFpower = ( ((-gamepad1.right_stick_y + gamepad1.right_stick_x) * driveSpeed) + (gamepad1.left_stick_x * zScale * turnSpeed) );
-            double LBpower = ( ((-gamepad1.right_stick_y - gamepad1.right_stick_x) * driveSpeed) + (gamepad1.left_stick_x * zScale * turnSpeed) );
-            double RFpower = ( ((-gamepad1.right_stick_y - gamepad1.right_stick_x) * driveSpeed) - (gamepad1.left_stick_x * zScale * turnSpeed) );
-            double RBpower = ( ((-gamepad1.right_stick_y + gamepad1.right_stick_x) * driveSpeed) - (gamepad1.left_stick_x * zScale * turnSpeed) );
+            double LFpower = ( ((-gamepad1.right_stick_y + gamepad1.right_stick_x) * driveSpeed) + (gamepad1.left_stick_x * zScale * turnSpeed));
+            double LBpower = ( ((-gamepad1.right_stick_y - gamepad1.right_stick_x) * driveSpeed) + (gamepad1.left_stick_x * zScale * turnSpeed));
+            double RFpower = ( ((-gamepad1.right_stick_y - gamepad1.right_stick_x) * driveSpeed) - (gamepad1.left_stick_x * zScale * turnSpeed));
+            double RBpower = ( ((-gamepad1.right_stick_y + gamepad1.right_stick_x) * driveSpeed) - (gamepad1.left_stick_x * zScale * turnSpeed));
 
             robot.motorRF.setPower(RFpower * speed);
             robot.motorRB.setPower(RBpower * speed);
@@ -65,19 +65,19 @@ public class Meet1TeleOp extends LinearOpMode
             robot.motorLF.setPower(LFpower * speed);
 
             if (gamepad1.left_stick_button == true) {
-                turnSpeed = 0.5;
-            }
-
-            else {
                 turnSpeed = 1.0;
             }
 
+            else {
+                turnSpeed = .5;
+            }
+
             if (gamepad1.right_stick_button == true) {
-                driveSpeed = 0.5;
+                driveSpeed = 1.0;
             }
 
             else {
-                driveSpeed = 1.0;
+                driveSpeed = .5;
             }
 
             //flywheel
@@ -107,6 +107,10 @@ public class Meet1TeleOp extends LinearOpMode
             {
                 wheelSpeed = 1700;
             }
+            if(gamepad1.right_bumper)
+            {
+                wheelSpeed = 0;
+            }
 
             if (gamepad1.a)
             {
@@ -118,24 +122,20 @@ public class Meet1TeleOp extends LinearOpMode
             }
 
             //wobble
-            if (800 >= robot.wobble.getCurrentPosition() && robot.wobble.getCurrentPosition() >= 0)
+            if(gamepad1.dpad_up)
             {
-                robot.wobble.setPower(gamepad1.left_trigger/2 + -gamepad1.right_trigger/3);
+                robot.wobble.setTargetPosition(upPosition);
+                robot.wobble.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                
+                //upPosition
             }
-            
-            else if (800 <= robot.wobble.getCurrentPosition())
+
+            if(gamepad1.dpad_down)
             {
-                robot.wobble.setPower(-gamepad1.right_trigger/3);
-            }
-            
-            else if (0 >= robot.wobble.getCurrentPosition())
-            {
-                robot.wobble.setPower(gamepad1.left_trigger/2);
-            }
-            
-            else 
-            {
-                robot.wobble.setPower(0);
+                robot.wobble.setTargetPosition(grabPosition);
+                robot.wobble.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                
+                //grabPosition
             }
 
             if(gamepad1.dpad_left)
@@ -147,27 +147,30 @@ public class Meet1TeleOp extends LinearOpMode
             {
                 robot.servo2.setPosition(closedPosition);
             }
-
+            
+            //drive wobble arm (if encoders are off)
+            //robot.wobble.setPower(-gamepad1.leftTriger + gamepad1.rightTriger);
+            
             //intake
-            //robot.intake1.setPower(-gamepad1.leftTriger + gamepad1.rightTriger);
-            //robot.intake2.setPower(-gamepad1.rightTriger + gamepad1.leftTriger);
-
+            robot.intake1.setPower(-gamepad1.left_trigger + gamepad1.right_trigger);
+            robot.intake2.setPower(-gamepad1.right_trigger + gamepad1.left_trigger);
+            
             //telemetry
-
+            
             //drive
             telemetry.addData("turnSpeed", turnSpeed);
             telemetry.addData("driveSpeed", driveSpeed);
-
+            
             //shooter
             telemetry.addData("servo Pos", robot.servo.getPosition());
             telemetry.addData("servoPosition Var", servoPosition);
             telemetry.addData("wheelSpeed", wheelSpeed);
             telemetry.addData("current wheelSpeed", ((DcMotorEx) robot.flywheel).getVelocity());
-
+            
             //wobble
             telemetry.addData("armPosition", robot.wobble.getCurrentPosition());
             telemetry.addData("servoPosition", robot.servo2.getPosition());
-
+            
             telemetry.update();
         }
     }
