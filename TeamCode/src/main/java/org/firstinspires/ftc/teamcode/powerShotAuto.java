@@ -12,8 +12,9 @@ public class powerShotAuto extends LinearOpMode {
 
     int shootingSpot = -2900;
     int park = -3607;
-    double flywheelSpeed = 1500;
+    double flywheelSpeed = 1600;
     double shoot = -.1;
+    double looper = 0;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -65,11 +66,10 @@ public class powerShotAuto extends LinearOpMode {
         sleep(1000);
 
         //strafe to power shot position
-        robot.motorLB.setTargetPosition(-2400);
-        robot.motorLF.setTargetPosition(-400);
-        robot.motorRB.setTargetPosition(-3400);
-        robot.motorRF.setTargetPosition(-2400);
-
+        robot.motorLB.setTargetPosition(-2000);
+        robot.motorLF.setTargetPosition(-3800);
+        robot.motorRB.setTargetPosition(-3800);
+        robot.motorRF.setTargetPosition(-2000);
 
         robot.motorLB.setPower(0.9);
         robot.motorLF.setPower(0.9);
@@ -90,10 +90,20 @@ public class powerShotAuto extends LinearOpMode {
         robot.motorRB.setPower(0);
         robot.motorRF.setPower(0);
 
+        while (looper >= 500)
+        {
+            telemetry.addData("LB target", "-2000");
+            telemetry.addData("LF target", "-3800");
+            telemetry.addData("LB pos", robot.motorLB.getCurrentPosition());
+            telemetry.addData("LF pos", robot.motorLF.getCurrentPosition());
+            telemetry.update();
+            looper++;
+        }
+
         //start flywheel
         ((DcMotorEx) robot.flywheel).setVelocity(flywheelSpeed);
 
-        while (((DcMotorEx) robot.flywheel).getVelocity() != 1500) {
+        while (((DcMotorEx) robot.flywheel).getVelocity() != 1600) {
             telemetry.addData("flywheel speed", ((DcMotorEx) robot.flywheel).getVelocity());
             telemetry.update();
         }
@@ -107,11 +117,73 @@ public class powerShotAuto extends LinearOpMode {
         robot.servo.setPosition(0.25);
         sleep(1000);
 
+        robot.motorLB.setTargetPosition(-1900);
+        robot.motorLF.setTargetPosition(-3300);
+
+        robot.motorLB.setPower(0.9);
+        robot.motorLF.setPower(0.9);
+        robot.motorRB.setPower(0.9);
+        robot.motorRF.setPower(0.9);
+
+        robot.motorLB.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.motorLF.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.motorRB.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.motorRF.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        while (robot.motorLB.isBusy()) {}
+
+        robot.motorLB.setPower(0);
+        robot.motorLF.setPower(0);
+        robot.motorRB.setPower(0);
+        robot.motorRF.setPower(0);
+
+        looper = 0;
+        while (looper >= 500)
+        {
+            telemetry.addData("LB target", "-1900");
+            telemetry.addData("LF target", "-3300");
+            telemetry.addData("LB pos", robot.motorLB.getCurrentPosition());
+            telemetry.addData("LF pos", robot.motorLF.getCurrentPosition());
+            telemetry.update();
+            looper++;
+        }
+
         robot.servo.setPosition(shoot);
         sleep(2000);
 
         robot.servo.setPosition(0.25);
         sleep(1000);
+
+        robot.motorLB.setTargetPosition(-1800);
+        robot.motorLF.setTargetPosition(-3200);
+
+        robot.motorLB.setPower(0.9);
+        robot.motorLF.setPower(0.9);
+        robot.motorRB.setPower(0.9);
+        robot.motorRF.setPower(0.9);
+
+        robot.motorLB.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.motorLF.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.motorRB.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.motorRF.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        while (robot.motorLB.isBusy()) {}
+
+        robot.motorLB.setPower(0);
+        robot.motorLF.setPower(0);
+        robot.motorRB.setPower(0);
+        robot.motorRF.setPower(0);
+
+        looper = 0;
+        while (looper >= 500)
+        {
+            telemetry.addData("LB target", "-1800");
+            telemetry.addData("LF target", "-3200");
+            telemetry.addData("LB pos", robot.motorLB.getCurrentPosition());
+            telemetry.addData("LF pos", robot.motorLF.getCurrentPosition());
+            telemetry.update();
+            looper++;
+        }
 
         robot.servo.setPosition(shoot);
         sleep(2000);
