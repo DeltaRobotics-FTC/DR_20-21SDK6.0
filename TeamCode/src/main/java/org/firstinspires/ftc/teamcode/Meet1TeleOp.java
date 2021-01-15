@@ -121,23 +121,6 @@ public class Meet1TeleOp extends LinearOpMode
                 servoPosition = -0.1;
             }
 
-            //wobble
-            if(gamepad1.dpad_up)
-            {
-                robot.wobble.setTargetPosition(upPosition);
-                robot.wobble.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                
-                //upPosition
-            }
-
-            if(gamepad1.dpad_down)
-            {
-                robot.wobble.setTargetPosition(grabPosition);
-                robot.wobble.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                
-                //grabPosition
-            }
-
             if(gamepad1.dpad_left)
             {
                 robot.servo2.setPosition(openPosition);
@@ -149,11 +132,11 @@ public class Meet1TeleOp extends LinearOpMode
             }
             
             //drive wobble arm (if encoders are off)
-            //robot.wobble.setPower(-gamepad1.leftTriger + gamepad1.rightTriger);
+            robot.wobble.setPower(-gamepad1.left_trigger + gamepad1.right_trigger);
             
             //intake
-            robot.intake1.setPower(-gamepad1.left_trigger + gamepad1.right_trigger);
-            robot.intake2.setPower(-gamepad1.right_trigger + gamepad1.left_trigger);
+            //robot.intake1.setPower(-gamepad1.left_trigger + gamepad1.right_trigger);
+            //robot.intake2.setPower(-gamepad1.right_trigger + gamepad1.left_trigger);
             
             //telemetry
             

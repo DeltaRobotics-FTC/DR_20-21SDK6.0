@@ -7,11 +7,11 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.Servo;
 
-@Autonomous(name = "powerShotAuto")
-public class powerShotAuto extends LinearOpMode {
+@Autonomous(name = "strafeTuning")
+public class strafeTuning extends LinearOpMode {
 
-  int shootingSpot = 4000;
-  double strafeSpeedMultiplier = 1.1;
+  int shootingSpot = 2000;
+  double strafeSpeedMultiplier = .95;
   double strafeDistanceMultiplier = 1;
 
     @Override
