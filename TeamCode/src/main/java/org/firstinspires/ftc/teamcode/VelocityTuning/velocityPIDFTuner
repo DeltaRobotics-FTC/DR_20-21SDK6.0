@@ -1,0 +1,50 @@
+package org.firstinspires.ftc.teamcode.MaxVelocity;
+
+
+@config
+@TeleOp
+public class velocityPIDFTuner extends LinearOpMode {
+    DcMotorEx motor;
+    
+    //do not put equasions in for PIDF variables, enter the answers to the math. 
+    //the numbers from the equasions are starting points
+    double F = // = 32767 / maxV      (do not edit from this number)
+    double P = // = 0.1 * F           (raise till real's apex touches Var apex)
+    double I = // = 0.1 * P           (fine ajustment of P)
+    double D = // = 0                 (raise to reduce ocolation)
+    
+    double wheelSpeed = 1700
+ 
+    @Override
+    public void runOpMode() throws InterruptedException {
+        FtcDashboard dashboard = FtcDashboard.getInstance();
+        telemetry = dashboard.getTelemetry();
+        
+        motor = hardwareMap.get(DcMotorEx.class, "flywheel");
+        motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        
+        ElapsedTime timer = new ElapsedTime();
+        
+        waitForStart();
+ 
+        while (opModeIsActive()) {
+            
+            motor.setVelocityPIDFCoefficients( P , I , D , F);
+            
+            timer.reset();
+            
+            ((DcMotorEx) motor).setVelocity(wheelSpeed);
+            
+            while (timer.seconds() < 5) {
+                telemetry.addData("wheelSpeedVar", wheelSpeed);
+                telemetry.addData("wheelSpeedReal", ((DcMotorEx) motor).getVelocity());
+                telemetry.update();
+            }
+            
+            ((DcMotorEx) motor).setVelocity(0);
+            
+            sleep (5000);
+        }
+    }
+}
