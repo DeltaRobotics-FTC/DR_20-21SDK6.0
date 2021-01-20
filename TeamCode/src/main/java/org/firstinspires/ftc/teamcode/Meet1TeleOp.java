@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 //drive
+import com.acmerobotics.dashboard.FtcDashboard;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -10,14 +11,31 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 //flywheel
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 
 //wobble
 
 //intake
 
+
+
+import com.acmerobotics.dashboard.FtcDashboard;
+import com.acmerobotics.dashboard.config.Config;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.util.ElapsedTime;
+
+
 @TeleOp(name="Meet1TeleOp" ,group = "")
 public class Meet1TeleOp extends LinearOpMode
 {
+
+    public static double F = 13.32;
+    public static double P = 20;
+    public static double I = 0;
+    public static double D = 1;
 
     //drive
     double speed = 1.0;
@@ -42,6 +60,9 @@ public class Meet1TeleOp extends LinearOpMode
     @Override
     public void runOpMode() throws InterruptedException
     {
+        FtcDashboard dashboard = FtcDashboard.getInstance();
+        telemetry = dashboard.getTelemetry();
+
         RobotHardware robot = new RobotHardware(hardwareMap);
 
         //wobble

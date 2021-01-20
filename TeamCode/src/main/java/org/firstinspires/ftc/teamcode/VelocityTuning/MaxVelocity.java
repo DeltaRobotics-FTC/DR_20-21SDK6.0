@@ -1,23 +1,29 @@
-package org.firstinspires.ftc.teamcode.MaxVelocity;
- 
-@TeleOp
-public class MaxVelocityTest extends LinearOpMode {
-    DcMotorEx motor;
+package org.firstinspires.ftc.teamcode.VelocityTuning;
+
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
+
+@TeleOp(name = "MaxVelocity")
+public class MaxVelocity extends LinearOpMode
+{
+    DcMotorEx flywheel;
     double currentVelocity;
     double maxVelocity = 0.000;
  
     @Override
     public void runOpMode() {
-        motor = hardwareMap.get(DcMotorEx.class, "flywheel");
-        motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
-        motor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        flywheel = hardwareMap.get(DcMotorEx.class, "flywheel");
+        flywheel.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        flywheel.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         
         waitForStart();
-        
-        motorRF.setPower(1);
+
+        flywheel.setPower(1);
  
         while (opModeIsActive()) {
-            currentVelocity = motor.getVelocity();
+            currentVelocity = flywheel.getVelocity();
             
             if (currentVelocity > maxVelocity) {
                 maxVelocity = currentVelocity;

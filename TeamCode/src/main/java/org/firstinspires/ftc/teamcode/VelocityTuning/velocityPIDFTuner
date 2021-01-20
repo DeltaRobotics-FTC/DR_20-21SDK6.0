@@ -13,7 +13,7 @@ public class velocityPIDFTuner extends LinearOpMode {
     double I = // = 0.1 * P           (fine ajustment of P)
     double D = // = 0                 (raise to reduce ocolation)
     
-    double wheelSpeed = 1700
+    double wheelSpeed = 1700kop
  
     @Override
     public void runOpMode() throws InterruptedException {
