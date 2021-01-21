@@ -9,7 +9,7 @@ public class Meet3Auto extends LinearOpMode {
 
 //declare variables
 
-//Viewforia / TFOD
+//Viewforia / TFOD variables
 private static final String TFOD_MODEL_ASSET = "UltimateGoal.tflite";
 private static final String LABEL_FIRST_ELEMENT = "Quad";
 private static final String LABEL_SECOND_ELEMENT = "Single";
@@ -23,7 +23,37 @@ private TFObjectDetector tfod;
 public String view = "";
 
 
-//motors and servos
+            
+//wobble goal variables
+public static int wobbleUp = -425;
+public static int wobbleDown = -925;
+public static int wobbleAway = 0;
+    
+public static double wobbleArmPower = 0.7;
+    
+public static double wobbleOpen = 1;
+public static double wobbleClosed = 0;
+    
+public static double wobbleServoWait = 250;
+
+
+
+//shooter
+public static double flywheelHighSpeed = 1700;
+public static double flywheelPowerSpeed = 1550;
+
+public static double servoShoot = -.1;
+public static double servoRetract = .25;
+    
+public static double shotTiming = 250;
+    
+    
+    
+//RR pose 
+//Pose2d _ = new Pose2d(_, _, Math.toRadians(_));
+//Vector2d _ = new Vector2d(_, _);
+public static Pose2d startPose = new Pose2d(-63, 57, Math.toRadians(180));
+
 
 
     @Override
@@ -77,13 +107,13 @@ public String view = "";
         
         //other init stuff
         robot.wobble.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.wobble.setTargetPosition(0);
-        robot.wobble.setPower(0.7);
+        robot.wobble.setTargetPosition(wobbleAway);
+        robot.wobble.setPower(wobbleArmPower);
         robot.wobble.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         
-        robot.servo2.setPosition(0);
+        robot.servo2.setPosition(wobbleClosed);
         
-        robot.servo.setPosition(0.25);
+        robot.servo.setPosition(servoRetract);
         
         telemetry.addData("classes inited", "");
         telemetry.addData("cammera inited", "");
@@ -95,7 +125,6 @@ public String view = "";
         //with roadrunner you basicly build auto in init then run the built auto
         
         //set start position
-        Pose2d startPose = new Pose2d(-63, 57, Math.toRadians(180));
         drive.setPoseEstimate(startPose);
         
         
@@ -371,68 +400,68 @@ public String view = "";
         
         drive.followTrajectory(Wobble1DeliveryA);
         
-        robot.wobble.setTargetPosition(-925);
-        robot.wobble.setPower(0.7);
+        robot.wobble.setTargetPosition(wobbleDown);
+        robot.wobble.setPower(wobbleArmPower);
         robot.wobble.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         
         while (robot.wobble.isBusy()) {}
         
-        robot.servo2.setPosition(1);
+        robot.servo2.setPosition(wobbleOpen);
         
-        sleep(100);
+        sleep(wobbleServoWait);
         
-        robot.wobble.setTargetPosition(-425);
-        robot.wobble.setPower(0.7);
+        robot.wobble.setTargetPosition(wobbleUp);
+        robot.wobble.setPower(wobbleArmPower);
         robot.wobble.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         
-        ((DcMotorEx) robot.flywheel).setVelocity(flywheelSpeed);
+        ((DcMotorEx) robot.flywheel).setVelocity(flywheelPowerSpeed);
         
         drive.followTrajectory(PowerShot1A);
         
-        robot.servo.setPosition(-.1);
-        sleep(250);
-        robot.servo.setPosition(0.25);
+        robot.servo.setPosition(servoShoot);
+        sleep(shotTiming);
+        robot.servo.setPosition(servoRetract);
         
         drive.followTrajectory(PowerShot2A);
         
-        robot.servo.setPosition(-.1);
-        sleep(250);
-        robot.servo.setPosition(0.25);
+        robot.servo.setPosition(servoShoot);
+        sleep(shotTiming);
+        robot.servo.setPosition(servoRetract);
         
         drive.followTrajectory(PowerShot3A);
         
-        robot.servo.setPosition(-.1);
-        sleep(250);
-        robot.servo.setPosition(0.25);
+        robot.servo.setPosition(servoShoot);
+        sleep(shotTiming);
+        robot.servo.setPosition(servoRetract);
         
         ((DcMotorEx) robot.flywheel).setVelocity(0);
         
-        robot.wobble.setTargetPosition(-925);
-        robot.wobble.setPower(0.7);
+        robot.wobble.setTargetPosition(wobbleDown);
+        robot.wobble.setPower(wobbleArmPower);
         robot.wobble.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         
         drive.followTrajectory(Wobble2GrabA);
         
-        robot.servo2.setPosition(0);
+        robot.servo2.setPosition(wobbleClosed);
         
-        sleep(100);
+        sleep(wobbleServoWait);
         
-        robot.wobble.setTargetPosition(-425);
-        robot.wobble.setPower(0.7);
+        robot.wobble.setTargetPosition(wobbleUp);
+        robot.wobble.setPower(wobbleArmPower);
         robot.wobble.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         
         drive.followTrajectory(Wobble2DeliveryA);
         
-        robot.wobble.setTargetPosition(-925);
-        robot.wobble.setPower(0.7);
+        robot.wobble.setTargetPosition(wobbleDown);
+        robot.wobble.setPower(wobbleArmPower);
         robot.wobble.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         
-        robot.servo2.setPosition(0);
+        robot.servo2.setPosition(wobbleOpen);
         
-        sleep(100);
+        sleep(wobbleServoWait);
         
-        robot.wobble.setTargetPosition(0);
-        robot.wobble.setPower(0.7);
+        robot.wobble.setTargetPosition(wobbleAway);
+        robot.wobble.setPower(wobbleArmPower);
         robot.wobble.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         
         drive.followTrajectory(ParkA);
@@ -456,68 +485,68 @@ public String view = "";
         //B
         drive.followTrajectory(Wobble1DeliveryB);
         
-        robot.wobble.setTargetPosition(-925);
-        robot.wobble.setPower(0.7);
+        robot.wobble.setTargetPosition(wobbleDown);
+        robot.wobble.setPower(wobbleArmPower);
         robot.wobble.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         
         while (robot.wobble.isBusy()) {}
         
-        robot.servo2.setPosition(1);
+        robot.servo2.setPosition(wobbleOpen);
         
-        sleep(100);
+        sleep(wobbleServoWait);
         
-        robot.wobble.setTargetPosition(-425);
-        robot.wobble.setPower(0.7);
+        robot.wobble.setTargetPosition(wobbleUp);
+        robot.wobble.setPower(wobbleArmPower);
         robot.wobble.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         
-        ((DcMotorEx) robot.flywheel).setVelocity(1700);
+        ((DcMotorEx) robot.flywheel).setVelocity(flywheelPowerSpeed);
         
         drive.followTrajectory(PowerShot1B);
         
-        robot.servo.setPosition(-.1);
-        sleep(250);
-        robot.servo.setPosition(0.25);
+        robot.servo.setPosition(servoShoot);
+        sleep(shotTiming);
+        robot.servo.setPosition(servoRetract);
         
         drive.followTrajectory(PowerShot2B);
         
-        robot.servo.setPosition(-.1);
-        sleep(250);
-        robot.servo.setPosition(0.25);
+        robot.servo.setPosition(servoShoot);
+        sleep(shotTiming);
+        robot.servo.setPosition(servoRetract);
         
         drive.followTrajectory(PowerShot3B);
         
-        robot.servo.setPosition(-.1);
-        sleep(250);
-        robot.servo.setPosition(0.25);
+        robot.servo.setPosition(servoShoot);
+        sleep(shotTiming);
+        robot.servo.setPosition(servoRetract);
         
         ((DcMotorEx) robot.flywheel).setVelocity(0);
         
-        robot.wobble.setTargetPosition(-925);
-        robot.wobble.setPower(0.7);
+        robot.wobble.setTargetPosition(wobbleDown);
+        robot.wobble.setPower(wobbleArmPower);
         robot.wobble.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         
         drive.followTrajectory(Wobble2GrabB);
         
-        robot.servo2.setPosition(0);
+        robot.servo2.setPosition(wobbleClosed);
         
-        sleep(100);
+        sleep(wobbleServoWait);
         
-        robot.wobble.setTargetPosition(-425);
-        robot.wobble.setPower(0.7);
+        robot.wobble.setTargetPosition(wobbleUp);
+        robot.wobble.setPower(wobbleArmPower);
         robot.wobble.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         
         drive.followTrajectory(Wobble2DeliveryB);
         
-        robot.wobble.setTargetPosition(-925);
-        robot.wobble.setPower(0.7);
+        robot.wobble.setTargetPosition(wobbleDown);
+        robot.wobble.setPower(wobbleArmPower);
         robot.wobble.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         
-        robot.servo2.setPosition(0);
+        robot.servo2.setPosition(wobbleOpen);
         
-        sleep(100);
+        sleep(wobbleServoWait);
         
-        robot.wobble.setTargetPosition(0);
-        robot.wobble.setPower(0.7);
+        robot.wobble.setTargetPosition(wobbleAway);
+        robot.wobble.setPower(wobbleArmPower);
         robot.wobble.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         
         drive.followTrajectory(StarterStack1B);
@@ -528,17 +557,17 @@ public String view = "";
         
         // turn off intake
         
-        ((DcMotorEx) robot.flywheel).setVelocity(1700);
+        ((DcMotorEx) robot.flywheel).setVelocity(flywheelHighSpeed);
         
         drive.followTrajectory(ShootSpotB);
         
-        robot.servo.setPosition(-.1);
-        sleep(250);
-        robot.servo.setPosition(0.25);
-        sleep(250);
-        robot.servo.setPosition(-.1);
-        sleep(250);
-        robot.servo.setPosition(0.25);
+        robot.servo.setPosition(servoShoot);
+        sleep(shotTiming);
+        robot.servo.setPosition(servoRetract);
+        sleep(shotTiming);
+        robot.servo.setPosition(servoShoot);
+        sleep(shotTiming);
+        robot.servo.setPosition(servoRetract);
         
         ((DcMotorEx) robot.flywheel).setVelocity(0);
         
@@ -557,68 +586,68 @@ public String view = "";
         // C
         drive.followTrajectory(Wobble1DeliveryC);
         
-        robot.wobble.setTargetPosition(-925);
-        robot.wobble.setPower(0.7);
+        robot.wobble.setTargetPosition(wobbleDown);
+        robot.wobble.setPower(wobbleArmPower);
         robot.wobble.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         
         while (robot.wobble.isBusy()) {}
         
-        robot.servo2.setPosition(1);
+        robot.servo2.setPosition(wobbleOpen);
         
-        sleep(100);
+        sleep(wobbleServoWait);
         
-        robot.wobble.setTargetPosition(-425);
-        robot.wobble.setPower(0.7);
+        robot.wobble.setTargetPosition(wobbleUp);
+        robot.wobble.setPower(wobbleArmPower);
         robot.wobble.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         
-        ((DcMotorEx) robot.flywheel).setVelocity(1700);
+        ((DcMotorEx) robot.flywheel).setVelocity(flywheelPowerSpeed);
         
         drive.followTrajectory(PowerShot1C);
         
-        robot.servo.setPosition(-.1);
-        sleep(250);
-        robot.servo.setPosition(0.25);
+        robot.servo.setPosition(servoShoot);
+        sleep(shotTiming);
+        robot.servo.setPosition(servoRetract);
         
         drive.followTrajectory(PowerShot2C);
         
-        robot.servo.setPosition(-.1);
-        sleep(250);
-        robot.servo.setPosition(0.25);
+        robot.servo.setPosition(servoShoot);
+        sleep(shotTiming);
+        robot.servo.setPosition(servoRetract);
         
         drive.followTrajectory(PowerShot3C);
         
-        robot.servo.setPosition(-.1);
-        sleep(250);
-        robot.servo.setPosition(0.25);
+        robot.servo.setPosition(servoShoot);
+        sleep(shotTiming);
+        robot.servo.setPosition(servoRetract);
         
         ((DcMotorEx) robot.flywheel).setVelocity(0);
         
-        robot.wobble.setTargetPosition(-925);
-        robot.wobble.setPower(0.7);
+        robot.wobble.setTargetPosition(wobbleDown);
+        robot.wobble.setPower(wobbleArmPower);
         robot.wobble.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         
         drive.followTrajectory(Wobble2GrabC);
         
-        robot.servo2.setPosition(0);
+        robot.servo2.setPosition(wobbleClosed);
         
-        sleep(100);
+        sleep(wobbleServoWait);
         
-        robot.wobble.setTargetPosition(-425);
-        robot.wobble.setPower(0.7);
+        robot.wobble.setTargetPosition(wobbleUp);
+        robot.wobble.setPower(wobbleArmPower);
         robot.wobble.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         
         drive.followTrajectory(Wobble2DeliveryC);
         
-        robot.wobble.setTargetPosition(-925);
-        robot.wobble.setPower(0.7);
+        robot.wobble.setTargetPosition(wobbleDown);
+        robot.wobble.setPower(wobbleArmPower);
         robot.wobble.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         
-        robot.servo2.setPosition(0);
+        robot.servo2.setPosition(wobbleOpen);
         
-        sleep(100);
+        sleep(wobbleServoWait);
         
-        robot.wobble.setTargetPosition(0);
-        robot.wobble.setPower(0.7);
+        robot.wobble.setTargetPosition(wobbleAway);
+        robot.wobble.setPower(wobbleArmPower);
         robot.wobble.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         
         drive.followTrajectory(StarterStack1C);
@@ -629,17 +658,21 @@ public String view = "";
         
         // turn off intake
         
-        ((DcMotorEx) robot.flywheel).setVelocity(1700);
+        ((DcMotorEx) robot.flywheel).setVelocity(flywheelHighSpeed);
         
         drive.followTrajectory(ShootSpotC);
         
-        robot.servo.setPosition(-.1);
-        sleep(250);
-        robot.servo.setPosition(0.25);
-        sleep(250);
-        robot.servo.setPosition(-.1);
-        sleep(250);
-        robot.servo.setPosition(0.25);
+        robot.servo.setPosition(servoShoot);
+        sleep(shotTiming);
+        robot.servo.setPosition(servoRetract);
+        sleep(shotTiming);
+        robot.servo.setPosition(servoShoot);
+        sleep(shotTiming);
+        robot.servo.setPosition(servoRetract);
+        sleep(shotTiming);
+        robot.servo.setPosition(servoShoot);
+        sleep(shotTiming);
+        robot.servo.setPosition(servoRetract);
         
         drive.followTrajectory(StarterStack2C);
         
@@ -651,13 +684,13 @@ public String view = "";
         
         drive.followTrajectory(ShootSpotC);
         
-        robot.servo.setPosition(-.1);
-        sleep(250);
-        robot.servo.setPosition(0.25);
-        sleep(250);
-        robot.servo.setPosition(-.1);
-        sleep(250);
-        robot.servo.setPosition(0.25);
+        robot.servo.setPosition(servoShoot);
+        sleep(shotTiming);
+        robot.servo.setPosition(servoRetract);
+        sleep(shotTiming);
+        robot.servo.setPosition(servoShoot);
+        sleep(shotTiming);
+        robot.servo.setPosition(servoRetract);
         
         ((DcMotorEx) robot.flywheel).setVelocity(0);
         
@@ -665,3 +698,25 @@ public String view = "";
         
     }
 }
+
+
+// auto list
+
+//~take pic: ~tensor flow, ~no variables
+
+//drive to floor goal: ~roadrunner, goal pose variable
+
+//drop wobble1: ~wobble arm, ~servo, ~up and down variables, ~open closed variables, ~time for servo variable
+
+//shoot power shots: ~roadrunner, first shot pose variable, strafe distance variable, PIDF (HWmap?) and ~flywheel variables, ~shoot and retract servo variables, ~how long between shots variable
+
+//grab wobble2: ~roadrunner, final pose variable, ~up and down variables, ~open closed variables, ~time for servo variable
+
+//deliver wobble2: ~roadrunner, wobble1 offset variable
+
+//shoot starter stack: ~roadrunner, pose varables plural, intake speed variable, drive speed variable, PIDF and ~flywheel variables, ~shoot and retract servo variables, ~how long between shots
+
+//park: ~roadrunner, pose variable
+
+//list remaining : RRPose variables, intake variables and intake
+
