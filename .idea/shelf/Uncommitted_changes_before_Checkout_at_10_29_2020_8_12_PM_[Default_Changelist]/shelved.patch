@@ -1,0 +1,33 @@
+Index: TeamCode/src/main/java/org/firstinspires/ftc/teamcode/velocityTest.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package org.firstinspires.ftc.teamcode;\n\nimport com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;\nimport com.qualcomm.robotcore.eventloop.opmode.TeleOp;\nimport com.qualcomm.robotcore.hardware.DcMotor;\nimport com.qualcomm.robotcore.hardware.DcMotorEx;\n\nimport org.firstinspires.ftc.robotcore.external.navigation.Velocity;\n\n@TeleOp(name = \"velocityTest\", group = \"\")\npublic class velocityTest extends LinearOpMode\n{\n    @Override\n    public void runOpMode()\n    {\n        double waitTime = 1000;\n        double speed = 1500;\n        RobotHardware robot = new RobotHardware(hardwareMap);\n        robot.motorRF.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);\n        waitForStart();\n\n        while(opModeIsActive())\n        {\n            ((DcMotorEx) robot.motorRF).setVelocity(speed);\n\n            waitTime++;\n            if(waitTime > 100)\n            {\n\n                if(gamepad1.dpad_up)\n                {\n                    speed = speed + 100;\n                    waitTime = 0;\n                }\n\n                if(gamepad1.dpad_down)\n                {\n                    speed = speed - 100;\n                    waitTime = 0;\n                }\n\n\n\n            }\n            telemetry.addData(\"speed\", speed);\n            telemetry.addData(\"current speed\", ((DcMotorEx) robot.motorRF).getVelocity());\n            telemetry.update();\n        }\n    }\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- TeamCode/src/main/java/org/firstinspires/ftc/teamcode/velocityTest.java	(revision 4d50d08dca3debcfe0759fcf412e49fb9d63e535)
++++ TeamCode/src/main/java/org/firstinspires/ftc/teamcode/velocityTest.java	(date 1604018607227)
+@@ -16,12 +16,12 @@
+         double waitTime = 1000;
+         double speed = 1500;
+         RobotHardware robot = new RobotHardware(hardwareMap);
+-        robot.motorRF.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
++        robot.motorLB.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+         waitForStart();
+ 
+         while(opModeIsActive())
+         {
+-            ((DcMotorEx) robot.motorRF).setVelocity(speed);
++            ((DcMotorEx) robot.motorLB).setVelocity(speed);
+ 
+             waitTime++;
+             if(waitTime > 100)
+@@ -43,7 +43,7 @@
+ 
+             }
+             telemetry.addData("speed", speed);
+-            telemetry.addData("current speed", ((DcMotorEx) robot.motorRF).getVelocity());
++            telemetry.addData("current speed", ((DcMotorEx) robot.motorLB).getVelocity());
+             telemetry.update();
+         }
+     }
