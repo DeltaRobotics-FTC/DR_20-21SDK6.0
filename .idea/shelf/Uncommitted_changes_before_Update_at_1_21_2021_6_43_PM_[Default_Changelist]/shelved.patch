@@ -1,0 +1,146 @@
+Index: TeamCode/src/main/java/org/firstinspires/ftc/teamcode/testprograms/ServoTest.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package org.firstinspires.ftc.teamcode.testprograms;\r\n\r\nimport com.qualcomm.robotcore.eventloop.opmode.Disabled;\r\nimport com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;\r\nimport com.qualcomm.robotcore.eventloop.opmode.TeleOp;\r\nimport com.qualcomm.robotcore.hardware.Servo;\r\n/**\r\n * Created by User on 10/5/2017.\r\n */\r\n\r\n@TeleOp (name = \"ServoTest\", group = \"\")\r\npublic class ServoTest extends LinearOpMode\r\n{\r\n\r\n    Servo servo;\r\n\r\n    boolean leftDPadState = false;\r\n    boolean rightDPadState = false;\r\n\r\n    boolean fastIncrement = true;\r\n\r\n    double servoPosition = 0.5;\r\n\r\n    @Override\r\n    public void runOpMode()\r\n    {\r\n        servo = hardwareMap.servo.get(\"servo\");\r\n\r\n\r\n        servo.setPosition(servoPosition);\r\n\r\n        waitForStart();\r\n\r\n        while(opModeIsActive())\r\n        {\r\n            if(gamepad1.a)\r\n            {\r\n                fastIncrement = true;\r\n            }\r\n\r\n            if(gamepad1.b)\r\n            {\r\n                fastIncrement = false;\r\n            }\r\n\r\n            if(gamepad1.dpad_left && !leftDPadState)\r\n            {\r\n                leftDPadState = true;\r\n                if(fastIncrement)\r\n                {\r\n                    servoPosition -= 0.05;\r\n                }\r\n                else\r\n                {\r\n                    servoPosition -= 0.01;\r\n                }\r\n            }\r\n\r\n            else if(!gamepad1.dpad_left)\r\n            {\r\n                leftDPadState = false;\r\n            }\r\n\r\n            if(gamepad1.dpad_right && !rightDPadState)\r\n            {\r\n                rightDPadState = true;\r\n\r\n                if(fastIncrement)\r\n                {\r\n                    servoPosition += 0.05;\r\n                }\r\n                else\r\n                {\r\n                    servoPosition += 0.01;\r\n                }\r\n            }\r\n\r\n\r\n            else if(!gamepad1.dpad_right)\r\n            {\r\n                rightDPadState = false;\r\n            }\r\n\r\n            if(servoPosition > 1.0)\r\n            {\r\n                servoPosition = 1.0;\r\n            }\r\n\r\n            if(servoPosition < 0.0)\r\n            {\r\n                servoPosition = 0.0;\r\n            }\r\n\r\n            servo.setPosition(servoPosition);\r\n\r\n            telemetry.addData(\"servo Pos\", servo.getPosition());\r\n            telemetry.addData(\"servoPosition Var\", servoPosition);\r\n            telemetry.addData(\"Fast Increment\", fastIncrement);\r\n            telemetry.update();\r\n\r\n        }\r\n\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- TeamCode/src/main/java/org/firstinspires/ftc/teamcode/testprograms/ServoTest.java	(revision fed7cfd3c9d1e2144a42a2dbebb650e47dac71b4)
++++ TeamCode/src/main/java/org/firstinspires/ftc/teamcode/testprograms/ServoTest.java	(date 1610501360530)
+@@ -3,102 +3,51 @@
+ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
+ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
++import com.qualcomm.robotcore.hardware.DcMotor;
++import com.qualcomm.robotcore.hardware.DcMotorEx;
+ import com.qualcomm.robotcore.hardware.Servo;
+-/**
+- * Created by User on 10/5/2017.
+- */
+ 
+-@TeleOp (name = "ServoTest", group = "")
+-public class ServoTest extends LinearOpMode
++@TeleOp(name = "servoTest", group = "")
++@Disabled
++public class servoTest extends LinearOpMode
+ {
+-
+-    Servo servo;
++    private Servo servo;
+ 
+-    boolean leftDPadState = false;
+-    boolean rightDPadState = false;
+-
+-    boolean fastIncrement = true;
+-
+-    double servoPosition = 0.5;
+ 
+     @Override
+     public void runOpMode()
+     {
+         servo = hardwareMap.servo.get("servo");
++        double waitTime = 1000;
++        double servoPosition = 0;
+ 
++        boolean fastIncrement = true;
+ 
+-        servo.setPosition(servoPosition);
+ 
+         waitForStart();
+ 
+-        while(opModeIsActive())
++        while (opModeIsActive())
+         {
+-            if(gamepad1.a)
++            servo.setPosition(servoPosition);
++            waitTime++;
++
++            if (gamepad1.a)
+             {
+-                fastIncrement = true;
++                servoPosition = servoPosition + 0.1;
+             }
+-
+-            if(gamepad1.b)
++            if (gamepad1.b)
+             {
+-                fastIncrement = false;
+-            }
+-
+-            if(gamepad1.dpad_left && !leftDPadState)
+-            {
+-                leftDPadState = true;
+-                if(fastIncrement)
+-                {
+-                    servoPosition -= 0.05;
+-                }
+-                else
+-                {
+-                    servoPosition -= 0.01;
+-                }
++                servoPosition = servoPosition - 0.1;
+             }
+ 
+-            else if(!gamepad1.dpad_left)
++            if (gamepad1.dpad_up)
+             {
+-                leftDPadState = false;
++                servoPosition = 0;
+             }
+-
+-            if(gamepad1.dpad_right && !rightDPadState)
+-            {
+-                rightDPadState = true;
+-
+-                if(fastIncrement)
+-                {
+-                    servoPosition += 0.05;
+-                }
+-                else
+-                {
+-                    servoPosition += 0.01;
+-                }
+-            }
+-
+-
+-            else if(!gamepad1.dpad_right)
+-            {
+-                rightDPadState = false;
+-            }
+-
+-            if(servoPosition > 1.0)
+-            {
+-                servoPosition = 1.0;
+-            }
+-
+-            if(servoPosition < 0.0)
+-            {
+-                servoPosition = 0.0;
+-            }
+-
+-            servo.setPosition(servoPosition);
+-
+             telemetry.addData("servo Pos", servo.getPosition());
+             telemetry.addData("servoPosition Var", servoPosition);
+             telemetry.addData("Fast Increment", fastIncrement);
+             telemetry.update();
+-
+         }
+-
+     }
+ }
+Index: TeamCode/src/main/java/org/firstinspires/ftc/teamcode/Meet1Auto.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package org.firstinspires.ftc.teamcode;\r\nimport com.qualcomm.hardware.bosch.BNO055IMU;\r\nimport com.qualcomm.robotcore.eventloop.opmode.Autonomous;\r\nimport com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;\r\nimport com.qualcomm.robotcore.eventloop.opmode.TeleOp;\r\nimport com.qualcomm.robotcore.hardware.DcMotor;\r\nimport com.qualcomm.robotcore.hardware.DcMotorEx;\r\nimport com.qualcomm.robotcore.hardware.Servo;\r\n\r\n@Autonomous(name = \"Meet1Auto\")\r\npublic class Meet1Auto extends LinearOpMode {\r\n\r\n    public MecanumDriveTrain drive;\r\n    public BNO055IMU imu;\r\n\r\n    int shootingSpot = 2029;\r\n    int park = 3607 - shootingSpot;\r\n    double flywheelSpeed = 1700;\r\n    double shoot = -.1;\r\n\r\n    @Override\r\n    public void runOpMode() throws InterruptedException {\r\n        MecanumDriveTrain drive = new MecanumDriveTrain(this);\r\n        \r\n        RobotHardware robot = new RobotHardware(hardwareMap);\r\n\r\n        telemetry.addData(\">\", \"Press Play to start op mode\");\r\n        telemetry.update();\r\n        waitForStart();\r\n\r\n        //drive to shooting location\r\n        drive.encoderDrive(shootingSpot,driveStyle.BACKWARD,.4);\r\n\r\n        sleep(100);\r\n\r\n        //start flywheel\r\n        ((DcMotorEx) robot.flywheel).setVelocity(flywheelSpeed);\r\n\r\n        while (((DcMotorEx) robot.flywheel).getVelocity() != 1700) {\r\n            sleep(1);\r\n        }\r\n        //shoot rings\r\n        robot.servo.setPosition(shoot);\r\n\r\n        robot.servo.setPosition(0);\r\n\r\n        sleep(100);\r\n\r\n        robot.servo.setPosition(shoot);\r\n\r\n        robot.servo.setPosition(0);\r\n\r\n        sleep(100);\r\n\r\n        robot.servo.setPosition(shoot);\r\n\r\n        robot.servo.setPosition(0);\r\n\r\n        //stop flywheel\r\n        ((DcMotorEx) robot.flywheel).setVelocity(0);\r\n\r\n        //drive to the line\r\n        drive.encoderDrive(park,driveStyle.BACKWARD,.4);\r\n\r\n        //drive.OrientationDrive(360,.7, imu);\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- TeamCode/src/main/java/org/firstinspires/ftc/teamcode/Meet1Auto.java	(revision fed7cfd3c9d1e2144a42a2dbebb650e47dac71b4)
++++ TeamCode/src/main/java/org/firstinspires/ftc/teamcode/Meet1Auto.java	(date 1610507117600)
+@@ -1,4 +1,5 @@
+ package org.firstinspires.ftc.teamcode;
++
+ import com.qualcomm.hardware.bosch.BNO055IMU;
+ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;

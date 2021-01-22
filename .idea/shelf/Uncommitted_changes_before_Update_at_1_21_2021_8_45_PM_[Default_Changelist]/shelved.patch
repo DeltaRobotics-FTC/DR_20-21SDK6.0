@@ -1,0 +1,20 @@
+Index: TeamCode/src/main/java/org/firstinspires/ftc/teamcode/testprograms/ServoTest.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package org.firstinspires.ftc.teamcode.testprograms;\r\n\r\nimport com.qualcomm.robotcore.eventloop.opmode.Disabled;\r\nimport com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;\r\nimport com.qualcomm.robotcore.eventloop.opmode.TeleOp;\r\nimport com.qualcomm.robotcore.hardware.Servo;\r\n/**\r\n * Created by User on 10/5/2017.\r\n */\r\n\r\n@TeleOp (name = \"ServoTest\", group = \"\")\r\npublic class ServoTest extends LinearOpMode\r\n{\r\n\r\n    Servo servo;\r\n\r\n    boolean leftDPadState = false;\r\n    boolean rightDPadState = false;\r\n\r\n    boolean fastIncrement = true;\r\n\r\n    double servoPosition = 0.5;\r\n\r\n    @Override\r\n    public void runOpMode()\r\n    {\r\n        servo = hardwareMap.servo.get(\"servo\");\r\n\r\n\r\n        servo.setPosition(servoPosition);\r\n\r\n        waitForStart();\r\n\r\n        while(opModeIsActive())\r\n        {\r\n            if(gamepad1.a)\r\n            {\r\n                fastIncrement = true;\r\n            }\r\n\r\n            if(gamepad1.b)\r\n            {\r\n                fastIncrement = false;\r\n            }\r\n\r\n            if(gamepad1.dpad_left && !leftDPadState)\r\n            {\r\n                leftDPadState = true;\r\n                if(fastIncrement)\r\n                {\r\n                    servoPosition -= 0.05;\r\n                }\r\n                else\r\n                {\r\n                    servoPosition -= 0.01;\r\n                }\r\n            }\r\n\r\n            else if(!gamepad1.dpad_left)\r\n            {\r\n                leftDPadState = false;\r\n            }\r\n\r\n            if(gamepad1.dpad_right && !rightDPadState)\r\n            {\r\n                rightDPadState = true;\r\n\r\n                if(fastIncrement)\r\n                {\r\n                    servoPosition += 0.05;\r\n                }\r\n                else\r\n                {\r\n                    servoPosition += 0.01;\r\n                }\r\n            }\r\n\r\n\r\n            else if(!gamepad1.dpad_right)\r\n            {\r\n                rightDPadState = false;\r\n            }\r\n\r\n            if(servoPosition > 1.0)\r\n            {\r\n                servoPosition = 1.0;\r\n            }\r\n\r\n            if(servoPosition < 0.0)\r\n            {\r\n                servoPosition = 0.0;\r\n            }\r\n\r\n            servo.setPosition(servoPosition);\r\n\r\n            telemetry.addData(\"servo Pos\", servo.getPosition());\r\n            telemetry.addData(\"servoPosition Var\", servoPosition);\r\n            telemetry.addData(\"Fast Increment\", fastIncrement);\r\n            telemetry.update();\r\n\r\n        }\r\n\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- TeamCode/src/main/java/org/firstinspires/ftc/teamcode/testprograms/ServoTest.java	(revision 6b698fd39d1b5fa94d7787af6947b278f7346111)
++++ TeamCode/src/main/java/org/firstinspires/ftc/teamcode/testprograms/ServoTest.java	(date 1611276432896)
+@@ -8,8 +8,8 @@
+  * Created by User on 10/5/2017.
+  */
+ 
+-@TeleOp (name = "ServoTest", group = "")
+-public class ServoTest extends LinearOpMode
++@TeleOp (name = "servoTest", group = "")
++public class servoTest extends LinearOpMode
+ {
+ 
+     Servo servo;
