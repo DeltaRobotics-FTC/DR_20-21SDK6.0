@@ -29,6 +29,8 @@ public class servoShootingSpeed extends LinearOpMode
     public static double shoot = -1;
     public static double back = .2;
     
+    public static double servoTime = 200;
+    
     double nanoTime = 0;
 
     @Override
@@ -63,7 +65,7 @@ public class servoShootingSpeed extends LinearOpMode
 
             servo.setPosition(shoot);
             
-            while (timer.milliseconds() < 250) {
+            while (timer.milliseconds() < servoTime) {
                 telemetry.addData("wheelSpeedVar", wheelSpeed);
                 telemetry.addData("wheelSpeedReal", (motor.getVelocity()));
                 telemetry.update();
@@ -71,7 +73,7 @@ public class servoShootingSpeed extends LinearOpMode
             
             servo.setPosition(back);
             
-            while (timer.milliseconds() < 500) {
+            while (timer.milliseconds() < servoTime * 2) {
                 telemetry.addData("wheelSpeedVar", wheelSpeed);
                 telemetry.addData("wheelSpeedReal", (motor.getVelocity()));
                 telemetry.update();
@@ -79,7 +81,7 @@ public class servoShootingSpeed extends LinearOpMode
             
             servo.setPosition(shoot);
             
-            while (timer.milliseconds() < 750) {
+            while (timer.milliseconds() < servoTime * 3) {
                 telemetry.addData("wheelSpeedVar", wheelSpeed);
                 telemetry.addData("wheelSpeedReal", (motor.getVelocity()));
                 telemetry.update();
@@ -87,7 +89,7 @@ public class servoShootingSpeed extends LinearOpMode
             
             servo.setPosition(back);
             
-            while (timer.milliseconds() < 1000) {
+            while (timer.milliseconds() < servoTime * 4) {
                 telemetry.addData("wheelSpeedVar", wheelSpeed);
                 telemetry.addData("wheelSpeedReal", (motor.getVelocity()));
                 telemetry.update();
@@ -95,7 +97,7 @@ public class servoShootingSpeed extends LinearOpMode
             
             servo.setPosition(shoot);
             
-            while (timer.milliseconds() < 1250) {
+            while (timer.milliseconds() < servoTime * 5) {
                 telemetry.addData("wheelSpeedVar", wheelSpeed);
                 telemetry.addData("wheelSpeedReal", (motor.getVelocity()));
                 telemetry.update();
