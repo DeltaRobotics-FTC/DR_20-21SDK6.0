@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 @Config
@@ -38,7 +39,7 @@ public class servoShootingSpeed extends LinearOpMode
         motor = hardwareMap.get(DcMotorEx.class, "flywheel");
         motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        servo = ahwMap.servo.get("servo");
+        servo = hardwareMap.servo.get("servo");
         servo.setPosition(shoot);
 
         ElapsedTime timer = new ElapsedTime();
@@ -62,41 +63,41 @@ public class servoShootingSpeed extends LinearOpMode
 
             servo.setPosition(shoot);
             
-            while (servo.isBusy()) {
+            while (timer.milliseconds() < 250) {
                 telemetry.addData("wheelSpeedVar", wheelSpeed);
-                telemetry.addData("wheelSpeedReal", (motor.getVelocity());
+                telemetry.addData("wheelSpeedReal", (motor.getVelocity()));
                 telemetry.update();
             }
             
             servo.setPosition(back);
             
-            while (servo.isBusy()) {
+            while (timer.milliseconds() < 500) {
                 telemetry.addData("wheelSpeedVar", wheelSpeed);
-                telemetry.addData("wheelSpeedReal", (motor.getVelocity());
+                telemetry.addData("wheelSpeedReal", (motor.getVelocity()));
                 telemetry.update();
             }
             
             servo.setPosition(shoot);
             
-            while (servo.isBusy()) {
+            while (timer.milliseconds() < 750) {
                 telemetry.addData("wheelSpeedVar", wheelSpeed);
-                telemetry.addData("wheelSpeedReal", (motor.getVelocity());
+                telemetry.addData("wheelSpeedReal", (motor.getVelocity()));
                 telemetry.update();
             }
             
             servo.setPosition(back);
             
-            while (servo.isBusy()) {
+            while (timer.milliseconds() < 1000) {
                 telemetry.addData("wheelSpeedVar", wheelSpeed);
-                telemetry.addData("wheelSpeedReal", (motor.getVelocity());
+                telemetry.addData("wheelSpeedReal", (motor.getVelocity()));
                 telemetry.update();
             }
             
             servo.setPosition(shoot);
             
-            while (servo.isBusy()) {
+            while (timer.milliseconds() < 1250) {
                 telemetry.addData("wheelSpeedVar", wheelSpeed);
-                telemetry.addData("wheelSpeedReal", (motor.getVelocity());
+                telemetry.addData("wheelSpeedReal", (motor.getVelocity()));
                 telemetry.update();
             }
             
@@ -106,8 +107,8 @@ public class servoShootingSpeed extends LinearOpMode
             
             while (test) {
                 telemetry.addData("wheelSpeedVar", wheelSpeed);
-                telemetry.addData("wheelSpeedReal", (motor.getVelocity());
-                telemetry.addData("time", nanoTime;
+                telemetry.addData("wheelSpeedReal", (motor.getVelocity()));
+                telemetry.addData("time", nanoTime);
                 telemetry.update();
             }
         }
