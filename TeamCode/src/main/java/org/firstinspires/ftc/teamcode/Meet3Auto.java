@@ -3,9 +3,35 @@ package org.firstinspires.ftc.teamcode;
 //imports
 
 
+import com.acmerobotics.dashboard.FtcDashboard;
+import com.acmerobotics.dashboard.config.Config;
+import com.acmerobotics.roadrunner.geometry.Pose2d;
+import com.acmerobotics.roadrunner.geometry.Vector2d;
+import com.acmerobotics.roadrunner.trajectory.Trajectory;
+import com.acmerobotics.roadrunner.trajectory.constraints.AngularVelocityConstraint;
+import com.acmerobotics.roadrunner.trajectory.constraints.MecanumVelocityConstraint;
+import com.acmerobotics.roadrunner.trajectory.constraints.MinVelocityConstraint;
+import com.acmerobotics.roadrunner.trajectory.constraints.ProfileAccelerationConstraint;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
+
+import org.firstinspires.ftc.robotcore.external.ClassFactory;
+import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
+import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
+import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
+import org.firstinspires.ftc.teamcode.drive.DriveConstants;
+import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
+
+import java.util.Arrays;
+import java.util.List;
+
 @Config
 @Autonomous(name = "Meet3Auto")
-public class Meet3Auto extends LinearOpMode {
+public class Meet3Auto extends LinearOpMode
+{
 
 //declare variables
 
@@ -34,7 +60,7 @@ public static double wobbleArmPower = 0.7;
 public static double wobbleOpen = 1;
 public static double wobbleClosed = 0;
     
-public static double wobbleServoWait = 250;
+public static int wobbleServoWait = 250;
 
 
 
@@ -45,7 +71,7 @@ public static double flywheelPowerSpeed = 1550;
 public static double servoShoot = -.1;
 public static double servoRetract = .25;
     
-public static double shotTiming = 250;
+public static int shotTiming = 250;
     
     
     
@@ -212,7 +238,7 @@ public static Pose2d startPose = new Pose2d(-63, 57, Math.toRadians(180));
         //drive slow to intake
         Trajectory Intake1B = drive.trajectoryBuilder(StarterStack1B.end())
             .forward(
-                10, 
+                10,
                 new MinVelocityConstraint(
                     Arrays.asList(
                         new AngularVelocityConstraint(DriveConstants.MAX_ANG_VEL),
@@ -222,7 +248,7 @@ public static Pose2d startPose = new Pose2d(-63, 57, Math.toRadians(180));
                 new ProfileAccelerationConstraint(DriveConstants.MAX_ACCEL)
             )
             .build();
-        
+
         //shoot what was collected
         Trajectory ShootSpotB = drive.trajectoryBuilder(Intake1B.end(), true)
             .splineToConstantHeading(new Vector2d(-9,55), Math.toRadians(180))
