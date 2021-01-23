@@ -174,8 +174,8 @@ public class Meet1TeleOp extends LinearOpMode
             }
 
             //intake
-            //robot.intake1.setPower(-gamepad1.leftTriger + gamepad1.rightTriger);
-            //robot.intake2.setPower(-gamepad1.rightTriger + gamepad1.leftTriger);
+            robot.intake1.setPower(-gamepad1.left_trigger + gamepad1.right_trigger);
+            robot.intake2.setPower(-gamepad1.right_trigger + gamepad1.left_trigger);
 
             //telemetry
 

@@ -28,8 +28,8 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 
-@TeleOp(name="Meet1TeleOp" ,group = "")
-public class Meet1TeleOp extends LinearOpMode
+@TeleOp(name="meet3TeleOp" ,group = "")
+public class meet3TeleOp extends LinearOpMode
 {
 
     public static double F = 13.32;

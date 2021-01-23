@@ -26,8 +26,8 @@ public class servoShootingSpeed extends LinearOpMode
     public static double wheelSpeed = 1700;
     
     public static boolean test = true;
-    public static double shoot = -1;
-    public static double back = .2;
+    public static double shoot = .25;
+    public static double back = .1;
     
     public static double servoTime = 200;
     
