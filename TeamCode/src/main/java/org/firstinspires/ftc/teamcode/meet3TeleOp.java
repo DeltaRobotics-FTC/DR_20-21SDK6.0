@@ -28,8 +28,8 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 
-@TeleOp(name="Meet1TeleOp" ,group = "")
-public class Meet1TeleOp extends LinearOpMode
+@TeleOp(name="meet3TeleOp" ,group = "")
+public class meet3TeleOp extends LinearOpMode
 {
 
     public static double F = 13.32;
@@ -174,8 +174,8 @@ public class Meet1TeleOp extends LinearOpMode
             }
 
             //intake
-            robot.intake1.setPower(-gamepad1.left_trigger + gamepad1.right_trigger);
-            robot.intake2.setPower(-gamepad1.right_trigger + gamepad1.left_trigger);
+            //robot.intake1.setPower(-gamepad1.leftTriger + gamepad1.rightTriger);
+            //robot.intake2.setPower(-gamepad1.rightTriger + gamepad1.leftTriger);
 
             //telemetry
 
