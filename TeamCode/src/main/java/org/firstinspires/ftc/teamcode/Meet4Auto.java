@@ -21,7 +21,7 @@ public class Meet4Auto extends LinearOpMode
     int shootingSpot = -3200;
     int park = -3750;
     double flywheelSpeed = 1700;
-    double shoot = -.1;
+    double shoot = .115;
     private static final String TFOD_MODEL_ASSET = "UltimateGoal.tflite";
     private static final String LABEL_FIRST_ELEMENT = "Quad";
     private static final String LABEL_SECOND_ELEMENT = "Single";
@@ -61,6 +61,19 @@ public class Meet4Auto extends LinearOpMode
         robot.motorLB.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.motorLF.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
+
+        telemetry.addData(">", "Press Play to start op mode");
+        //telemetry.addData("bla", robot.motorRB.getCurrentPosition();
+        //telemetry.addData(robot.motorRF.getCurrentPosition());
+        //telemetry.addData(robot.motorLF.getCurrentPosition());
+        //telemetry.addData(robot.motorLB.getCurrentPosition());
+        telemetry.update();
+
+
+
+        waitForStart();
+        
+        
         if (tfod != null) {
             // getUpdatedRecognitions() will return null if no new information is available since
             // the last time that call was made.
@@ -85,18 +98,6 @@ public class Meet4Auto extends LinearOpMode
         }
 
 
-        telemetry.addData(">", "Press Play to start op mode");
-        //telemetry.addData("bla", robot.motorRB.getCurrentPosition();
-        //telemetry.addData(robot.motorRF.getCurrentPosition());
-        //telemetry.addData(robot.motorLF.getCurrentPosition());
-        //telemetry.addData(robot.motorLB.getCurrentPosition());
-        telemetry.update();
-
-
-
-        waitForStart();
-
-
         //drive to shooting location
         robot.motorLB.setTargetPosition(shootingSpot);
         robot.motorLF.setTargetPosition(shootingSpot);
@@ -118,7 +119,7 @@ public class Meet4Auto extends LinearOpMode
 
         while (robot.motorLB.isBusy()) {}
 
-        sleep(1000);
+        sleep(200);
 
         robot.motorLB.setPower(0);
         robot.motorLF.setPower(0);
@@ -130,25 +131,25 @@ public class Meet4Auto extends LinearOpMode
 
         while (((DcMotorEx) robot.flywheel).getVelocity() != 1700) {}
 
-        sleep(3000);
+        sleep(300);
 
         //shoot rings
         robot.servo.setPosition(shoot);
-        sleep(2000);
+        sleep(350);
 
-        robot.servo.setPosition(0.25);
-        sleep(1000);
-
-        robot.servo.setPosition(shoot);
-        sleep(2000);
-
-        robot.servo.setPosition(0.25);
-        sleep(1000);
+        robot.servo.setPosition(0.2);
+        sleep(350);
 
         robot.servo.setPosition(shoot);
-        sleep(2000);
+        sleep(350);
 
-        robot.servo.setPosition(0.25);
+        robot.servo.setPosition(0.2);
+        sleep(350);
+
+        robot.servo.setPosition(shoot);
+        sleep(350);
+
+        robot.servo.setPosition(0.2);
 
         //stop flywheel
         ((DcMotorEx) robot.flywheel).setVelocity(0);
@@ -176,12 +177,24 @@ public class Meet4Auto extends LinearOpMode
 
                 while (robot.motorLB.isBusy()) {}
 
-                sleep(1000);
+                sleep(200);
 
                 robot.motorLB.setPower(0);
                 robot.motorLF.setPower(0);
                 robot.motorRB.setPower(0);
                 robot.motorRF.setPower(0);
+                
+                
+                robot.wobble.setTargetPosition(-850);
+                robot.wobble.setPower(0.7);
+                robot.wobble.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                
+                robot.servo2.setPosition(1);
+                
+                robot.wobble.setTargetPosition(-425);
+                robot.wobble.setPower(0.7);
+                robot.wobble.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                
                 break;
             case LABEL_SECOND_ELEMENT:
                 //drive to B goal location
@@ -205,12 +218,24 @@ public class Meet4Auto extends LinearOpMode
 
                 while (robot.motorLB.isBusy()) {}
 
-                sleep(1000);
+                sleep(200);
 
                 robot.motorLB.setPower(0);
                 robot.motorLF.setPower(0);
                 robot.motorRB.setPower(0);
                 robot.motorRF.setPower(0);
+                
+                
+                robot.wobble.setTargetPosition(-850);
+                robot.wobble.setPower(0.7);
+                robot.wobble.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                
+                robot.servo2.setPosition(1);
+                
+                robot.wobble.setTargetPosition(-425);
+                robot.wobble.setPower(0.7);
+                robot.wobble.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                
                 break;
             default:
                 //run last option TODO
