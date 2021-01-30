@@ -261,8 +261,28 @@ public class Meet4Auto extends LinearOpMode
 
         robot.motorLB.setPower(0);
         robot.motorLF.setPower(0);
-        robot.motorRB.setPower(0);
-        robot.motorRF.setPower(0);
+        switch (view){
+            case LABEL_FIRST_ELEMENT:
+                robot.motorRB.setPower(0);
+                robot.motorRF.setPower(0);
+
+                //do nothing 1
+                break;
+            case LABEL_SECOND_ELEMENT:
+                //do nothing 2
+                break;
+            default:
+                robot.wobble.setTargetPosition(-850);
+                robot.wobble.setPower(0.7);
+                robot.wobble.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+                robot.servo2.setPosition(1);
+
+                robot.wobble.setTargetPosition(-425);
+                robot.wobble.setPower(0.7);
+                robot.wobble.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        }
 
     }
     private void initVuforia() {

@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 @TeleOp(name="telemetrySpeaking" ,group = "")
-@Disabled
+
 public class telemetrySpeaking extends LinearOpMode {
 
     public void runOpMode() {
@@ -46,6 +46,11 @@ public class telemetrySpeaking extends LinearOpMode {
                     telemetry.speak("you're the best");
                     telemetry.update();
                 }
+
+                telemetry.addData("bla","bla");
+                telemetry.addData("blu","blu");
+                telemetry.addData("ble","ble");
+                telemetry.update();
             }
 
             while (gamepad1.left_bumper) {
@@ -81,6 +86,8 @@ public class telemetrySpeaking extends LinearOpMode {
                     telemetry.speak("im working right now");
                     telemetry.update();
                 }
+
+
             }
 
         }

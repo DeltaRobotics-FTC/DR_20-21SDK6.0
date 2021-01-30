@@ -53,9 +53,9 @@ public class RobotHardware
         intake2 = ahwMap.dcMotor.get("intake2");
 
         //odometry encoders
-        verticalRight = motorLF;
-        verticalLeft = motorRF;
-        horizontal = motorRB;
+        //verticalRight = motorLF;
+        //verticalLeft = motorRF;
+        //horizontal = motorRB;
 
         //servos
         servo = ahwMap.servo.get("servo");
@@ -67,10 +67,7 @@ public class RobotHardware
         motorRB.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         motorLB.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         
-        motorRF.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        motorLF.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        motorRB.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        motorLB.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
         
         motorLF.setDirection(DcMotorSimple.Direction.REVERSE);
         motorLB.setDirection(DcMotorSimple.Direction.REVERSE);

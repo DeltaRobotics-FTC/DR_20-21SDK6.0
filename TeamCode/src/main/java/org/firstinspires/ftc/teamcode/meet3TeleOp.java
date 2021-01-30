@@ -54,16 +54,22 @@ public class meet3TeleOp extends LinearOpMode
     double openPosition = 1;
     double closedPosition = 0;
 
+
     //intake
     double speed762590432128 = .75;
 
     @Override
     public void runOpMode() throws InterruptedException
     {
-        FtcDashboard dashboard = FtcDashboard.getInstance();
-        telemetry = dashboard.getTelemetry();
+        //FtcDashboard dashboard = FtcDashboard.getInstance();
+        //telemetry = dashboard.getTelemetry();
 
         RobotHardware robot = new RobotHardware(hardwareMap);
+
+        robot.motorRF.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.motorLF.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.motorRB.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.motorLB.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         //wobble
         robot.wobble.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -72,6 +78,9 @@ public class meet3TeleOp extends LinearOpMode
 
         while (opModeIsActive())
         {
+
+
+
             //drive
 
             //sets the power of the motors
@@ -180,20 +189,36 @@ public class meet3TeleOp extends LinearOpMode
             //telemetry
 
             //drive
-            telemetry.addData("turnSpeed", turnSpeed);
-            telemetry.addData("driveSpeed", driveSpeed);
 
-            //shooter
-            telemetry.addData("servo Pos", robot.servo.getPosition());
-            telemetry.addData("servoPosition Var", servoPosition);
-            telemetry.addData("wheelSpeed", wheelSpeed);
-            telemetry.addData("current wheelSpeed", ((DcMotorEx) robot.flywheel).getVelocity());
 
-            //wobble
-            telemetry.addData("armPosition", robot.wobble.getCurrentPosition());
-            telemetry.addData("servoPosition", robot.servo2.getPosition());
+                telemetry.addData("motor RF power", robot.motorRF.getPower());
+                telemetry.addData("motor RF position", robot.motorRF.getCurrentPosition());
 
-            telemetry.update();
+                telemetry.addData("motor RB power", robot.motorRB.getPower());
+                telemetry.addData("motor RB position", robot.motorRB.getCurrentPosition());
+
+                telemetry.addData("motor LF power", robot.motorLF.getPower());
+                telemetry.addData("motor LF position", robot.motorLF.getCurrentPosition());
+
+                telemetry.addData("motor LB power", robot.motorLB.getPower());
+                telemetry.addData("motor LB position", robot.motorLB.getCurrentPosition());
+
+                telemetry.addData("turnSpeed", turnSpeed);
+                telemetry.addData("driveSpeed", driveSpeed);
+
+                //shooter
+                telemetry.addData("servo Pos", robot.servo.getPosition());
+                telemetry.addData("servoPosition Var", servoPosition);
+                telemetry.addData("wheelSpeed", wheelSpeed);
+                telemetry.addData("current wheelSpeed", ((DcMotorEx) robot.flywheel).getVelocity());
+
+                //wobble
+                telemetry.addData("armPosition", robot.wobble.getCurrentPosition());
+                telemetry.addData("servoPosition", robot.servo2.getPosition());
+
+                telemetry.update();
+
+
         }
     }
 }
