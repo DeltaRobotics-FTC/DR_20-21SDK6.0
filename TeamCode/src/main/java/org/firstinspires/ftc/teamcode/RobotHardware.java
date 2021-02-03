@@ -20,7 +20,7 @@ public class RobotHardware
     public DcMotor motorLB = null;
     
     //mechanism motors
-    public DcMotor flywheel = null;
+    public DcMotorEx flywheel = null;
     public DcMotor wobble = null;
     public DcMotor intake1 = null;
     public DcMotor intake2 = null;
@@ -48,7 +48,7 @@ public class RobotHardware
         motorLB = ahwMap.dcMotor.get("motorLB");
         
         //mechanism motors
-        flywheel = ahwMap.dcMotor.get("flywheel");
+        flywheel = ahwMap.get(DcMotorEx.class, "flywheel");
         wobble = ahwMap.dcMotor.get("wobble");
         intake1 = ahwMap.dcMotor.get("intake1");
         intake2 = ahwMap.dcMotor.get("intake2");

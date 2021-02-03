@@ -35,75 +35,71 @@ public class Meet5Auto extends LinearOpMode
 
 //declare variables
 
-//Viewforia / TFOD variables
-private static final String TFOD_MODEL_ASSET = "UltimateGoal.tflite";
-private static final String LABEL_FIRST_ELEMENT = "Quad";
-private static final String LABEL_SECOND_ELEMENT = "Single";
+    //Viewforia / TFOD variables
+    private static final String TFOD_MODEL_ASSET = "UltimateGoal.tflite";
+    private static final String LABEL_FIRST_ELEMENT = "Quad";
+    private static final String LABEL_SECOND_ELEMENT = "Single";
 
-private static final String VUFORIA_KEY =
+    private static final String VUFORIA_KEY =
             "AQIjJXP/////AAABmX8DXrmUxEBjvVNbT94EWcg3A75NZTjC3HG9/ur6NlOGrwrPUBWwLK8GlSeDl/fPcBsf+HkwYZQt7Fu8g/fJSvgftOYprWUaAWTCcyEnjfqU7CKCEEeWOO97PEJHdsjSPaRCoKAUjmRCknWJWxPuvgBXU4z63zwtr45AR0DzsF9FRdoj9pNR7hcmPKZmMLSfU6zdeBinzk2DQrJq2GGHJJgI0Mgh/IcrRA54NaGttRaqLpvLOuDHRiPyHnOtOXkjHBZp4Simdyqht675alc36Kyz3PF34/9X6m3b/43kuI231AaSBt1r5GnQv0jL9QRbGde2lr0U8mTmnatRm1ASpgCIcAJJ82jRpyWf3yELRH1w";
 
-private VuforiaLocalizer vuforia;
-private TFObjectDetector tfod;
+    private VuforiaLocalizer vuforia;
+    private TFObjectDetector tfod;
 
-public String view = "";
-
-
-            
-//wobble goal variables
-public static int wobbleUp = -425;
-public static int wobbleDown = -925;
-public static int wobbleAway = 0;
-    
-public static double wobbleArmPower = 0.7;
-    
-public static double wobbleOpen = 1;
-public static double wobbleClosed = 0;
-    
-public static int wobbleServoWait = 250;
+    public String view = "";
 
 
+    //wobble goal variables
+    public static int wobbleUp = -425;
+    public static int wobbleDown = -925;
+    public static int wobbleAway = 0;
 
-//shooter
-public static double flywheelHighSpeed = 1700;
-public static double flywheelPowerSpeed = 1550;
+    public static double wobbleArmPower = 0.7;
 
-public static double servoShoot = -.1;
-public static double servoRetract = .25;
-    
-public static int shotTiming = 250;
-    
-    
-    
-//RR pose 
+    public static double wobbleOpen = 1;
+    public static double wobbleClosed = 0;
+
+    public static int wobbleServoWait = 250;
+
+
+    //shooter
+    public static double flywheelHighSpeed = 1700;
+    public static double flywheelPowerSpeed = 1550;
+
+    public static double servoShoot = -.1;
+    public static double servoRetract = .25;
+
+    public static int shotTiming = 250;
+
+
+    //RR pose
 //Pose2d _ = new Pose2d(_, _, Math.toRadians(_));
 //Vector2d _ = new Vector2d(_, _);
-public static Pose2d startPose = new Pose2d(-63, 57, Math.toRadians(180));
-
+    public static Pose2d startPose = new Pose2d(-63, 57, Math.toRadians(180));
 
 
     @Override
-    public void runOpMode() throws InterruptedException {
-    
+    public void runOpMode() throws InterruptedException
+    {
+
         //classes
-    
+
         //dashboard init
         FtcDashboard dashboard = FtcDashboard.getInstance();
         telemetry = dashboard.getTelemetry();
-        
+
         //robot hardware map init
         RobotHardware robot = new RobotHardware(hardwareMap);
-        
+
         //roadrunner drive constants init
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
-        
+
         telemetry.addData("classes inited", "");
         telemetry.update();
-        
-        
-        
+
+
         //cammera
-        
+
         //veiwforia
         VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters();
 
@@ -111,142 +107,138 @@ public static Pose2d startPose = new Pose2d(-63, 57, Math.toRadians(180));
         parameters.cameraName = hardwareMap.get(WebcamName.class, "webcam");
 
         vuforia = ClassFactory.getInstance().createVuforia(parameters);
-        
+
         //TFOD
         int tfodMonitorViewId = hardwareMap.appContext.getResources().getIdentifier(
-            "tfodMonitorViewId", "id", hardwareMap.appContext.getPackageName());
+                "tfodMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         TFObjectDetector.Parameters tfodParameters = new TFObjectDetector.Parameters(tfodMonitorViewId);
-       tfodParameters.minResultConfidence = 0.6f;                                                     //change to change mimimum confidence
-       tfod = ClassFactory.getInstance().createTFObjectDetector(tfodParameters, vuforia);
-       tfod.loadModelFromAsset(TFOD_MODEL_ASSET, LABEL_FIRST_ELEMENT, LABEL_SECOND_ELEMENT);
-       
-       if (tfod != null) {
-           tfod.activate();
-           tfod.setZoom(3, 1.78);
-       }
-        
+        tfodParameters.minResultConfidence = 0.6f;                                                     //change to change mimimum confidence
+        tfod = ClassFactory.getInstance().createTFObjectDetector(tfodParameters, vuforia);
+        tfod.loadModelFromAsset(TFOD_MODEL_ASSET, LABEL_FIRST_ELEMENT, LABEL_SECOND_ELEMENT);
+
+        if (tfod != null)
+        {
+            tfod.activate();
+            tfod.setZoom(3, 1.78);
+        }
+
         telemetry.addData("classes inited", "");
         telemetry.addData("cammera inited", "");
         telemetry.update();
-        
-        
-        
+
+
         //other init stuff
         robot.wobble.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.wobble.setTargetPosition(wobbleAway);
         robot.wobble.setPower(wobbleArmPower);
         robot.wobble.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        
+
         robot.servo2.setPosition(wobbleClosed);
-        
+
         robot.servo.setPosition(servoRetract);
-        
+
         telemetry.addData("classes inited", "");
         telemetry.addData("cammera inited", "");
         telemetry.addData("building trajectories", "");
         telemetry.update();
-        
-        
-        
+
+
         //with roadrunner you basicly build auto in init then run the built auto
-        
+
         //set start position
         drive.setPoseEstimate(startPose);
-        
-        
-        
+
+
         //A trajectories 
-        
+
         //drive to wobble spot A
         Trajectory Wobble1DeliveryA = drive.trajectoryBuilder(startPose, true)
-            .splineTo(new Vector2d(10,53), Math.toRadians(180))
-            .build();
-        
+                .splineTo(new Vector2d(10, 53), Math.toRadians(180))
+                .build();
+
         //drive to power shots
         Trajectory PowerShot1A = drive.trajectoryBuilder(Wobble1DeliveryA.end())
-            .splineToConstantHeading(new Vector2d(-9,24), Math.toRadians(180))
-            .build();
-        
+                .splineToConstantHeading(new Vector2d(-9, 24), Math.toRadians(180))
+                .build();
+
         Trajectory PowerShot2A = drive.trajectoryBuilder(PowerShot1A.end())
-            .strafeLeft(7.5)
-            .build();
-        
+                .strafeLeft(7.5)
+                .build();
+
         Trajectory PowerShot3A = drive.trajectoryBuilder(PowerShot2A.end())
-            .strafeLeft(7.5)
-            .build();
-        
+                .strafeLeft(7.5)
+                .build();
+
         //park
         Trajectory ParkA = drive.trajectoryBuilder(PowerShot3A.end())
-            .lineTo(new Vector2d(6,35))
-            .build();
-        
+                .lineTo(new Vector2d(6, 35))
+                .build();
+
         telemetry.addData("classes inited", "");
         telemetry.addData("cammera inited", "");
         telemetry.addData("building trajectories", "");
         telemetry.addData("A built", "");
         telemetry.update();
-            
-        
-        
+
+
         //B trajectories
-        
+
         //drive to wobble spot B
         Trajectory Wobble1DeliveryB = drive.trajectoryBuilder(startPose, true)
-            .splineTo(new Vector2d(34,29), Math.toRadians(180))
-            .build();
-        
+                .splineTo(new Vector2d(34, 29), Math.toRadians(180))
+                .build();
+
         //drive to power shots
         Trajectory PowerShot1B = drive.trajectoryBuilder(Wobble1DeliveryB.end())
-            .splineToConstantHeading(new Vector2d(-9,24), Math.toRadians(180))
-            .build();
-        
+                .splineToConstantHeading(new Vector2d(-9, 24), Math.toRadians(180))
+                .build();
+
         Trajectory PowerShot2B = drive.trajectoryBuilder(PowerShot1B.end())
-            .strafeLeft(7.5)
-            .build();
-        
+                .strafeLeft(7.5)
+                .build();
+
         Trajectory PowerShot3B = drive.trajectoryBuilder(PowerShot2B.end())
-            .strafeLeft(7.5)
-            .build();
-             
+                .strafeLeft(7.5)
+                .build();
+
         //park
         Trajectory ParkB = drive.trajectoryBuilder(PowerShot3B.end())
-            .lineTo(new Vector2d(6,35))
-            .build();
-            
+                .lineTo(new Vector2d(6, 35))
+                .build();
+
         telemetry.addData("classes inited", "");
         telemetry.addData("cammera inited", "");
         telemetry.addData("building trajectories", "");
         telemetry.addData("A built", "");
         telemetry.addData("B built", "");
         telemetry.update();
-            
-        
-        
+
+
         //C trajectories
-        
+
         //drive to wobble spot trajectory
         Trajectory Wobble1DeliveryC = drive.trajectoryBuilder(startPose, true)
-            .splineTo(new Vector2d(59,53), Math.toRadians(180))
-            .build();
-        
+                .splineTo(new Vector2d(59, 53), Math.toRadians(180))
+                .build();
+
         //drive to power shots
         Trajectory PowerShot1C = drive.trajectoryBuilder(Wobble1DeliveryC.end())
-            .splineToConstantHeading(new Vector2d(-9,24), Math.toRadians(180))
-            .build();
-        
+                .splineToConstantHeading(new Vector2d(-9, 24), Math.toRadians(180))
+                .build();
+
         Trajectory PowerShot2C = drive.trajectoryBuilder(PowerShot1C.end())
-            .strafeLeft(7.5)
-            .build();
-        
+                .strafeLeft(7.5)
+                .build();
+
         Trajectory PowerShot3C = drive.trajectoryBuilder(PowerShot2C.end())
-            .strafeLeft(7.5)
-            .build();
-        
+                .strafeLeft(7.5)
+                .build();
+
         //park
         Trajectory ParkC = drive.trajectoryBuilder(PowerShot3C.end())
-            .lineTo(new Vector2d(6,35))
-            .build();
-        
+                .lineTo(new Vector2d(6, 35))
+                .build();
+
         telemetry.addData("classes inited", "");
         telemetry.addData("cammera inited", "");
         telemetry.addData("building trajectories", "");
@@ -254,12 +246,7 @@ public static Pose2d startPose = new Pose2d(-63, 57, Math.toRadians(180));
         telemetry.addData("B built", "");
         telemetry.addData("C built", "");
         telemetry.update();
-        
-        
-        
-        
-        
-        
+
 
         telemetry.addData(">", "Press Play to start op mode");
         telemetry.addData("classes inited", "");
@@ -269,178 +256,187 @@ public static Pose2d startPose = new Pose2d(-63, 57, Math.toRadians(180));
         telemetry.addData("B built", "");
         telemetry.addData("C built", "");
         telemetry.update();
-        
+
         waitForStart();
 
         //auto
-        
+
         //get TFOD detection
-        if (tfod != null) 
+        if (tfod != null)
         {
             // getUpdatedRecognitions() will return null if no new information is available since
             // the last time that call was made.
             List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
-            if (updatedRecognitions != null) 
+            if (updatedRecognitions != null)
             {
                 telemetry.addData("# Object Detected", updatedRecognitions.size());
                 // step through the list of recognitions and display boundary info.
                 int i = 0;
-                for (Recognition recognition : updatedRecognitions) 
+                for (Recognition recognition : updatedRecognitions)
                 {
                     telemetry.addData(String.format("label (%d)", i), recognition.getLabel());
                     telemetry.addData(String.format("  left,top (%d)", i), "%.03f , %.03f",
-                        recognition.getLeft(), recognition.getTop());
+                            recognition.getLeft(), recognition.getTop());
                     telemetry.addData(String.format("  right,bottom (%d)", i), "%.03f , %.03f",
-                        recognition.getRight(), recognition.getBottom());
+                            recognition.getRight(), recognition.getBottom());
                     view = recognition.getLabel();
                 }
                 telemetry.update();
-                if (tfod != null) 
+                if (tfod != null)
                 {
                     tfod.shutdown();
                 }
             }
         }
-        
+
         //
         // switch statement for 0,1,4 rings
         //
-        
-        
-        switch (view){
+
+
+        switch (view)
+        {
             case LABEL_FIRST_ELEMENT:
                 //drive to C 
-                
+
                 drive.followTrajectory(Wobble1DeliveryC);
-        
+
                 robot.wobble.setTargetPosition(wobbleDown);
                 robot.wobble.setPower(wobbleArmPower);
                 robot.wobble.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        
-                while (robot.wobble.isBusy()) {}
-        
+
+                while (robot.wobble.isBusy())
+                {
+                }
+
                 robot.servo2.setPosition(wobbleOpen);
-        
+
                 sleep(wobbleServoWait);
-        
+
                 robot.wobble.setTargetPosition(wobbleUp);
                 robot.wobble.setPower(wobbleArmPower);
                 robot.wobble.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        
+
                 ((DcMotorEx) robot.flywheel).setVelocity(flywheelPowerSpeed);
-        
+
                 drive.followTrajectory(PowerShot1C);
-        
+
                 robot.servo.setPosition(servoShoot);
                 sleep(shotTiming);
                 robot.servo.setPosition(servoRetract);
-        
+
                 drive.followTrajectory(PowerShot2C);
-        
+
                 robot.servo.setPosition(servoShoot);
                 sleep(shotTiming);
                 robot.servo.setPosition(servoRetract);
-        
+
                 drive.followTrajectory(PowerShot3C);
-        
+
                 robot.servo.setPosition(servoShoot);
                 sleep(shotTiming);
                 robot.servo.setPosition(servoRetract);
-        
+
                 ((DcMotorEx) robot.flywheel).setVelocity(0);
-        
+
                 drive.followTrajectory(ParkC);
-                
+
                 break;
             case LABEL_SECOND_ELEMENT:
                 //drive to B
-                 
+
                 drive.followTrajectory(Wobble1DeliveryB);
-                  
+
                 robot.wobble.setTargetPosition(wobbleDown);
                 robot.wobble.setPower(wobbleArmPower);
                 robot.wobble.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-         
-                while (robot.wobble.isBusy()) {}
-        
+
+                while (robot.wobble.isBusy())
+                {
+                }
+
                 robot.servo2.setPosition(wobbleOpen);
-         
+
                 sleep(wobbleServoWait);
-           
+
                 robot.wobble.setTargetPosition(wobbleUp);
                 robot.wobble.setPower(wobbleArmPower);
                 robot.wobble.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        
+
                 ((DcMotorEx) robot.flywheel).setVelocity(flywheelPowerSpeed);
-        
+
                 drive.followTrajectory(PowerShot1B);
-        
+
                 robot.servo.setPosition(servoShoot);
                 sleep(shotTiming);
                 robot.servo.setPosition(servoRetract);
-        
+
                 drive.followTrajectory(PowerShot2B);
-        
+
                 robot.servo.setPosition(servoShoot);
                 sleep(shotTiming);
                 robot.servo.setPosition(servoRetract);
-        
+
                 drive.followTrajectory(PowerShot3B);
-        
+
                 robot.servo.setPosition(servoShoot);
                 sleep(shotTiming);
                 robot.servo.setPosition(servoRetract);
-        
+
                 ((DcMotorEx) robot.flywheel).setVelocity(0);
-        
+
                 drive.followTrajectory(ParkB);
-                
+
                 break;
             default:
                 //drive to A
-                
+
                 drive.followTrajectory(Wobble1DeliveryA);
-            
+
                 robot.wobble.setTargetPosition(wobbleDown);
                 robot.wobble.setPower(wobbleArmPower);
                 robot.wobble.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        
-                while (robot.wobble.isBusy()) {}
-        
+
+                while (robot.wobble.isBusy())
+                {
+                }
+
                 robot.servo2.setPosition(wobbleOpen);
-        
+
                 sleep(wobbleServoWait);
-        
+
                 robot.wobble.setTargetPosition(wobbleUp);
                 robot.wobble.setPower(wobbleArmPower);
                 robot.wobble.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-       
+
                 ((DcMotorEx) robot.flywheel).setVelocity(flywheelPowerSpeed);
-       
+
                 drive.followTrajectory(PowerShot1A);
-        
+
                 robot.servo.setPosition(servoShoot);
                 sleep(shotTiming);
                 robot.servo.setPosition(servoRetract);
-        
+
                 drive.followTrajectory(PowerShot2A);
-        
+
                 robot.servo.setPosition(servoShoot);
                 sleep(shotTiming);
                 robot.servo.setPosition(servoRetract);
-        
+
                 drive.followTrajectory(PowerShot3A);
-         
+
                 robot.servo.setPosition(servoShoot);
                 sleep(shotTiming);
                 robot.servo.setPosition(servoRetract);
-        
+
                 ((DcMotorEx) robot.flywheel).setVelocity(0);
-        
+
                 drive.followTrajectory(ParkA);
-        
+
         }
-     
+    }
+}
+
 // auto list
 
 //~take pic: ~tensor flow, ~no variables
