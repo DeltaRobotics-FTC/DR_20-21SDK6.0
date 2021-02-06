@@ -50,8 +50,8 @@ public class Meet5Auto extends LinearOpMode
 
 
     //wobble goal variables
-    public static int wobbleUp = -425;
-    public static int wobbleDown = -925;
+    public static int wobbleUp = 425;
+    public static int wobbleDown = 925;
     public static int wobbleAway = 0;
 
     public static double wobbleArmPower = 0.7;
@@ -69,7 +69,7 @@ public class Meet5Auto extends LinearOpMode
     public static double servoShoot = -.1;
     public static double servoRetract = .25;
 
-    public static int shotTiming = 250;
+    public static int shotTiming = 500;
 
 
     //RR pose
@@ -85,8 +85,8 @@ public class Meet5Auto extends LinearOpMode
         //classes
 
         //dashboard init
-        FtcDashboard dashboard = FtcDashboard.getInstance();
-        telemetry = dashboard.getTelemetry();
+        //FtcDashboard dashboard = FtcDashboard.getInstance();
+        //telemetry = dashboard.getTelemetry();
 
         //robot hardware map init
         RobotHardware robot = new RobotHardware(hardwareMap);
@@ -153,25 +153,25 @@ public class Meet5Auto extends LinearOpMode
 
         //drive to wobble spot A
         Trajectory Wobble1DeliveryA = drive.trajectoryBuilder(startPose, true)
-                .splineTo(new Vector2d(10, 53), Math.toRadians(180))
+                .splineToConstantHeading(new Vector2d(10, 48), Math.toRadians(0))
                 .build();
 
         //drive to power shots
         Trajectory PowerShot1A = drive.trajectoryBuilder(Wobble1DeliveryA.end())
-                .splineToConstantHeading(new Vector2d(-9, 24), Math.toRadians(180))
+                .splineToConstantHeading(new Vector2d(-5, 48), Math.toRadians(180))
                 .build();
 
         Trajectory PowerShot2A = drive.trajectoryBuilder(PowerShot1A.end())
-                .strafeLeft(7.5)
+                .strafeLeft(0.01)
                 .build();
 
         Trajectory PowerShot3A = drive.trajectoryBuilder(PowerShot2A.end())
-                .strafeLeft(7.5)
+                .strafeLeft(0.01)
                 .build();
 
         //park
         Trajectory ParkA = drive.trajectoryBuilder(PowerShot3A.end())
-                .lineTo(new Vector2d(6, 35))
+                .lineTo(new Vector2d(12, 35))
                 .build();
 
         telemetry.addData("classes inited", "");
@@ -185,7 +185,7 @@ public class Meet5Auto extends LinearOpMode
 
         //drive to wobble spot B
         Trajectory Wobble1DeliveryB = drive.trajectoryBuilder(startPose, true)
-                .splineTo(new Vector2d(34, 29), Math.toRadians(180))
+                .splineTo(new Vector2d(34, 24), Math.toRadians(180))
                 .build();
 
         //drive to power shots
@@ -203,7 +203,7 @@ public class Meet5Auto extends LinearOpMode
 
         //park
         Trajectory ParkB = drive.trajectoryBuilder(PowerShot3B.end())
-                .lineTo(new Vector2d(6, 35))
+                .lineTo(new Vector2d(12, 35))
                 .build();
 
         telemetry.addData("classes inited", "");
@@ -218,7 +218,7 @@ public class Meet5Auto extends LinearOpMode
 
         //drive to wobble spot trajectory
         Trajectory Wobble1DeliveryC = drive.trajectoryBuilder(startPose, true)
-                .splineTo(new Vector2d(59, 53), Math.toRadians(180))
+                .splineTo(new Vector2d(59, 48), Math.toRadians(180))
                 .build();
 
         //drive to power shots
@@ -236,7 +236,7 @@ public class Meet5Auto extends LinearOpMode
 
         //park
         Trajectory ParkC = drive.trajectoryBuilder(PowerShot3C.end())
-                .lineTo(new Vector2d(6, 35))
+                .lineTo(new Vector2d(12, 35))
                 .build();
 
         telemetry.addData("classes inited", "");
@@ -409,25 +409,28 @@ public class Meet5Auto extends LinearOpMode
                 robot.wobble.setPower(wobbleArmPower);
                 robot.wobble.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-                ((DcMotorEx) robot.flywheel).setVelocity(flywheelPowerSpeed);
+                ((DcMotorEx) robot.flywheel).setVelocity(flywheelHighSpeed);
 
                 drive.followTrajectory(PowerShot1A);
 
                 robot.servo.setPosition(servoShoot);
                 sleep(shotTiming);
                 robot.servo.setPosition(servoRetract);
+                sleep(shotTiming);
 
                 drive.followTrajectory(PowerShot2A);
 
                 robot.servo.setPosition(servoShoot);
                 sleep(shotTiming);
                 robot.servo.setPosition(servoRetract);
+                sleep(shotTiming);
 
                 drive.followTrajectory(PowerShot3A);
 
                 robot.servo.setPosition(servoShoot);
                 sleep(shotTiming);
                 robot.servo.setPosition(servoRetract);
+                sleep(shotTiming);
 
                 ((DcMotorEx) robot.flywheel).setVelocity(0);
 
