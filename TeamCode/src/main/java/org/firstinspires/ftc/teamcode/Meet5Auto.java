@@ -185,20 +185,20 @@ public class Meet5Auto extends LinearOpMode
 
         //drive to wobble spot B
         Trajectory Wobble1DeliveryB = drive.trajectoryBuilder(startPose, true)
-                .splineTo(new Vector2d(34, 24), Math.toRadians(180))
+                .splineTo(new Vector2d(30, 24), Math.toRadians(180))
                 .build();
 
         //drive to power shots
         Trajectory PowerShot1B = drive.trajectoryBuilder(Wobble1DeliveryB.end())
-                .splineToConstantHeading(new Vector2d(-9, 24), Math.toRadians(180))
+                .splineToConstantHeading(new Vector2d(-5, 48), Math.toRadians(0))
                 .build();
 
         Trajectory PowerShot2B = drive.trajectoryBuilder(PowerShot1B.end())
-                .strafeLeft(7.5)
+                .strafeLeft(0.01)
                 .build();
 
         Trajectory PowerShot3B = drive.trajectoryBuilder(PowerShot2B.end())
-                .strafeLeft(7.5)
+                .strafeLeft(0.01)
                 .build();
 
         //park
@@ -218,20 +218,20 @@ public class Meet5Auto extends LinearOpMode
 
         //drive to wobble spot trajectory
         Trajectory Wobble1DeliveryC = drive.trajectoryBuilder(startPose, true)
-                .splineTo(new Vector2d(59, 48), Math.toRadians(180))
+                .splineTo(new Vector2d(50, 48), Math.toRadians(0))
                 .build();
 
         //drive to power shots
         Trajectory PowerShot1C = drive.trajectoryBuilder(Wobble1DeliveryC.end())
-                .splineToConstantHeading(new Vector2d(-9, 24), Math.toRadians(180))
+                .splineToConstantHeading(new Vector2d(-5, 48), Math.toRadians(180))
                 .build();
 
         Trajectory PowerShot2C = drive.trajectoryBuilder(PowerShot1C.end())
-                .strafeLeft(7.5)
+                .strafeLeft(0.01)
                 .build();
 
         Trajectory PowerShot3C = drive.trajectoryBuilder(PowerShot2C.end())
-                .strafeLeft(7.5)
+                .strafeLeft(0.01)
                 .build();
 
         //park
