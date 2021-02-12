@@ -41,7 +41,7 @@ public class meet3TeleOp extends LinearOpMode
     //flywheel
     double waitTime = 1000;
     double wheelSpeed = 0;
-    double servoPosition = 0.25;
+    double servoPosition = 0.21;
 
     public static double F = 13.32; // = 32767 / maxV      (do not edit from this number)
     public static double P = 20; // = 0.1 * F           (raise till real's apex touches Var apex)
@@ -49,8 +49,8 @@ public class meet3TeleOp extends LinearOpMode
     public static double D = 1; // = 0                     (raise to reduce ocolation)
 
     //wobble
-    int upPosition = 350;
-    int grabPosition = 850;
+    int upPosition = 300;
+    int grabPosition = 825;
     double openPosition = 1;
     double closedPosition = 0;
 
@@ -72,7 +72,7 @@ public class meet3TeleOp extends LinearOpMode
         robot.motorLB.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         //wobble
-        robot.wobble.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        //robot.wobble.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         waitForStart();
 
@@ -147,13 +147,18 @@ public class meet3TeleOp extends LinearOpMode
                 wheelSpeed = 0;
             }
 
+            if(gamepad1.back)
+            {
+                wheelSpeed = 0;
+            }
+
             if (gamepad1.a)
             {
                 servoPosition = 0.115;
             }
             if (gamepad1.b)
             {
-                servoPosition = 0.2;
+                servoPosition = 0.21;
             }
 
             if(gamepad1.right_bumper)
@@ -168,19 +173,19 @@ public class meet3TeleOp extends LinearOpMode
                 robot.servo.setPosition(.115);
                 sleep(350);
 
-                robot.servo.setPosition(0.2);
-                sleep(350);
+                robot.servo.setPosition(0.21);
+                sleep(550);
 
                 robot.servo.setPosition(.115);
                 sleep(350);
 
-                robot.servo.setPosition(0.2);
-                sleep(350);
+                robot.servo.setPosition(0.21);
+                sleep(550);
 
                 robot.servo.setPosition(.115);
                 sleep(350);
 
-                robot.servo.setPosition(0.2);
+                robot.servo.setPosition(0.21);
 
                 //stop flywheel
                 ((DcMotorEx) robot.flywheel).setVelocity(0);
@@ -206,7 +211,7 @@ public class meet3TeleOp extends LinearOpMode
 
             if(gamepad1.start)
             {
-                robot.wobble.setTargetPosition(0);
+                robot.wobble.setTargetPosition(100);
                 robot.wobble.setPower(0.7);
                 robot.wobble.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             }
