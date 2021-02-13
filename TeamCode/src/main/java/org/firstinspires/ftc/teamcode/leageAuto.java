@@ -29,8 +29,8 @@ import java.util.Arrays;
 import java.util.List;
 
 @Config
-@Autonomous(name = "Meet5Auto2")
-public class Meet5Auto2 extends LinearOpMode
+@Autonomous(name = "leageAuto")
+public class leageAuto extends LinearOpMode
 {
 
 //declare variables
@@ -185,8 +185,29 @@ public class Meet5Auto2 extends LinearOpMode
                 .splineToConstantHeading(new Vector2d(30, 18), Math.toRadians(0))
                 .build();
 
+        Trajectory CollectionB = drive.trajectoryBuilder(WobbleB.end())
+                .splineToConstantHeading(new Vector2d(-15, 48), Math.toRadians(0))
+                .build();
+
+        Trajectory CollectB = drive.trajectoryBuilder(CollectionB.end())
+                .lineTo(
+                        new Vector2d(-30, 48),
+                        new MinVelocityConstraint(
+                                Arrays.asList(
+                                        new AngularVelocityConstraint(DriveConstants.MAX_ANG_VEL),
+                                        new MecanumVelocityConstraint(10, DriveConstants.TRACK_WIDTH)
+                                )
+                        ),
+                        new ProfileAccelerationConstraint(DriveConstants.MAX_ACCEL)
+                )
+                .build();
+
+        Trajectory shotPos2B = drive.trajectoryBuilder(CollectB.end(), true)
+                .splineToConstantHeading(new Vector2d(-9, 48), Math.toRadians(0))
+                .build();
+
         //park
-        Trajectory ParkB = drive.trajectoryBuilder(WobbleB.end())
+        Trajectory ParkB = drive.trajectoryBuilder(shotPos2B.end())
                 .lineTo(new Vector2d(12, 25))
                 .build();
 
@@ -211,8 +232,29 @@ public class Meet5Auto2 extends LinearOpMode
                 .splineToConstantHeading(new Vector2d(50, 40), Math.toRadians(0))
                 .build();
 
+        Trajectory CollectionC = drive.trajectoryBuilder(WobbleC.end())
+                .splineToConstantHeading(new Vector2d(-5, 40), Math.toRadians(0))
+                .build();
+
+        Trajectory CollectC = drive.trajectoryBuilder(CollectionC.end())
+                .lineTo(
+                        new Vector2d(-30, 40),
+                        new MinVelocityConstraint(
+                                Arrays.asList(
+                                        new AngularVelocityConstraint(DriveConstants.MAX_ANG_VEL),
+                                        new MecanumVelocityConstraint(10, DriveConstants.TRACK_WIDTH)
+                                )
+                        ),
+                        new ProfileAccelerationConstraint(DriveConstants.MAX_ACCEL)
+                )
+                .build();
+
+        Trajectory shotPos2C = drive.trajectoryBuilder(CollectC.end(), true)
+                .splineToConstantHeading(new Vector2d(-7, 48), Math.toRadians(0))
+                .build();
+
         //park
-        Trajectory ParkC = drive.trajectoryBuilder(WobbleC.end())
+        Trajectory ParkC = drive.trajectoryBuilder(shotPos2C.end())
                 .lineTo(new Vector2d(12, 35))
                 .build();
 
@@ -321,7 +363,7 @@ public class Meet5Auto2 extends LinearOpMode
 
                 sleep(wobbleServoWait);
 
-                sleep(3000);
+                sleep(1000);
 
                 robot.wobble.setTargetPosition(wobbleUp);
                 robot.wobble.setPower(wobbleArmPower);
@@ -331,7 +373,41 @@ public class Meet5Auto2 extends LinearOpMode
                 {
                 }
 
+                robot.intake1.setPower(-1);
+                robot.intake2.setPower(1);
+
+                drive.followTrajectory(CollectionC);
+
+                drive.followTrajectory(CollectC);
+
+                sleep(350);
+
+                ((DcMotorEx) robot.flywheel).setVelocity(flywheelHighSpeed);
+
+                drive.followTrajectory(shotPos2C);
+
+                sleep(shotTiming*2);
+
+                robot.servo.setPosition(servoShoot);
+                sleep(shotTiming);
+                robot.servo.setPosition(servoRetract);
+                sleep(shotTiming);
+
+                robot.servo.setPosition(servoShoot);
+                sleep(shotTiming);
+                robot.servo.setPosition(servoRetract);
+                sleep(shotTiming);
+
+                robot.servo.setPosition(servoShoot);
+                sleep(shotTiming);
+                robot.servo.setPosition(servoRetract);
+
+                ((DcMotorEx) robot.flywheel).setVelocity(0);
+
                 drive.followTrajectory(ParkC);
+
+                robot.intake1.setPower(-1);
+                robot.intake2.setPower(1);
 
                 break;
             case LABEL_SECOND_ELEMENT:
@@ -391,7 +467,41 @@ public class Meet5Auto2 extends LinearOpMode
                 {
                 }
 
+                robot.intake1.setPower(-1);
+                robot.intake2.setPower(1);
+
+                drive.followTrajectory(CollectionB);
+
+                drive.followTrajectory(CollectB);
+
+                sleep(350);
+
+                ((DcMotorEx) robot.flywheel).setVelocity(flywheelHighSpeed);
+
+                drive.followTrajectory(shotPos2B);
+
+                sleep(shotTiming*2);
+
+                robot.servo.setPosition(servoShoot);
+                sleep(shotTiming);
+                robot.servo.setPosition(servoRetract);
+                sleep(shotTiming);
+
+                robot.servo.setPosition(servoShoot);
+                sleep(shotTiming);
+                robot.servo.setPosition(servoRetract);
+                sleep(shotTiming);
+
+                robot.servo.setPosition(servoShoot);
+                sleep(shotTiming);
+                robot.servo.setPosition(servoRetract);
+
+                ((DcMotorEx) robot.flywheel).setVelocity(0);
+
                 drive.followTrajectory(ParkB);
+
+                robot.intake1.setPower(-1);
+                robot.intake2.setPower(1);
 
                 break;
             default:
