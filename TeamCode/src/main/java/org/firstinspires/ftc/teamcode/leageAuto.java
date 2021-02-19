@@ -224,7 +224,7 @@ public class leageAuto extends LinearOpMode
         //drive to wobble spot trajectory
 
         Trajectory shotPosC = drive.trajectoryBuilder(startPose, true)
-                .splineToConstantHeading(new Vector2d(-9, 48), Math.toRadians(0))
+                .splineToConstantHeading(new Vector2d(-8, 48), Math.toRadians(0))
                 .build();
 
         //drive to power shots
@@ -233,7 +233,7 @@ public class leageAuto extends LinearOpMode
                 .build();
 
         Trajectory CollectionC = drive.trajectoryBuilder(WobbleC.end())
-                .splineToConstantHeading(new Vector2d(-5, 40), Math.toRadians(0))
+                .splineToConstantHeading(new Vector2d(0, 40), Math.toRadians(0))
                 .build();
 
         Trajectory CollectC = drive.trajectoryBuilder(CollectionC.end())
@@ -250,7 +250,7 @@ public class leageAuto extends LinearOpMode
                 .build();
 
         Trajectory shotPos2C = drive.trajectoryBuilder(CollectC.end(), true)
-                .splineToConstantHeading(new Vector2d(-7, 48), Math.toRadians(0))
+                .splineToConstantHeading(new Vector2d(-10, 48), Math.toRadians(0))
                 .build();
 
         //park
