@@ -51,7 +51,7 @@ public class leageAuto extends LinearOpMode
 
     //wobble goal variables
     public static int wobbleUp = 425;
-    public static int wobbleDown = 925;
+    public static int wobbleDown = 825;
     public static int wobbleAway = 0;
 
     public static double wobbleArmPower = 0.7;
@@ -162,8 +162,20 @@ public class leageAuto extends LinearOpMode
                 .splineToConstantHeading(new Vector2d(10, 40), Math.toRadians(0))
                 .build();
 
+        Trajectory Wobble2GrabA = drive.trajectoryBuilder(WobbleA.end())
+                .lineTo(new Vector2d(-55, 5))
+                .build();
+
+        Trajectory Wobble2strafeA = drive.trajectoryBuilder(Wobble2GrabA.end())
+                .lineTo(new Vector2d(-56, 23))
+                .build();
+
+        Trajectory Wobble2PlaceA = drive.trajectoryBuilder(Wobble2strafeA.end(), true)
+                .splineToConstantHeading(new Vector2d(6, 40), Math.toRadians(20))
+                .build();
+
         //park
-        Trajectory ParkA = drive.trajectoryBuilder(WobbleA.end())
+        Trajectory ParkA = drive.trajectoryBuilder(Wobble2PlaceA.end())
                 .lineTo(new Vector2d(12, 35))
                 .build();
 
@@ -551,7 +563,21 @@ public class leageAuto extends LinearOpMode
 
                 sleep(wobbleServoWait);
 
-                sleep(3000);
+                robot.wobble.setTargetPosition(wobbleUp);
+                robot.wobble.setPower(wobbleArmPower);
+                robot.wobble.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+                drive.followTrajectory(Wobble2GrabA);
+
+                robot.wobble.setTargetPosition(wobbleDown);
+                robot.wobble.setPower(wobbleArmPower);
+                robot.wobble.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+                drive.followTrajectory(Wobble2strafeA);
+
+                robot.servo2.setPosition(wobbleClosed);
+
+                sleep(wobbleServoWait);
 
                 robot.wobble.setTargetPosition(wobbleUp);
                 robot.wobble.setPower(wobbleArmPower);
@@ -560,6 +586,30 @@ public class leageAuto extends LinearOpMode
                 while (robot.wobble.isBusy())
                 {
                 }
+
+                drive.followTrajectory(Wobble2PlaceA);
+
+                robot.wobble.setTargetPosition(wobbleDown);
+                robot.wobble.setPower(wobbleArmPower);
+                robot.wobble.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+                while (robot.wobble.isBusy())
+                {
+                }
+
+                robot.servo2.setPosition(wobbleOpen);
+
+                sleep(wobbleServoWait);
+
+                robot.wobble.setTargetPosition(wobbleUp);
+                robot.wobble.setPower(wobbleArmPower);
+                robot.wobble.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+                while (robot.wobble.isBusy())
+                {
+                }
+
+                sleep(1000);
 
                 drive.followTrajectory(ParkA);
 
