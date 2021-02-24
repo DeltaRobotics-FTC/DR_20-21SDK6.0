@@ -84,13 +84,13 @@ public class leagueTeleOp extends LinearOpMode
     boolean dPadDownToggle1 = true;
     boolean dPadDownToggle2 = false;
     
-    int wobbleCounter = 1
+    int wobbleCounter = 1;
 
     @Override
     public void runOpMode() throws InterruptedException
     {
         FtcDashboard dashboard = FtcDashboard.getInstance();
-        telemetry = dashboard.getTelemetry();
+        //telemetry = dashboard.getTelemetry();
 
         RobotHardware robot = new RobotHardware(hardwareMap);
 
@@ -245,7 +245,7 @@ public class leagueTeleOp extends LinearOpMode
 
                 else {
                     //back
-                    servoPosition = 0.21;
+                    servoPosition = 0.22;
                     aToggle2 = false;
                 }
               
@@ -268,19 +268,19 @@ public class leagueTeleOp extends LinearOpMode
                 robot.servo.setPosition(.115);
                 sleep(350);
 
-                robot.servo.setPosition(0.21);
+                robot.servo.setPosition(0.22);
                 sleep(550);
 
                 robot.servo.setPosition(.115);
                 sleep(350);
 
-                robot.servo.setPosition(0.21);
+                robot.servo.setPosition(0.22);
                 sleep(550);
 
                 robot.servo.setPosition(.115);
                 sleep(350);
 
-                robot.servo.setPosition(0.21);
+                robot.servo.setPosition(0.22);
 
                 //stop flywheel
                 ((DcMotorEx) robot.flywheel).setVelocity(0);
@@ -302,7 +302,7 @@ public class leagueTeleOp extends LinearOpMode
             else if (!gamepad1.dpad_up && !dPadUpToggle1) {
                 dPadUpToggle1 = true;
             }
-            
+
             if (gamepad1.dpad_down && dPadDownToggle1) {
                 dPadDownToggle1 = false;
 
@@ -314,9 +314,9 @@ public class leagueTeleOp extends LinearOpMode
             else if (!gamepad1.dpad_down && !dPadDownToggle1) {
                 dPadDownToggle1 = true;
             }
-            
-            
-            
+
+
+
             if(wobbleCounter == 2)
             {
                 robot.wobble.setTargetPosition(upPosition);

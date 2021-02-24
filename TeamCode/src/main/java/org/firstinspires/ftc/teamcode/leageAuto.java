@@ -194,32 +194,27 @@ public class leageAuto extends LinearOpMode
 
         //drive to power shots
         Trajectory WobbleB = drive.trajectoryBuilder(shotPosB.end(), true)
-                .splineToConstantHeading(new Vector2d(30, 18), Math.toRadians(0))
+                .splineToConstantHeading(new Vector2d(30, 10), Math.toRadians(0))
                 .build();
 
         Trajectory CollectionB = drive.trajectoryBuilder(WobbleB.end())
-                .splineToConstantHeading(new Vector2d(-15, 48), Math.toRadians(0))
+                .lineTo(new Vector2d(-30, 40))
                 .build();
 
-        Trajectory CollectB = drive.trajectoryBuilder(CollectionB.end())
-                .lineTo(
-                        new Vector2d(-30, 48),
-                        new MinVelocityConstraint(
-                                Arrays.asList(
-                                        new AngularVelocityConstraint(DriveConstants.MAX_ANG_VEL),
-                                        new MecanumVelocityConstraint(10, DriveConstants.TRACK_WIDTH)
-                                )
-                        ),
-                        new ProfileAccelerationConstraint(DriveConstants.MAX_ACCEL)
-                )
+        Trajectory Wobble2GrabB = drive.trajectoryBuilder(CollectionB.end().plus(new Pose2d(0, 0, Math.toRadians(10))))
+                .lineTo(new Vector2d(-55, 5))
                 .build();
 
-        Trajectory shotPos2B = drive.trajectoryBuilder(CollectB.end(), true)
-                .splineToConstantHeading(new Vector2d(-9, 48), Math.toRadians(0))
+        Trajectory Wobble2strafeB = drive.trajectoryBuilder(Wobble2GrabB.end())
+                .lineTo(new Vector2d(-53, 21.5))
+                .build();
+
+        Trajectory Wobble2PlaceB = drive.trajectoryBuilder(Wobble2strafeB.end(), true)
+                .splineToConstantHeading(new Vector2d(30, 10), Math.toRadians(20))
                 .build();
 
         //park
-        Trajectory ParkB = drive.trajectoryBuilder(shotPos2B.end())
+        Trajectory ParkB = drive.trajectoryBuilder(Wobble2PlaceB.end())
                 .lineTo(new Vector2d(12, 25))
                 .build();
 
@@ -440,17 +435,17 @@ public class leageAuto extends LinearOpMode
                 sleep(shotTiming*2);
 
                 robot.servo.setPosition(servoShoot);
-                sleep(shotTiming);
+                sleep(500);
                 robot.servo.setPosition(servoRetract);
-                sleep(shotTiming);
+                sleep(500);
 
                 robot.servo.setPosition(servoShoot);
-                sleep(shotTiming);
+                sleep(500);
                 robot.servo.setPosition(servoRetract);
-                sleep(shotTiming);
+                sleep(500);
 
                 robot.servo.setPosition(servoShoot);
-                sleep(shotTiming);
+                sleep(500);
                 robot.servo.setPosition(servoRetract);
 
                 ((DcMotorEx) robot.flywheel).setVelocity(0);
@@ -469,7 +464,7 @@ public class leageAuto extends LinearOpMode
 
                 sleep(wobbleServoWait);
 
-                sleep(3000);
+                sleep(250);
 
                 robot.wobble.setTargetPosition(wobbleUp);
                 robot.wobble.setPower(wobbleArmPower);
@@ -484,36 +479,58 @@ public class leageAuto extends LinearOpMode
 
                 drive.followTrajectory(CollectionB);
 
-                drive.followTrajectory(CollectB);
-
-                sleep(350);
-
                 ((DcMotorEx) robot.flywheel).setVelocity(flywheelHighSpeed);
 
-                drive.followTrajectory(shotPos2B);
+                drive.turn(Math.toRadians(10));
 
                 sleep(shotTiming*2);
 
                 robot.servo.setPosition(servoShoot);
-                sleep(shotTiming);
-                robot.servo.setPosition(servoRetract);
-                sleep(shotTiming);
-
-                robot.servo.setPosition(servoShoot);
-                sleep(shotTiming);
-                robot.servo.setPosition(servoRetract);
-                sleep(shotTiming);
-
-                robot.servo.setPosition(servoShoot);
-                sleep(shotTiming);
+                sleep(500);
                 robot.servo.setPosition(servoRetract);
 
                 ((DcMotorEx) robot.flywheel).setVelocity(0);
 
-                drive.followTrajectory(ParkB);
-
                 robot.intake1.setPower(-1);
                 robot.intake2.setPower(1);
+
+                robot.wobble.setTargetPosition(wobbleDown);
+                robot.wobble.setPower(wobbleArmPower);
+                robot.wobble.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+                drive.followTrajectory(Wobble2GrabB);
+
+                drive.followTrajectory(Wobble2strafeB);
+
+                robot.servo2.setPosition(wobbleClosed);
+
+                sleep(wobbleServoWait);
+
+                robot.wobble.setTargetPosition(wobbleUp);
+                robot.wobble.setPower(wobbleArmPower);
+                robot.wobble.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+                drive.followTrajectory(Wobble2PlaceB);
+
+                robot.wobble.setTargetPosition(wobbleDown);
+                robot.wobble.setPower(wobbleArmPower);
+                robot.wobble.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+                while (robot.wobble.isBusy())
+                {
+                }
+
+                robot.servo2.setPosition(wobbleOpen);
+
+                sleep(wobbleServoWait);
+
+                robot.wobble.setTargetPosition(wobbleUp);
+                robot.wobble.setPower(wobbleArmPower);
+                robot.wobble.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+                sleep(150);
+
+                drive.followTrajectory(ParkB);
 
                 break;
             default:
