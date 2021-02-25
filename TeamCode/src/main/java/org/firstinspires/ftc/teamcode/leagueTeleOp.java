@@ -240,12 +240,12 @@ public class leagueTeleOp extends LinearOpMode
                 if (!aToggle2) {
                     //fire
                     servoPosition = 0.115;
+                    sleep(200);
+                    servoPosition = 0.22;
                     aToggle2 = true;
                 }
 
                 else {
-                    //back
-                    servoPosition = 0.22;
                     aToggle2 = false;
                 }
               
@@ -325,16 +325,16 @@ public class leagueTeleOp extends LinearOpMode
             }
             
             
-            if(wobbleCounter == 3)
+            if(wobbleCounter == 1)
             {
                 robot.wobble.setTargetPosition(grabPosition);
                 robot.wobble.setPower(0.7);
                 robot.wobble.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             }
 
-            if(wobbleCounter == 1)
+            if(wobbleCounter == 3)
             {
-                robot.wobble.setTargetPosition(100);
+                robot.wobble.setTargetPosition(0);
                 robot.wobble.setPower(0.7);
                 robot.wobble.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             }
