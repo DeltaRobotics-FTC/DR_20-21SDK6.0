@@ -202,7 +202,7 @@ public class leageAuto extends LinearOpMode
                 .build();
 
         Trajectory Wobble2GrabB = drive.trajectoryBuilder(CollectionB.end().plus(new Pose2d(0, 0, Math.toRadians(10))))
-                .lineTo(new Vector2d(-55, 5))
+                .lineTo(new Vector2d(-49, 5))
                 .build();
 
         Trajectory Wobble2strafeB = drive.trajectoryBuilder(Wobble2GrabB.end())
