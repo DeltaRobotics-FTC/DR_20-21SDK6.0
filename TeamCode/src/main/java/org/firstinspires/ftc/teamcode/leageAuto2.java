@@ -29,8 +29,8 @@ import java.util.Arrays;
 import java.util.List;
 
 @Config
-@Autonomous(name = "leageAuto")
-public class leageAuto extends LinearOpMode
+@Autonomous(name = "leageAuto2")
+public class leageAuto2 extends LinearOpMode
 {
 
 //declare variables
@@ -168,10 +168,10 @@ public class leageAuto extends LinearOpMode
                 .build();
 
         Trajectory Wobble2strafeA = drive.trajectoryBuilder(Wobble2GrabA.end())
-                .lineTo(new Vector2d(-56, 23))
+                .lineTo(new Vector2d(-54.5, 23))
                 .build();
         
-        place second wobble goal
+        //place second wobble goal
         Trajectory Wobble2PlaceA = drive.trajectoryBuilder(Wobble2strafeA.end(), true)
                 .splineToConstantHeading(new Vector2d(6, 40), Math.toRadians(20))
                 .build();
@@ -207,11 +207,11 @@ public class leageAuto extends LinearOpMode
 
         //grab second wobble goal
         Trajectory Wobble2GrabB = drive.trajectoryBuilder(CollectionB.end().plus(new Pose2d(0, 0, Math.toRadians(10))))
-                .lineTo(new Vector2d(-49, 5))
+                .lineTo(new Vector2d(-40, 5))
                 .build();
 
         Trajectory Wobble2strafeB = drive.trajectoryBuilder(Wobble2GrabB.end())
-                .lineTo(new Vector2d(-53, 21.5))
+                .lineTo(new Vector2d(-60, 17))
                 .build();
 
         //place second wobble goal
@@ -221,7 +221,7 @@ public class leageAuto extends LinearOpMode
 
         //park
         Trajectory ParkB = drive.trajectoryBuilder(Wobble2PlaceB.end())
-                .lineTo(new Vector2d(12, 25))
+                .lineTo(new Vector2d(12, 5))
                 .build();
 
         telemetry.addData("classes inited", "");
@@ -241,13 +241,13 @@ public class leageAuto extends LinearOpMode
         
         //shoot pre loaded rings
         Trajectory ShootC = drive.trajectoryBuilder(WobbleC.end())
-                .splineTo(new Vector2d(0, 40), Math.toRadians(23))
+                .splineTo(new Vector2d(-10, 42), Math.toRadians(185))
                 .build();
         
         //collect 1-2 more and shoot
-        Trajectory Collect1C = drive.trajectoryBuilder(CollectionC.end())
+        Trajectory Collect1C = drive.trajectoryBuilder(ShootC.end())
                 .lineToConstantHeading(
-                        new Vector2d(-15, 40),
+                        new Vector2d(-25, 42),
                         new MinVelocityConstraint(
                                 Arrays.asList(
                                         new AngularVelocityConstraint(DriveConstants.MAX_ANG_VEL),
@@ -259,9 +259,9 @@ public class leageAuto extends LinearOpMode
                 .build();
                 
         //collect remaining rings and shoot
-        Trajectory Collect2C = drive.trajectoryBuilder(CollectionC.end())
+        Trajectory Collect2C = drive.trajectoryBuilder(Collect1C.end())
                 .lineToConstantHeading(
-                        new Vector2d(-30, 40),
+                        new Vector2d(-35, 42),
                         new MinVelocityConstraint(
                                 Arrays.asList(
                                         new AngularVelocityConstraint(DriveConstants.MAX_ANG_VEL),
@@ -273,7 +273,7 @@ public class leageAuto extends LinearOpMode
                 .build();
         
         //park
-        Trajectory ParkC = drive.trajectoryBuilder(shotPos2C.end())
+        Trajectory ParkC = drive.trajectoryBuilder(Collect2C.end())
                 .lineTo(new Vector2d(12, 35))
                 .build();
                 
@@ -370,50 +370,60 @@ public class leageAuto extends LinearOpMode
                 ((DcMotorEx) robot.flywheel).setVelocity(flywheelHighSpeed);
                 
                 drive.followTrajectory(ShootC);
+
+                sleep(250);
                 
                 robot.servo.setPosition(servoShoot);
-                sleep(500);
+                sleep(750);
                 robot.servo.setPosition(servoRetract);
                 sleep(500);
 
                 robot.servo.setPosition(servoShoot);
-                sleep(500);
+                sleep(750);
                 robot.servo.setPosition(servoRetract);
                 sleep(500);
 
                 robot.servo.setPosition(servoShoot);
-                sleep(500);
+                sleep(750);
                 robot.servo.setPosition(servoRetract);
                 
                 
                 robot.intake1.setPower(-1);
                 robot.intake2.setPower(1);
+
+                ((DcMotorEx) robot.flywheel).setVelocity(flywheelHighSpeed - 25);
                 
                 drive.followTrajectory(Collect1C);
+
+                sleep(1000);
                 
                 robot.servo.setPosition(servoShoot);
-                sleep(500);
+                sleep(750);
                 robot.servo.setPosition(servoRetract);
-                sleep(500);
+                sleep(1000);
 
                 robot.servo.setPosition(servoShoot);
-                sleep(500);
+                sleep(750);
                 robot.servo.setPosition(servoRetract);
+
+                ((DcMotorEx) robot.flywheel).setVelocity(flywheelHighSpeed - 10);
                 
                 drive.followTrajectory(Collect2C);
+
+                sleep(1500);
                 
                 robot.servo.setPosition(servoShoot);
-                sleep(500);
+                sleep(750);
                 robot.servo.setPosition(servoRetract);
-                sleep(500);
+                sleep(750);
                 
                 robot.servo.setPosition(servoShoot);
-                sleep(500);
+                sleep(750);
                 robot.servo.setPosition(servoRetract);
-                sleep(500);
+                sleep(1250);
 
                 robot.servo.setPosition(servoShoot);
-                sleep(500);
+                sleep(750);
                 robot.servo.setPosition(servoRetract);
                 
                 drive.followTrajectory(ParkC);
@@ -488,7 +498,7 @@ public class leageAuto extends LinearOpMode
 
                 drive.followTrajectory(CollectionB);
 
-                ((DcMotorEx) robot.flywheel).setVelocity(flywheelHighSpeed);
+                ((DcMotorEx) robot.flywheel).setVelocity(1600);
 
                 drive.turn(Math.toRadians(10));
 
@@ -557,7 +567,7 @@ public class leageAuto extends LinearOpMode
 
                 ((DcMotorEx) robot.flywheel).setVelocity(flywheelHighSpeed);
 
-                sleep(shotTiming*2);
+                sleep(2000);
 
                 robot.servo.setPosition(servoShoot);
                 sleep(shotTiming);
