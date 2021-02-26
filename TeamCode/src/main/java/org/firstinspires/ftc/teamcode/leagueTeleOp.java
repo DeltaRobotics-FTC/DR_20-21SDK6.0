@@ -295,6 +295,8 @@ public class leagueTeleOp extends LinearOpMode
             {
                 drive.setPoseEstimate(new Pose2d(0, 0, Math.toRadians(0)));
                 
+                ((DcMotorEx) robot.flywheel).setVelocity(1600);
+                
                 Trajectory PowerShots = drive.trajectoryBuilder(new Pose2d(0, 0, Math.toRadians(0)))
                 .lineToLinearHeading(new Pose2d(-7, 15), Math.toRadians(10))
                 .build();
@@ -319,6 +321,8 @@ public class leagueTeleOp extends LinearOpMode
                 robot.servo.setPosition(.115);
                 sleep(350);
                 robot.servo.setPosition(0.22);
+                
+                ((DcMotorEx) robot.flywheel).setVelocity(0);
             }
 
             //wobble goal
