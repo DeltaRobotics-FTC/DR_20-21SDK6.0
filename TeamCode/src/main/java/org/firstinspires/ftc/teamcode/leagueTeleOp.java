@@ -84,7 +84,7 @@ public class leagueTeleOp extends LinearOpMode
     boolean dPadDownToggle1 = true;
     boolean dPadDownToggle2 = false;
     
-    int wobbleCounter = 1;
+    int wobbleCounter = 3;
 
     @Override
     public void runOpMode() throws InterruptedException
@@ -93,6 +93,9 @@ public class leagueTeleOp extends LinearOpMode
         //telemetry = dashboard.getTelemetry();
 
         RobotHardware robot = new RobotHardware(hardwareMap);
+        
+        SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
+        
 
         robot.motorRF.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         robot.motorLF.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -284,6 +287,38 @@ public class leagueTeleOp extends LinearOpMode
 
                 //stop flywheel
                 ((DcMotorEx) robot.flywheel).setVelocity(0);
+            }
+            
+            
+            
+            if (gamepad1.b)
+            {
+                drive.setPoseEstimate(new Pose2d(0, 0, Math.toRadians(0)));
+                
+                Trajectory PowerShots = drive.trajectoryBuilder(new Pose2d(0, 0, Math.toRadians(0)))
+                .lineToLinearHeading(new Pose2d(-7, 15), Math.toRadians(10))
+                .build();
+                
+                drive.followTrajectory(PowerShots);
+                sleep(150);
+                
+                robot.servo.setPosition(.115);
+                sleep(350);
+                robot.servo.setPosition(0.22);
+                
+                drive.turn(Math.toRadians(20));
+                sleep(150);
+                
+                robot.servo.setPosition(.115);
+                sleep(350);
+                robot.servo.setPosition(0.22);
+                
+                drive.turn(Math.toRadians(30));
+                sleep(150);
+                
+                robot.servo.setPosition(.115);
+                sleep(350);
+                robot.servo.setPosition(0.22);
             }
 
             //wobble goal
