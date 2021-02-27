@@ -41,7 +41,7 @@ public class leagueTeleOp extends LinearOpMode
     //flywheel
     double waitTime = 1000;
     double wheelSpeed = 0;
-    double servoPosition = 0.21;
+    double servoPosition = 0.22;
 
     public static double F = 13.32; // = 32767 / maxV      (do not edit from this number)
     public static double P = 20; // = 0.1 * F           (raise till real's apex touches Var apex)
@@ -298,7 +298,7 @@ public class leagueTeleOp extends LinearOpMode
                 ((DcMotorEx) robot.flywheel).setVelocity(1600);
                 
                 Trajectory PowerShots = drive.trajectoryBuilder(new Pose2d(0, 0, Math.toRadians(0)))
-                .lineToLinearHeading(new Pose2d(-7, 15), Math.toRadians(10))
+                .lineToLinearHeading(new Pose2d(-9, 15), Math.toRadians(3.2559))
                 .build();
                 
                 drive.followTrajectory(PowerShots);
@@ -308,14 +308,14 @@ public class leagueTeleOp extends LinearOpMode
                 sleep(350);
                 robot.servo.setPosition(0.22);
                 
-                drive.turn(Math.toRadians(20));
+                drive.turn(Math.toRadians(8.0728));
                 sleep(150);
                 
                 robot.servo.setPosition(.115);
                 sleep(350);
                 robot.servo.setPosition(0.22);
                 
-                drive.turn(Math.toRadians(30));
+                drive.turn(Math.toRadians(13.9999));
                 sleep(150);
                 
                 robot.servo.setPosition(.115);
@@ -324,6 +324,11 @@ public class leagueTeleOp extends LinearOpMode
                 
                 ((DcMotorEx) robot.flywheel).setVelocity(0);
             }
+            
+            //high goal: 9.4623 deg
+            //left power shot: 12.7182 deg (16.25)
+            // middle power shot: 17.5351 deg (22.75)
+            //right power shot: 23.4622 deg (31.25)
 
             //wobble goal
             // back up control : robot.wobble.setPower(gamepad1.left_trigger/2 + -gamepad1.right_trigger/3);
