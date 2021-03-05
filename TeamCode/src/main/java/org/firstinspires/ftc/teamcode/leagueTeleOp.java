@@ -2,6 +2,14 @@ package org.firstinspires.ftc.teamcode;
 
 //drive
 import com.acmerobotics.dashboard.FtcDashboard;
+import com.acmerobotics.dashboard.config.Config;
+import com.acmerobotics.roadrunner.geometry.Pose2d;
+import com.acmerobotics.roadrunner.geometry.Vector2d;
+import com.acmerobotics.roadrunner.trajectory.Trajectory;
+import com.acmerobotics.roadrunner.trajectory.constraints.AngularVelocityConstraint;
+import com.acmerobotics.roadrunner.trajectory.constraints.MecanumVelocityConstraint;
+import com.acmerobotics.roadrunner.trajectory.constraints.MinVelocityConstraint;
+import com.acmerobotics.roadrunner.trajectory.constraints.ProfileAccelerationConstraint;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -27,7 +35,9 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 
+@Config
 @TeleOp(name="leagueTeleOp" ,group = "")
 public class leagueTeleOp extends LinearOpMode
 {
@@ -243,12 +253,13 @@ public class leagueTeleOp extends LinearOpMode
                 if (!aToggle2) {
                     //fire
                     servoPosition = 0.115;
-                    sleep(200);
-                    servoPosition = 0.22;
+
                     aToggle2 = true;
                 }
 
                 else {
+                    servoPosition = 0.22;
+
                     aToggle2 = false;
                 }
               
@@ -263,9 +274,10 @@ public class leagueTeleOp extends LinearOpMode
             {
                 ((DcMotorEx) robot.flywheel).setVelocity(1700);
 
-                while (((DcMotorEx) robot.flywheel).getVelocity() != 1700) {}
-
-                sleep(300);
+                if (wheelSpeed < 1700)
+                {
+                    sleep(2000);
+                }
 
                 //shoot rings
                 robot.servo.setPosition(.115);
@@ -286,7 +298,7 @@ public class leagueTeleOp extends LinearOpMode
                 robot.servo.setPosition(0.22);
 
                 //stop flywheel
-                ((DcMotorEx) robot.flywheel).setVelocity(0);
+                //((DcMotorEx) robot.flywheel).setVelocity(0);
             }
             
             
@@ -298,28 +310,30 @@ public class leagueTeleOp extends LinearOpMode
                 ((DcMotorEx) robot.flywheel).setVelocity(1600);
                 
                 Trajectory PowerShots = drive.trajectoryBuilder(new Pose2d(0, 0, Math.toRadians(0)))
-                .lineToLinearHeading(new Pose2d(-9, 15), Math.toRadians(3.2559))
+                .lineToLinearHeading(new Pose2d(-7, 15, Math.toRadians(-16)))
                 .build();
                 
                 drive.followTrajectory(PowerShots);
-                sleep(150);
+                sleep(200);
                 
                 robot.servo.setPosition(.115);
-                sleep(350);
+                sleep(400);
                 robot.servo.setPosition(0.22);
                 
-                drive.turn(Math.toRadians(8.0728));
-                sleep(150);
+                drive.turn(Math.toRadians(-6));
+                sleep(200);
                 
                 robot.servo.setPosition(.115);
-                sleep(350);
+                sleep(400);
                 robot.servo.setPosition(0.22);
+
+                ((DcMotorEx) robot.flywheel).setVelocity(1600);
                 
-                drive.turn(Math.toRadians(13.9999));
-                sleep(150);
+                drive.turn(Math.toRadians(-6));
+                sleep(200);
                 
                 robot.servo.setPosition(.115);
-                sleep(350);
+                sleep(400);
                 robot.servo.setPosition(0.22);
                 
                 ((DcMotorEx) robot.flywheel).setVelocity(0);
