@@ -22,7 +22,7 @@ public class RobotHardware
     //mechanism motors
     public DcMotorEx flywheel = null;
     public DcMotor wobble = null;
-    public DcMotor intake1 = null;
+    public DcMotorEx intake1 = null;
     public DcMotor intake2 = null;
 
     //odometry encoders
@@ -50,7 +50,7 @@ public class RobotHardware
         //mechanism motors
         flywheel = ahwMap.get(DcMotorEx.class, "flywheel");
         wobble = ahwMap.dcMotor.get("wobble");
-        intake1 = ahwMap.dcMotor.get("intake1");
+        intake1 = ahwMap.get(DcMotorEx.class, "intake1");
         intake2 = ahwMap.dcMotor.get("intake2");
 
         //odometry encoders

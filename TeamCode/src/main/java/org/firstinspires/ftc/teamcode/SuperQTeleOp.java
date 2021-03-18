@@ -64,8 +64,8 @@ public class SuperQTeleOp extends LinearOpMode
     //wobble
     int upPosition = 300;
     int grabPosition = 875;
-    double openPosition = 1;
-    double closedPosition = 0;
+    double openPosition = 80000000;
+    double closedPosition = -800000000;
 
 
     //intake
@@ -186,7 +186,10 @@ public class SuperQTeleOp extends LinearOpMode
 
             robot.flywheel.setVelocityPIDFCoefficients( P , I , D , F);
 
-            ((DcMotorEx) robot.flywheel).setVelocity(wheelSpeed);
+            if (!fire)
+            {
+                ((DcMotorEx) robot.flywheel).setVelocity(wheelSpeed);
+            }
 
             robot.servo.setPosition(servoPosition);
 
@@ -244,40 +247,38 @@ public class SuperQTeleOp extends LinearOpMode
                 shotCount = 0;
             }
             
-            else if (fire = true) 
+            else if (fire)
             {
-                ((DcMotorEx) robot.flywheel).setVelocity(1700);
-             
-                if (((DcMotorEx) robot.flywheel).getVelocity() > 1700)
-                {
+                (robot.flywheel).setVelocity(1700);
+
                     //shoot rings
                     robot.servo.setPosition(.115);
                     shotTime = ShotTimer.milliseconds();
                     if ((ShotTimer.milliseconds() - shotTime) > 350 && shotCount == 0) {
                         robot.servo.setPosition(0.22);
                         
-                        shotTime = ShotTimer.milliseconds()
+                        shotTime = ShotTimer.milliseconds();
                         shotCount++;
                     }
                     
                     else if ((ShotTimer.milliseconds() - shotTime) > 550 && shotCount == 1) {
                         robot.servo.setPosition(0.115);
                         
-                        shotTime = ShotTimer.milliseconds()
+                        shotTime = ShotTimer.milliseconds();
                         shotCount++;
                     }
     
                     else if ((ShotTimer.milliseconds() - shotTime) > 350 && shotCount == 2) {
                         robot.servo.setPosition(0.22);
                         
-                        shotTime = ShotTimer.milliseconds()
+                        shotTime = ShotTimer.milliseconds();
                         shotCount++;
                     }
                     
                     else if ((ShotTimer.milliseconds() - shotTime) > 550 && shotCount == 3) {
                         robot.servo.setPosition(0.115);
                         
-                        shotTime = ShotTimer.milliseconds()
+                        shotTime = ShotTimer.milliseconds();
                         shotCount++;
                     }
     
@@ -290,7 +291,7 @@ public class SuperQTeleOp extends LinearOpMode
     
                     //stop flywheel
                     //((DcMotorEx) robot.flywheel).setVelocity(0);
-                }
+
             }
             
             else if (gamepad1.a && aToggle1) {
@@ -333,7 +334,7 @@ public class SuperQTeleOp extends LinearOpMode
                 sleep(400);
                 robot.servo.setPosition(0.22);
 
-                ((DcMotorEx) robot.flywheel).setVelocity(1600);
+                (robot.flywheel).setVelocity(1600);
                 
                 drive.turn(Math.toRadians(-6));
                 sleep(200);
@@ -342,7 +343,7 @@ public class SuperQTeleOp extends LinearOpMode
                 sleep(400);
                 robot.servo.setPosition(0.22);
                 
-                ((DcMotorEx) robot.flywheel).setVelocity(0);
+                (robot.flywheel).setVelocity(0);
             }
             
             //high goal: 9.4623 deg
@@ -380,7 +381,7 @@ public class SuperQTeleOp extends LinearOpMode
             }
 
 
-            if (-0.1 < (gamepad2.left_trigger - gamepad2.right_trigger) > 0.1) {
+            if (-0.1 > (gamepad2.left_trigger - gamepad2.right_trigger) || (gamepad2.left_trigger - gamepad2.right_trigger) > 0.1) {
                 robot.wobble.setPower(gamepad2.left_trigger/2 + -gamepad2.right_trigger/3);
             }
             
@@ -420,13 +421,13 @@ public class SuperQTeleOp extends LinearOpMode
 
             if (gamepad1.right_trigger > .5)
             {
-                robot.intake1.setPower(-1);
+                robot.intake1.setPower(1);
                 robot.intake2.setPower(1);
             }
 
             else if (gamepad1.left_trigger > .5)
             {
-                robot.intake1.setPower(1);
+                robot.intake1.setPower(-1);
                 robot.intake2.setPower(-1);
             }
 
@@ -460,7 +461,8 @@ public class SuperQTeleOp extends LinearOpMode
                 telemetry.addData("servo Pos", robot.servo.getPosition());
                 telemetry.addData("servoPosition Var", servoPosition);
                 telemetry.addData("wheelSpeed", wheelSpeed);
-                telemetry.addData("current wheelSpeed", ((DcMotorEx) robot.flywheel).getVelocity());
+                telemetry.addData("current wheelSpeed", (robot.flywheel).getVelocity());
+                telemetry.addData("timer", ShotTimer.milliseconds());
 
             //wobble
                 telemetry.addData("armPosition", robot.wobble.getCurrentPosition());

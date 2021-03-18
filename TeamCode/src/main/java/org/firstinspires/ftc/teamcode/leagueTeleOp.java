@@ -35,6 +35,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 
 @Config
@@ -411,14 +412,14 @@ public class leagueTeleOp extends LinearOpMode
 
             if (gamepad1.right_trigger > .5)
             {
-                robot.intake1.setPower(-1);
-                robot.intake2.setPower(1);
+                robot.intake1.setPower(0.9);
+                robot.intake2.setPower(0.9);
             }
 
             else if (gamepad1.left_trigger > .5)
             {
-                robot.intake1.setPower(1);
-                robot.intake2.setPower(-1);
+                robot.intake1.setPower(-0.9);
+                robot.intake2.setPower(-0.9);
             }
 
             else
@@ -456,6 +457,8 @@ public class leagueTeleOp extends LinearOpMode
             //wobble
                 telemetry.addData("armPosition", robot.wobble.getCurrentPosition());
                 telemetry.addData("servoPosition", robot.servo2.getPosition());
+            //intake
+                telemetry.addData("intake", robot.intake1.getCurrent(CurrentUnit.MILLIAMPS));
 
                 telemetry.update();
 
