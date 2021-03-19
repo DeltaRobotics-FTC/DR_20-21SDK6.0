@@ -38,6 +38,8 @@ public class velocityPIDFTuner extends LinearOpMode
 
         ElapsedTime timer = new ElapsedTime();
 
+        //this.velocityEstimates = new MovingStatistics(100);
+
         waitForStart();
 
         while (opModeIsActive()) {
@@ -58,6 +60,8 @@ public class velocityPIDFTuner extends LinearOpMode
             }
 
             ((DcMotorEx) motor).setVelocity(0);
+
+
 
             while (timer.seconds() < 20) {
                 telemetry.addData("wheelSpeedVar", wheelSpeed);

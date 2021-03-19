@@ -32,11 +32,6 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 public class meet3TeleOp extends LinearOpMode
 {
 
-    public static double F = 13.32;
-    public static double P = 20;
-    public static double I = 0;
-    public static double D = 1;
-
     //drive
     double speed = 1.0;
     double zScale = 0.8;
@@ -46,13 +41,19 @@ public class meet3TeleOp extends LinearOpMode
     //flywheel
     double waitTime = 1000;
     double wheelSpeed = 0;
-    double servoPosition = 0.25;
+    double servoPosition = 0.21;
+
+    public static double F = 13.32; // = 32767 / maxV      (do not edit from this number)
+    public static double P = 20; // = 0.1 * F           (raise till real's apex touches Var apex)
+    public static double I = 0;// = 0.1 * P           (fine ajustment of P)
+    public static double D = 1; // = 0                     (raise to reduce ocolation)
 
     //wobble
-    int upPosition = 850;
-    int grabPosition = 350;
+    int upPosition = 300;
+    int grabPosition = 825;
     double openPosition = 1;
     double closedPosition = 0;
+
 
     //intake
     double speed762590432128 = .75;
@@ -65,13 +66,21 @@ public class meet3TeleOp extends LinearOpMode
 
         RobotHardware robot = new RobotHardware(hardwareMap);
 
+        robot.motorRF.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        robot.motorLF.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        robot.motorRB.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        robot.motorLB.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
         //wobble
-        robot.wobble.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        //robot.wobble.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         waitForStart();
 
         while (opModeIsActive())
         {
+
+
+
             //drive
 
             //sets the power of the motors
@@ -85,7 +94,7 @@ public class meet3TeleOp extends LinearOpMode
             robot.motorLB.setPower(LBpower * speed);
             robot.motorLF.setPower(LFpower * speed);
 
-            if (gamepad1.left_stick_button == true) {
+            if (gamepad1.left_stick_button) {
                 turnSpeed = 0.5;
             }
 
@@ -93,7 +102,7 @@ public class meet3TeleOp extends LinearOpMode
                 turnSpeed = 1.0;
             }
 
-            if (gamepad1.right_stick_button == true) {
+            if (gamepad1.right_stick_button) {
                 driveSpeed = 0.5;
             }
 
@@ -102,6 +111,10 @@ public class meet3TeleOp extends LinearOpMode
             }
 
             //flywheel
+
+
+
+            //robot.flywheel.setVelocityPIDFCoefficients( P , I , D , F);
 
             ((DcMotorEx) robot.flywheel).setVelocity(wheelSpeed);
 
@@ -129,13 +142,53 @@ public class meet3TeleOp extends LinearOpMode
                 wheelSpeed = 1700;
             }
 
+            if(gamepad1.back)
+            {
+                wheelSpeed = 0;
+            }
+
+            if(gamepad1.back)
+            {
+                wheelSpeed = 0;
+            }
+
             if (gamepad1.a)
             {
-                servoPosition = 0.25;
+                servoPosition = 0.115;
             }
             if (gamepad1.b)
             {
-                servoPosition = -0.1;
+                servoPosition = 0.21;
+            }
+
+            if(gamepad1.right_bumper)
+            {
+                ((DcMotorEx) robot.flywheel).setVelocity(1700);
+
+                while (((DcMotorEx) robot.flywheel).getVelocity() != 1700) {}
+
+                sleep(300);
+
+                //shoot rings
+                robot.servo.setPosition(.115);
+                sleep(350);
+
+                robot.servo.setPosition(0.21);
+                sleep(550);
+
+                robot.servo.setPosition(.115);
+                sleep(350);
+
+                robot.servo.setPosition(0.21);
+                sleep(550);
+
+                robot.servo.setPosition(.115);
+                sleep(350);
+
+                robot.servo.setPosition(0.21);
+
+                //stop flywheel
+                ((DcMotorEx) robot.flywheel).setVelocity(0);
             }
 
             //wobble goal
@@ -158,7 +211,7 @@ public class meet3TeleOp extends LinearOpMode
 
             if(gamepad1.start)
             {
-                robot.wobble.setTargetPosition(0);
+                robot.wobble.setTargetPosition(100);
                 robot.wobble.setPower(0.7);
                 robot.wobble.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             }
@@ -174,26 +227,58 @@ public class meet3TeleOp extends LinearOpMode
             }
 
             //intake
-            //robot.intake1.setPower(-gamepad1.leftTriger + gamepad1.rightTriger);
-            //robot.intake2.setPower(-gamepad1.rightTriger + gamepad1.leftTriger);
+
+            if (gamepad1.right_trigger > .5)
+            {
+                robot.intake1.setPower(-1);
+                robot.intake2.setPower(1);
+            }
+
+            else if (gamepad1.left_trigger > .5)
+            {
+                robot.intake1.setPower(1);
+                robot.intake2.setPower(-1);
+            }
+
+            else
+            {
+                robot.intake1.setPower(0);
+                robot.intake2.setPower(0);
+            }
 
             //telemetry
 
             //drive
-            telemetry.addData("turnSpeed", turnSpeed);
-            telemetry.addData("driveSpeed", driveSpeed);
 
-            //shooter
-            telemetry.addData("servo Pos", robot.servo.getPosition());
-            telemetry.addData("servoPosition Var", servoPosition);
-            telemetry.addData("wheelSpeed", wheelSpeed);
-            telemetry.addData("current wheelSpeed", ((DcMotorEx) robot.flywheel).getVelocity());
 
-            //wobble
-            telemetry.addData("armPosition", robot.wobble.getCurrentPosition());
-            telemetry.addData("servoPosition", robot.servo2.getPosition());
+                telemetry.addData("motor RF power", robot.motorRF.getPower());
+                telemetry.addData("motor RF position", robot.motorRF.getCurrentPosition());
 
-            telemetry.update();
+                telemetry.addData("motor RB power", robot.motorRB.getPower());
+                telemetry.addData("motor RB position", robot.motorRB.getCurrentPosition());
+
+                telemetry.addData("motor LF power", robot.motorLF.getPower());
+                telemetry.addData("motor LF position", robot.motorLF.getCurrentPosition());
+
+                telemetry.addData("motor LB power", robot.motorLB.getPower());
+                telemetry.addData("motor LB position", robot.motorLB.getCurrentPosition());
+
+                telemetry.addData("turnSpeed", turnSpeed);
+                telemetry.addData("driveSpeed", driveSpeed);
+
+                //shooter
+                telemetry.addData("servo Pos", robot.servo.getPosition());
+                telemetry.addData("servoPosition Var", servoPosition);
+                telemetry.addData("wheelSpeed", wheelSpeed);
+                telemetry.addData("current wheelSpeed", ((DcMotorEx) robot.flywheel).getVelocity());
+
+                //wobble
+                telemetry.addData("armPosition", robot.wobble.getCurrentPosition());
+                telemetry.addData("servoPosition", robot.servo2.getPosition());
+
+                telemetry.update();
+
+
         }
     }
 }

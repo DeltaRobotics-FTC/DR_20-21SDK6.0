@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.testprograms;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -76,11 +76,11 @@ public class velocityAndNormalServo extends LinearOpMode
 
             if (gamepad1.a)
             {
-                servoPosition = 0.25;
+                servoPosition = 888888888;
             }
             if (gamepad1.b)
             {
-                servoPosition = -0.25;
+                servoPosition = -8000000;
             }
 
             //if (gamepad1.dpad_up)

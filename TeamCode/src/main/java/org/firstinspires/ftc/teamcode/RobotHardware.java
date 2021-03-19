@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -19,9 +20,9 @@ public class RobotHardware
     public DcMotor motorLB = null;
     
     //mechanism motors
-    public DcMotor flywheel = null;
+    public DcMotorEx flywheel = null;
     public DcMotor wobble = null;
-    public DcMotor intake1 = null;
+    public DcMotorEx intake1 = null;
     public DcMotor intake2 = null;
 
     //odometry encoders
@@ -47,15 +48,15 @@ public class RobotHardware
         motorLB = ahwMap.dcMotor.get("motorLB");
         
         //mechanism motors
-        flywheel = ahwMap.dcMotor.get("flywheel");
+        flywheel = ahwMap.get(DcMotorEx.class, "flywheel");
         wobble = ahwMap.dcMotor.get("wobble");
-        intake1 = ahwMap.dcMotor.get("intake1");
+        intake1 = ahwMap.get(DcMotorEx.class, "intake1");
         intake2 = ahwMap.dcMotor.get("intake2");
 
         //odometry encoders
-        verticalRight = motorLF;
-        verticalLeft = motorRF;
-        horizontal = motorRB;
+        //verticalRight = motorLF;
+        //verticalLeft = motorRF;
+        //horizontal = motorRB;
 
         //servos
         servo = ahwMap.servo.get("servo");
@@ -67,10 +68,7 @@ public class RobotHardware
         motorRB.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         motorLB.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         
-        motorRF.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        motorLF.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        motorRB.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        motorLB.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
         
         motorLF.setDirection(DcMotorSimple.Direction.REVERSE);
         motorLB.setDirection(DcMotorSimple.Direction.REVERSE);
