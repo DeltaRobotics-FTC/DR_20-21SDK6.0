@@ -62,6 +62,7 @@ public class SuperQTeleOp2 extends LinearOpMode
     public static double D = 1; // = 0                     (raise to reduce ocolation)
 
     Pose2d Steve = new Pose2d(0,0,0);
+    double StevesNumber = 0;
 
     //wobble
     int upPosition = 300;
@@ -310,8 +311,27 @@ public class SuperQTeleOp2 extends LinearOpMode
                 }
             }
 
-            else if (!gamepad1.a && !aToggle1) {
+            else if (!gamepad1.y && !aToggle1) {
                 aToggle1 = true;
+            }
+
+            if (gamepad1.y && lBumperToggle1) {
+                lBumperToggle1 = false;
+
+                if (!lBumperToggle2) {
+                    servoPosition = 0.115;
+                    lBumperToggle2 = true;
+                }
+
+                else {
+                    servoPosition = 0.22;
+                    lBumperToggle2 = false;
+                }
+
+            }
+
+            else if (!gamepad1.left_bumper && !lBumperToggle1) {
+                lBumperToggle1 = true;
             }
 
             if (gamepad1.b)
@@ -444,7 +464,7 @@ public class SuperQTeleOp2 extends LinearOpMode
 
 
 
-            if(gamepad2.right_bumper && autoShoot == false) {
+            if(gamepad2.left_bumper && autoShoot == false) {
                 autoShoot = true;
             }
 
@@ -453,13 +473,20 @@ public class SuperQTeleOp2 extends LinearOpMode
             if(autoShoot) {
                 Steve = drive.getPoseEstimate();
 
-                drive.turnAsync(Steve.getY() - 36/ Steve.getY() -72);
+                StevesNumber = Math.toRadians(Math.atan2(Steve.getY() + 36, Steve.getX() - 72)) - Steve.getHeading() + Math.PI;
+
+                telemetry.addData("stevesNumber", StevesNumber);
+
+                drive.turn(StevesNumber);
+
+                autoShoot = false;
             }
 
             //telemetry
 
             //drive
 
+            telemetry.addData("stevesNumber", StevesNumber);
 
             telemetry.addData("motor RF power", robot.motorRF.getPower());
             telemetry.addData("motor RF position", robot.motorRF.getCurrentPosition());
