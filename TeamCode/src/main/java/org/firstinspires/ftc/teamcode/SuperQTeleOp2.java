@@ -473,7 +473,8 @@ public class SuperQTeleOp2 extends LinearOpMode
             if(autoShoot) {
                 Steve = drive.getPoseEstimate();
 
-                StevesNumber = Math.toRadians(Math.atan2(Steve.getY() + 36, Steve.getX() - 72)) - Steve.getHeading() + Math.PI;
+                StevesNumber = Math.atan2(36 - Steve.getY() , 72 - Steve.getX()) - Steve.getHeading();
+                
 
                 telemetry.addData("stevesNumber", StevesNumber);
 
