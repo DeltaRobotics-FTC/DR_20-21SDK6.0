@@ -226,14 +226,12 @@ public class SuperQTeleOp2 extends LinearOpMode
             if (gamepad1.left_bumper && lBumperToggle1) {
                 lBumperToggle1 = false;
 
-                if (!lBumperToggle2) {
+                if (wheelSpeed == 0) {
                     wheelSpeed = 1700;
-                    lBumperToggle2 = true;
                 }
 
                 else {
                     wheelSpeed = 0;
-                    lBumperToggle2 = false;
                 }
 
             }
@@ -247,71 +245,55 @@ public class SuperQTeleOp2 extends LinearOpMode
 
             if(gamepad1.right_bumper)
             {
-                fire = true;
-                ShotTimer.reset();
-                shotCount = 0;
-            }
+                ((DcMotorEx) robot.flywheel).setVelocity(1700);
 
-            else if (fire)
-            {
-                (robot.flywheel).setVelocity(1700);
+                if (wheelSpeed < 1700)
+                {
+                    sleep(2000);
+                }
 
                 //shoot rings
                 robot.servo.setPosition(.115);
-                shotTime = ShotTimer.milliseconds();
-                if ((ShotTimer.milliseconds() - shotTime) > 350 && shotCount == 0) {
-                    robot.servo.setPosition(0.22);
+                sleep(350);
 
-                    shotTime = ShotTimer.milliseconds();
-                    shotCount++;
-                }
+                robot.servo.setPosition(0.22);
+                sleep(550);
 
-                else if ((ShotTimer.milliseconds() - shotTime) > 550 && shotCount == 1) {
-                    robot.servo.setPosition(0.115);
+                robot.servo.setPosition(.115);
+                sleep(350);
 
-                    shotTime = ShotTimer.milliseconds();
-                    shotCount++;
-                }
+                robot.servo.setPosition(0.22);
+                sleep(550);
 
-                else if ((ShotTimer.milliseconds() - shotTime) > 350 && shotCount == 2) {
-                    robot.servo.setPosition(0.22);
+                robot.servo.setPosition(.115);
+                sleep(350);
 
-                    shotTime = ShotTimer.milliseconds();
-                    shotCount++;
-                }
-
-                else if ((ShotTimer.milliseconds() - shotTime) > 550 && shotCount == 3) {
-                    robot.servo.setPosition(0.115);
-
-                    shotTime = ShotTimer.milliseconds();
-                    shotCount++;
-                }
-
-                else if ((ShotTimer.milliseconds() - shotTime) > 350 && shotCount == 4) {
-                    robot.servo.setPosition(0.22);
-
-                    shotCount = 0;
-                    fire = false;
-                }
+                robot.servo.setPosition(0.22);
 
                 //stop flywheel
                 //((DcMotorEx) robot.flywheel).setVelocity(0);
-
+                wheelSpeed = 1700;
             }
 
             else if (gamepad1.a && aToggle1) {
-                servoPosition = 0.115;
+                aToggle1 = false;
 
-                ShotTimer.reset();
+                if (!aToggle2) {
+                    //fire
+                    servoPosition = 0.115;
 
-                if (ShotTimer.milliseconds() > 350) {
+                    aToggle2 = true;
+                }
+
+                else {
                     servoPosition = 0.22;
 
-                    aToggle1 = false;
+                    aToggle2 = false;
                 }
+              
             }
 
-            else if (!gamepad1.y && !aToggle1) {
+            else if (!gamepad1.a && !aToggle1) {
                 aToggle1 = true;
             }
 
