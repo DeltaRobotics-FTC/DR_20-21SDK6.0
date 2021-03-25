@@ -63,6 +63,7 @@ public class SuperQTeleOp2 extends LinearOpMode
 
     Pose2d Steve = new Pose2d(0,0,0);
     double StevesNumber = 0;
+    double shotCorrection = 0;
 
     //wobble
     int upPosition = 300;
@@ -99,6 +100,12 @@ public class SuperQTeleOp2 extends LinearOpMode
 
     boolean dPadDownToggle1 = true;
     boolean dPadDownToggle2 = false;
+    
+    boolean LBumperToggle1G2 = true;
+    boolean LBumperToggle2G2 = false;
+    
+    boolean RBumperToggle1G2 = true;
+    boolean RBumperToggle2G2 = false;
 
     boolean autoShoot;
 
@@ -442,11 +449,32 @@ public class SuperQTeleOp2 extends LinearOpMode
                 robot.intake1.setPower(0);
                 robot.intake2.setPower(0);
             }
+            
+            
+
+            if (gamepad2.left_bumper && LBumperToggle1G2) {
+                LBumperToggle1G2 = false;
+
+                shotCorrection += 2;
+            }
+
+            else if (!gamepad2.left_bumper && !LBumperToggle1G2) {
+                LBumperToggle1G2 = true;
+            }
+            
+            if (gamepad2.right_bumper && RBumperToggle1G2) {
+                RBumperToggle1G2 = false;
+
+                shotCorrection -= 2;
+            }
+
+            else if (!gamepad2.right_bumper && !RBumperToggle1G2) {
+                RBumperToggle1G2 = true;
+            }
 
 
 
-
-            if(gamepad2.left_bumper && autoShoot == false) {
+            if(gamepad2.start && autoShoot == false) {
                 autoShoot = true;
             }
 
@@ -455,8 +483,7 @@ public class SuperQTeleOp2 extends LinearOpMode
             if(autoShoot) {
                 Steve = drive.getPoseEstimate();
 
-                StevesNumber = Math.atan2(36 - Steve.getY() , 72 - Steve.getX()) - Steve.getHeading() + Math.PI;
-                
+                StevesNumber = Math.atan2(48 - Steve.getY() , 72 - Steve.getX()) - Steve.getHeading() + Math.PI + Math.toRadians(shotCorrection);
 
                 telemetry.addData("stevesNumber", StevesNumber);
 
