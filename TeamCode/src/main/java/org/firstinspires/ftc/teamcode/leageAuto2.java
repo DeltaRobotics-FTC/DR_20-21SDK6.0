@@ -192,17 +192,17 @@ public class leageAuto2 extends LinearOpMode
 
         //shoot
         Trajectory shotPosB = drive.trajectoryBuilder(startPose, true)
-                .splineToConstantHeading(new Vector2d(-10, 48), Math.toRadians(10))
+                .splineToConstantHeading(new Vector2d(-10, 48), Math.toRadians(0))
                 .build();
 
         //deliver wobble goals
         Trajectory WobbleB = drive.trajectoryBuilder(shotPosB.end(), true)
-                .splineToConstantHeading(new Vector2d(30, 21), Math.toRadians(0))
+                .splineToConstantHeading(new Vector2d(30, 17), Math.toRadians(0))
                 .build();
 
         //collect starter stack
         Trajectory CollectionB = drive.trajectoryBuilder(WobbleB.end())
-                .lineTo(new Vector2d(-30, 48))
+                .lineTo(new Vector2d(-30, 45))
                 .build();
 
         //grab second wobble goal
@@ -451,6 +451,8 @@ public class leageAuto2 extends LinearOpMode
 
                 drive.followTrajectory(shotPosB);
 
+                sleep(500);
+
                 robot.servo.setPosition(servoShoot);
                 sleep(500);
                 robot.servo.setPosition(servoRetract);
@@ -494,7 +496,7 @@ public class leageAuto2 extends LinearOpMode
                 robot.intake1.setPower(1);
                 robot.intake2.setPower(1);
 
-                ((DcMotorEx) robot.flywheel).setVelocity(1650);
+                ((DcMotorEx) robot.flywheel).setVelocity(1700);
 
                 drive.followTrajectory(CollectionB);
 
