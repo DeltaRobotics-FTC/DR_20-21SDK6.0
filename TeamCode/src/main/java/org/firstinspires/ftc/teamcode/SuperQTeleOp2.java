@@ -63,7 +63,7 @@ public class SuperQTeleOp2 extends LinearOpMode
 
     Pose2d Steve = new Pose2d(0,0,0);
     double StevesNumber = 0;
-    double shotCorrection = 0;
+    double shotCorrection = 6;
 
     //wobble
     int upPosition = 300;
@@ -120,6 +120,7 @@ public class SuperQTeleOp2 extends LinearOpMode
         RobotHardware robot = new RobotHardware(hardwareMap);
 
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
+        drive.setPoseEstimate(PositionTransfer.currentPose);
 
         ElapsedTime ShotTimer = new ElapsedTime();
 
@@ -455,7 +456,7 @@ public class SuperQTeleOp2 extends LinearOpMode
             if (gamepad2.left_bumper && LBumperToggle1G2) {
                 LBumperToggle1G2 = false;
 
-                shotCorrection += 2;
+                shotCorrection += 1;
             }
 
             else if (!gamepad2.left_bumper && !LBumperToggle1G2) {
@@ -465,14 +466,16 @@ public class SuperQTeleOp2 extends LinearOpMode
             if (gamepad2.right_bumper && RBumperToggle1G2) {
                 RBumperToggle1G2 = false;
 
-                shotCorrection -= 2;
+                shotCorrection -= 1;
             }
 
             else if (!gamepad2.right_bumper && !RBumperToggle1G2) {
                 RBumperToggle1G2 = true;
             }
 
-
+            if(gamepad2.back && autoShoot == false) {
+                autoShoot = true;
+            }
 
             if(gamepad2.start && autoShoot == false) {
                 autoShoot = true;
@@ -482,8 +485,8 @@ public class SuperQTeleOp2 extends LinearOpMode
 
             if(autoShoot) {
                 Steve = drive.getPoseEstimate();
-
-                StevesNumber = Math.atan2(48 - Steve.getY() , 72 - Steve.getX()) - Steve.getHeading() + Math.PI + Math.toRadians(shotCorrection);
+                //Math.atan2(24 - Steve.getY() , 72 - Steve.getX())
+                StevesNumber = Math.toRadians(15) - Steve.getHeading() + Math.PI + Math.toRadians(shotCorrection);
 
                 telemetry.addData("stevesNumber", StevesNumber);
 
@@ -495,6 +498,9 @@ public class SuperQTeleOp2 extends LinearOpMode
             //telemetry
 
             //drive
+
+            telemetry.addData("angle", StevesNumber);
+            telemetry.addData("angle correction", shotCorrection);
 
             telemetry.addData("stevesNumber", StevesNumber);
 

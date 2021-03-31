@@ -646,6 +646,8 @@ public class leageAuto2 extends LinearOpMode
                 drive.followTrajectory(ParkA);
 
         }
+
+        PositionTransfer.currentPose = drive.getPoseEstimate();
     }
 }
 
