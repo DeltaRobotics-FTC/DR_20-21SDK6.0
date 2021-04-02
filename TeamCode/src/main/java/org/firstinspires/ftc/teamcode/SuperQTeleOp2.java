@@ -69,7 +69,7 @@ public class SuperQTeleOp2 extends LinearOpMode
     int upPosition = 300;
     int grabPosition = 875;
     public static double openPosition = 0.965;
-    public static double closedPosition = 0.65;
+    public static double closedPosition = 0.5;
 
 
     //intake
