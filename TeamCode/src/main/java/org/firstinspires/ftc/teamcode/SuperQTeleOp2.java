@@ -68,8 +68,8 @@ public class SuperQTeleOp2 extends LinearOpMode
     //wobble
     int upPosition = 300;
     int grabPosition = 875;
-    double openPosition = 80000000;
-    double closedPosition = -800000000;
+    static double openPosition = 80000000;
+    static double closedPosition = -800000000;
 
 
     //intake
